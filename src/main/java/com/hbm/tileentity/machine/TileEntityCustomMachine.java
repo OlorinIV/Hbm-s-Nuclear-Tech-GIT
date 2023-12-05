@@ -165,7 +165,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 				}
 
 				if (this.cachedRecipe != null) {
-					this.maxProgress = (int) Math.max(cachedRecipe.duration * (1 - this.gain) / this.config.recipeSpeedMult, 1);
+					this.maxProgress = (int) Math.max(cachedRecipe.duration / this.config.recipeSpeedMult, 1);
 					int powerReq = (int) Math.max(cachedRecipe.consumptionPerTick * this.config.recipeConsumptionMult, 1);
 
 					this.progress++;
@@ -202,7 +202,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 				CustomMachineRecipe recipe = this.getMatchingRecipe();
 
 				if (recipe != null) {
-					this.maxProgress = (int) Math.max(recipe.duration * (1 - this.gain) / this.config.recipeSpeedMult, 1);
+					this.maxProgress = (int) Math.max(recipe.duration / this.config.recipeSpeedMult, 1);
 					int powerReq = (int) Math.max(recipe.consumptionPerTick * this.config.recipeConsumptionMult, 1);
 
 					if (this.power >= powerReq && this.hasRequiredQuantities(recipe) && this.hasSpace(recipe)) {
@@ -235,7 +235,6 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 		data.setInteger("flux", flux);
 		data.setInteger("progress", progress);
 		data.setInteger("maxProgress", maxProgress);
-		data.setDouble("gain", gain);
 		for (int i = 0; i < inputTanks.length; i++) inputTanks[i].writeToNBT(data, "i" + i);
 		for (int i = 0; i < outputTanks.length; i++) outputTanks[i].writeToNBT(data, "o" + i);
 		this.matcher.writeToNBT(data);
