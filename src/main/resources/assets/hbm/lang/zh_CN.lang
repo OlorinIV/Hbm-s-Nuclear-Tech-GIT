@@ -6082,6 +6082,7 @@ item.ingot_neodymium.name=钕锭
 item.ingot_sodium.name=钠锭
 item.ingot_strontium.name=锶锭
 item.night_vision_mk2.name=自充电夜视眼镜
+item.night_vision_mk2.description.item=提供夜视功能（无需电动装备）
 item.spawn_maskman.name=面具人
 
 tile.block_neodymium.name=钕块
