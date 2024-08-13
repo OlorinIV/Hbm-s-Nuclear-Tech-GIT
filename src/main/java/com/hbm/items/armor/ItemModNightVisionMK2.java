@@ -11,9 +11,9 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.util.List;
 
-public class ItemModNightVisionMK2 extends ItemModNightVision {
+public class ItemModNightVisionMK2 extends ItemArmorMod {
 	public ItemModNightVisionMK2() {
-		super();
+		super(ArmorModHandler.helmet_only, true, false, false, false);
 	}
 
 	@Override
@@ -21,6 +21,11 @@ public class ItemModNightVisionMK2 extends ItemModNightVision {
 		list.add(EnumChatFormatting.AQUA + I18n.format("item.night_vision_mk2.description.item"));
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
+	}
+
+	@Override
+	public void addDesc(List list, ItemStack stack, ItemStack armor) {
+		list.add(EnumChatFormatting.YELLOW + I18n.format("item.night_vision.description.in_armor", stack.getDisplayName()));
 	}
 
 	@Override
