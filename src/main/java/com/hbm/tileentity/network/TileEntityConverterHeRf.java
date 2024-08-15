@@ -93,13 +93,13 @@ public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEn
 	public void readIfPresent(JsonObject obj) {
 		heInput = IConfigurableMachine.grab(obj, "L:HE_Used", heInput);
 		rfOutput = IConfigurableMachine.grab(obj, "L:RF_Created", rfOutput);
-		inputDecay = IConfigurableMachine.grab(obj, "D:inputDecay", inputDecay);
+		inputDecay = IConfigurableMachine.grab(obj, "D:inputDecay2", inputDecay);
 	}
 
 	@Override
 	public void writeConfig(JsonWriter writer) throws IOException {
 		writer.name("L:HE_Used").value(heInput);
 		writer.name("L:RF_Created").value(rfOutput);
-		writer.name("D:inputDecay").value(inputDecay);
+		writer.name("D:inputDecay2").value(inputDecay);
 	}
 }
