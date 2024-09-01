@@ -82,8 +82,8 @@ public class MatDistribution extends SerializableRecipe {
 		registerEntry(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), MAT_FLUX, DUST.q(10));
 		registerEntry(ModItems.powder_flux, MAT_FLUX, DUST.q(1));
 		if(!GeneralConfig.enable528) {
-			registerEntry(ModItems.pile_rod_plutonium, MAT_RGP, BILLET.q(2), MAT_URANIUM, BILLET.q(1), MAT_IRON, INGOTq.(2));
-			registerEntry(ModItems.pile_rod_pu239, MAT_PU239, BILLET.q(1), MAT_RGP, BILLET.q(1), MAT_URANIUM, BILLET.q(1), MAT_IRON, INGOTq.(2));
+			registerEntry(ModItems.pile_rod_plutonium, MAT_RGP, BILLET.q(2), MAT_URANIUM, BILLET.q(1), MAT_IRON, INGOT.q(2));
+			registerEntry(ModItems.pile_rod_pu239, MAT_PU239, BILLET.q(1), MAT_RGP, BILLET.q(1), MAT_URANIUM, BILLET.q(1), MAT_IRON, INGOT.q(2));
 		}
 		registerEntry(new ItemStack(Items.coal, 1, 1), MAT_CARBON, NUGGET.q(3));
 
