@@ -9,7 +9,7 @@ public class MobConfig {
 	public static int maskmanChance = 3;
 	public static int maskmanMinRad = 50;
 	public static boolean maskmanUnderground = true;
-	
+
 	public static boolean enableRaids = false;
 	public static int raidDelay = 30 * 60 * 60;
 	public static int raidChance = 3;
@@ -27,7 +27,8 @@ public class MobConfig {
 
 	public static boolean enableDucks = true;
 	public static boolean enableMobGear = true;
-	
+	public static boolean enableMobWeapons = true;
+
 	public static boolean enableHives = true;
 	public static int hiveSpawn = 256;
 	public static double scoutThreshold = 5;
@@ -66,7 +67,7 @@ public class MobConfig {
 	public static boolean rampantGlyphidGuidance = false;
 	public static double rampantSmokeStackOverride = 0.4;
 	public static double pollutionMult = 3;
-	
+
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY = CommonConfig.CATEGORY_MOBS;
@@ -91,9 +92,10 @@ public class MobConfig {
 		elementalChance = CommonConfig.createConfigInt(config, CATEGORY, "12.E02_elementalChance", "1:x chance to spawn elementals, must be at least 1", 2);
 		elementalAmount = CommonConfig.createConfigInt(config, CATEGORY, "12.E03_elementalAmount", "How many elementals are spawned each raid", 10);
 		elementalDistance = CommonConfig.createConfigInt(config, CATEGORY, "12.E04_elementalAttackDistance", "How far away elementals will spawn from the targeted player", 32);
-		
+
 		enableDucks = CommonConfig.createConfigBool(config, CATEGORY, "12.D00_enableDucks", "Whether pressing O should allow the player to duck", true);
 		enableMobGear = CommonConfig.createConfigBool(config, CATEGORY, "12.D01_enableMobGear", "Whether zombies and skeletons should have additional gear when spawning", false);
+		enableMobWeapons = CommonConfig.createConfigBool(config, CATEGORY, "12.D02_enableMobWeapons", "Whether skeletons should have bows replaced with guns when spawning at higher soot levels", true);
 
 		enableHives = CommonConfig.createConfigBool(config, CATEGORY, "12.G00_enableHives", "Whether glyphid hives should spawn", false);
 		hiveSpawn = CommonConfig.createConfigInt(config, CATEGORY, "12.G01_hiveSpawn", "The average amount of chunks per hive", 256);

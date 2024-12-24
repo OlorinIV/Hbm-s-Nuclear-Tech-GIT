@@ -14,12 +14,9 @@ import com.hbm.inventory.recipes.ArcWelderRecipes.ArcWelderRecipe;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.IConditionalInvAccess;
-import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.IUpgradeInfoProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.*;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -31,7 +28,6 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
@@ -42,15 +38,15 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineArcWelder extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IConditionalInvAccess, IGUIProvider, IUpgradeInfoProvider {
-	
+public class TileEntityMachineArcWelder extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IConditionalInvAccess, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
+
 	public long power;
 	public long maxPower = 2_000;
 	public long consumption;
-	
+
 	public int progress;
 	public int processTime = 1;
-	
+
 	public FluidTank tank;
 	public ItemStack display;
 
@@ -67,7 +63,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 	@Override
 	public void setInventorySlotContents(int i, ItemStack stack) {
 		super.setInventorySlotContents(i, stack);
-		
+
 		if(stack != null && stack.getItem() instanceof ItemMachineUpgrade && i >= 6 && i <= 7) {
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
 		}
@@ -75,49 +71,49 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			this.power = Library.chargeTEFromItems(slots, 4, this.getPower(), this.getMaxPower());
 			this.tank.setType(5, slots);
-			
+
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				for(DirPos pos : getConPos()) {
 					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 					if(tank.getTankType() != Fluids.NONE) this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
-			
+
 			ArcWelderRecipe recipe = ArcWelderRecipes.getRecipe(slots[0], slots[1], slots[2]);
 			long intendedMaxPower;
-			
+
 			UpgradeManager.eval(slots, 6, 7);
 			int redLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int blueLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 			int blackLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
-			
+
 			if(recipe != null) {
 				this.processTime = recipe.duration * (4 - redLevel) / 5 / (blackLevel + 1);
 				this.consumption = recipe.consumption * (4 - blueLevel) / 4 * (redLevel + 1) * (blackLevel + 1);
 				intendedMaxPower = recipe.consumption * 20 * (blackLevel + 1);
-				
+
 				if(canProcess(recipe)) {
 					this.progress++;
 					this.power -= this.consumption;
-					
+
 					if(progress >= processTime) {
 						this.progress = 0;
 						this.consumeItems(recipe);
-						
+
 						if(slots[3] == null) {
 							slots[3] = recipe.output.copy();
 						} else {
 							slots[3].stackSize += recipe.output.stackSize;
 						}
-						
+
 						this.markDirty();
 					}
-					
+
 					if(worldObj.getTotalWorldTime() % 2 == 0) {
 						ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 						NBTTagCompound dPart = new NBTTagCompound();
@@ -125,23 +121,23 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 						dPart.setByte("count", (byte) 5);
 						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(dPart, xCoord + 0.5 - dir.offsetX * 0.5, yCoord + 1.25, zCoord + 0.5 - dir.offsetZ * 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
 					}
-					
+
 				} else {
 					this.progress = 0;
 				}
-				
+
 			} else {
 				this.progress = 0;
 				this.consumption = 100;
 				intendedMaxPower = 2000;
 			}
-			
+
 			this.maxPower = Math.max(intendedMaxPower, power);
-			
+
 			this.networkPackNT(25);
 		}
 	}
-	
+
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
@@ -150,11 +146,11 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 		buf.writeLong(consumption);
 		buf.writeInt(progress);
 		buf.writeInt(processTime);
-		
+
 		tank.serialize(buf);
-		
+
 		ArcWelderRecipe recipe = ArcWelderRecipes.getRecipe(slots[0], slots[1], slots[2]);
-		
+
 		if(recipe != null) {
 			buf.writeBoolean(true);
 			buf.writeInt(Item.getIdFromItem(recipe.output.getItem()));
@@ -162,7 +158,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 		} else
 			buf.writeBoolean(false);
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
@@ -171,37 +167,37 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 		consumption = buf.readLong();
 		progress = buf.readInt();
 		processTime = buf.readInt();
-		
+
 		tank.deserialize(buf);
-		
+
 		if(buf.readBoolean()) {
 			this.display = new ItemStack(Item.getItemById(buf.readInt()), 1, buf.readInt());
 		} else
 			this.display = null;
 	}
-	
+
 	public boolean canProcess(ArcWelderRecipe recipe) {
-		
+
 		if(this.power < this.consumption) return false;
-		
+
 		if(recipe.fluid != null) {
 			if(this.tank.getTankType() != recipe.fluid.type) return false;
 			if(this.tank.getFill() < recipe.fluid.fill) return false;
 		}
-		
+
 		if(slots[3] != null) {
 			if(slots[3].getItem() != recipe.output.getItem()) return false;
 			if(slots[3].getItemDamage() != recipe.output.getItemDamage()) return false;
 			if(slots[3].stackSize + recipe.output.stackSize > slots[3].getMaxStackSize()) return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	public void consumeItems(ArcWelderRecipe recipe) {
-		
+
 		for(AStack aStack : recipe.ingredients) {
-			
+
 			for(int i = 0; i < 3; i++) {
 				ItemStack stack = slots[i];
 				if(aStack.matchesRecipe(stack, true) && stack.stackSize >= aStack.stacksize) {
@@ -210,17 +206,17 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 				}
 			}
 		}
-		
+
 		if(recipe.fluid != null) {
 			this.tank.setFill(tank.getFill() - recipe.fluid.fill);
 		}
 	}
-	
+
 	protected DirPos[] getConPos() {
-		
+
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+
 		return new DirPos[] {
 				new DirPos(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir),
 				new DirPos(xCoord + dir.offsetX + rot.offsetX, yCoord, zCoord + dir.offsetZ + rot.offsetZ, dir),
@@ -234,7 +230,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 				new DirPos(xCoord - dir.offsetX - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 2, rot.getOpposite())
 		};
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -245,7 +241,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 		this.processTime = nbt.getInteger("processTime");
 		tank.readFromNBT(nbt, "t");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -318,19 +314,19 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		BlockPos core = new BlockPos(xCoord, yCoord, zCoord);
-		
+
 		//Red
 		if(pos.equals(core.clone().offset(rot)) || pos.equals(core.clone().offset(rot.getOpposite()).offset(dir.getOpposite())))
 			return new int[] { 0, 3 };
-		
+
 		//Yellow
 		if(pos.equals(core.clone().offset(dir.getOpposite())))
 			return new int[] { 1, 3 };
-		
+
 		//Green
 		if(pos.equals(core.clone().offset(rot.getOpposite())) || pos.equals(core.clone().offset(rot).offset(dir.getOpposite())))
 			return new int[] { 2, 3 };
-		
+
 		return new int[] { };
 	}
 
@@ -341,15 +337,15 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineArcWelder(player.inventory, this);
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 1,
@@ -360,10 +356,10 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 					zCoord + 2
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -396,5 +392,10 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 		if(type == UpgradeType.POWER) return 3;
 		if(type == UpgradeType.OVERDRIVE) return 3;
 		return 0;
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
 	}
 }

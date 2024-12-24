@@ -1,16 +1,46 @@
 ## Changed
-* To address certain balancing concerns, the RF to HE conversion rate is now 2:5. The HE to RF rate however is still 5:1
-  * Because of this, using chains of converters as batteries becomes exponentially lossy with size, therefore the input decay has been removed
-  * Input decay can still be configured if desired
-  * No input decay also means that converters are no longer infinite energy sinks
-* Power converter recipes have been updated
-* Soldering stations will no longer work if the recipe requires no input fluid while fluid is present
-  * While this does complicate using the soldering station manually, as switching from milgrade to standard ICs requires emptying the solderer with a siphon, it does make automating easier, since soldering stations will no longer treat incomplete milgrade circuits as ICs
-* Cement is now edible
-* Derricks have been remodeled, the port configuration has changed so existing derricks need to be replaced
-* Derricks no longer spawn oil spills
-* Metal deco blocks are now crafted in batches of 4, as well as recycled in batches of 4. Each block is therefore still worth 25% of an ingot, but recycling your own deco blocks is no longer lossy
+* Any bullet that can ricochet (or at least runs the code for it) can now also break glass, as well as destroy red barrels
+* Removed three old achievements which no longer work due to the gun changes
+* AJR armor plating now uses niobium instead of saturnite, and yields twice as many items per recipe
+* Due to the gating change, the saturnite anvil now has a tier equivalent to a bronze anvil
+* Doubled the liberator's base damage to be on-par with the lever action shotgun in order to offset its poor performance due to the reload speed
+* Decreased the explosive 12 gauge's damage from x5 to x2.5
+* All non black powder shotgun shells now have some amount of damage threshold negation in order to not immediately become useless when used against early power armor
+  * Obviously shot will always fare worse against higher tier armor, in those cases either use flechettes, slugs, any of the high tier rounds or a different caliber entirely
+* Bombers and cargo planes now use interpolation, making their movement smoother and fixing potential desyncs due to TPS
+* Trenchmaster armor no longer displays benefits that no longer exist
+* Legendaries are no longer found in red rooms, rather they have a whole new system of being discovered and crafted
+  * "Recipes" are still subject to change, but the base system is final
+  * There will some day be a completely new dungeon for those, but for now I used what I had
+  * Mayhaps a new legendary has appeared?
+* Glyphids now make use of the same resistance system as armors, their armor is no longer completely ignored by the new guns
+  * Different damage types have different resistances
+  * Damage resistance remains the same, while damage threshold is determined by the glyphid's armor - breaking the armor off will decrease the damage threshold
+  * Balancing might still be off, however glyhids shouldn't be too tanky
+* I still haven't bothered to fix the bolter. It's like the son I don't love
+* Changed some of the sounds of the guns that still used the default black powder noise
+* The flamethrower turret now uses the new flamethrower projectiles
+* The now unused old gun items have been completely obliterated
+* Headhot mulitpliers now apply for most conventional projectiles, by default the bonus for headshots is +25% damage
+  * JHP adds +50%
 
 ## Fixed
-* Fixed some machines not sending fluid gauge syncs properly
-* Fixed refinery GUI crashing when invalid input is used
+* Fixed 9mm soft points being called ".9mm"
+* Fixed missing localization for the hard plastic and PVC autogen materials
+* Fixed the fat mine's crafting recipe still using the deprecated ammo item
+* Removed legacy ammo items and guns from all remaining item pools
+* Fixed the rubber grip not having a recipe
+* Fixed the coilgun and bolter not being classified correctly
+* Fixed new death messages not working
+* Fixed none of the armors having fall resistance
+* Fixed survey scanners not picking up nether depth rock
+* Fixed FMJ, AP and DU rounds not having damage threshold negation, making them worse against most armored targets compared to JHP
+* Fixed autgen items made from unsmeltable materials being smeltable in the crucible
+* Fixed 240mm shells not being visible in creative
+* Fixed JHP's negative armor piercing value not being counted right, breaking the "armor is worth more" system
+* Fixed the second UZI dealing more damage than it should
+* Potentially fixed an issue where artillery rockets would sometimes get stuck mid-air
+* Fixed the artillery rocket turret's grace range not being 250 as advertised
+* Fixed black powder shotshells using smokeless powder instead of smokeful powder
+* Fixed the ballistic gauntlet not working with the new system
+  * Since base damage is now bound to weapons, the ballistic gauntlet now has a base damage of 15

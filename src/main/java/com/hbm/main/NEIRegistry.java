@@ -51,6 +51,7 @@ public class NEIRegistry {
 		handlers.add(new LiquefactionHandler());
 		handlers.add(new SolidificationHandler());
 		handlers.add(new CokingHandler());
+		handlers.add(new PyroHandler());
 		handlers.add(new FractioningHandler());
 		handlers.add(new BoilingHandler());
 		handlers.add(new CombinationHandler());
@@ -65,6 +66,8 @@ public class NEIRegistry {
 		handlers.add(new ExposureChamberHandler());
 		handlers.add(new ArcFurnaceSolidHandler());
 		handlers.add(new ArcFurnaceFluidHandler());
+		handlers.add(new RotaryFurnaceHandler());
+		handlers.add(new AmmoPressHandler());
 
 		//this shit comes last
 		handlers.add(new FluidRecipeHandler());
