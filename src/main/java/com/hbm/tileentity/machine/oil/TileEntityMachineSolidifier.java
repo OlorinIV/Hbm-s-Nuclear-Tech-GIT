@@ -45,7 +45,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	public static final int processTimeBase = 80;
 
 	public int processTime;
-	
+
 	public FluidTank tank;
 
 	public TileEntityMachineSolidifier() {
@@ -60,7 +60,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			tank.setType(4, slots);
@@ -72,14 +72,14 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 			int power = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 			int over = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 
-			this.processTime = processTimeBase * (4 - speed) / (1 + over) / 4;
-			this.usage = usageBase * (speed + 1) * (over + 1) / (power + 1);
-			
+			this.processTime = processTimeBase * (4 - speed) / 4 / (over * over + 1);
+			this.usage = usageBase * (speed + 1) * (over * over + 1) / (power + 1);
+
 			if(this.canProcess())
 				this.process();
 			else
 				this.progress = 0;
-			
+
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
 			data.setInteger("progress", this.progress);
@@ -89,14 +89,14 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 			this.networkPack(data, 50);
 		}
 	}
-	
+
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
 			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
-	
+
 	private DirPos[] getConPos() {
 		return new DirPos[] {
 			new DirPos(xCoord, yCoord + 4, zCoord, Library.POS_Y),
@@ -117,59 +117,59 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] { 0 };
 	}
-	
+
 	public boolean canProcess() {
-		
+
 		if(this.power < usage)
 			return false;
-		
+
 		Pair<Integer, ItemStack> out = SolidificationRecipes.getOutput(tank.getTankType());
-		
+
 		if(out == null)
 			return false;
-		
+
 		int req = out.getKey();
 		ItemStack stack = out.getValue();
-		
+
 		if(req > tank.getFill())
 			return false;
-		
+
 		if(slots[0] != null) {
-			
+
 			if(slots[0].getItem() != stack.getItem())
 				return false;
-			
+
 			if(slots[0].getItemDamage() != stack.getItemDamage())
 				return false;
-			
+
 			if(slots[0].stackSize + stack.stackSize > slots[0].getMaxStackSize())
 				return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	public void process() {
-		
+
 		this.power -= usage;
-		
+
 		progress++;
-		
+
 		if(progress >= processTime) {
-			
+
 			Pair<Integer, ItemStack> out = SolidificationRecipes.getOutput(tank.getTankType());
 			int req = out.getKey();
 			ItemStack stack = out.getValue();
 			tank.setFill(tank.getFill() - req);
-			
+
 			if(slots[0] == null) {
 				slots[0] = stack.copy();
 			} else {
 				slots[0].stackSize += stack.stackSize;
 			}
-			
+
 			progress = 0;
-			
+
 			this.markDirty();
 		}
 	}
@@ -177,20 +177,20 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-		
+
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
 		this.usage = nbt.getInteger("usage");
 		this.processTime = nbt.getInteger("processTime");
 		tank.readFromNBT(nbt, "t");
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		tank.readFromNBT(nbt, "tank");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -211,12 +211,12 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	public long getMaxPower() {
 		return maxPower;
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 1,
@@ -227,10 +227,10 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 					zCoord + 2
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {

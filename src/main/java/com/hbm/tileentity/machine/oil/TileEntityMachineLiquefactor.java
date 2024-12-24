@@ -46,9 +46,9 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	public static final int processTimeBase = 80;
 
 	public int processTime;
-	
+
 	public FluidTank tank;
-	
+
 	public TileEntityMachineLiquefactor() {
 		super(4);
 		tank = new FluidTank(Fluids.NONE, 24_000);
@@ -61,10 +61,10 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
-			
+
 			this.updateConnections();
 
 			UpgradeManager.eval(slots, 2, 3);
@@ -72,16 +72,16 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 			int power = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 			int over = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 
-			this.processTime = processTimeBase * (4 - speed) / (1 + over) / 4;
-			this.usage = usageBase * (speed + 1) * (over + 1) / (power + 1);
-			
+			this.processTime = processTimeBase * (4 - speed) / 4 / (over * over + 1);
+			this.usage = usageBase * (speed + 1) * (over * over + 1) / (power + 1);
+
 			if(this.canProcess())
 				this.process();
 			else
 				this.progress = 0;
-			
+
 			this.sendFluid();
-			
+
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
 			data.setInteger("progress", this.progress);
@@ -91,19 +91,19 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 			this.networkPack(data, 50);
 		}
 	}
-	
+
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
 			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
-	
+
 	private void sendFluid() {
 		for(DirPos pos : getConPos()) {
 			this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
-	
+
 	private DirPos[] getConPos() {
 		return new DirPos[] {
 			new DirPos(xCoord, yCoord + 4, zCoord, Library.POS_Y),
@@ -124,36 +124,36 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] { 0 };
 	}
-	
+
 	public boolean canProcess() {
-		
+
 		if(this.power < usage) return false;
 		if(slots[0] == null) return false;
-		
+
 		FluidStack out = LiquefactionRecipes.getOutput(slots[0]);
-		
+
 		if(out == null) return false;
 		if(out.type != tank.getTankType() && tank.getFill() > 0) return false;
 		if(out.fill + tank.getFill() > tank.getMaxFill()) return false;
-		
+
 		return true;
 	}
-	
+
 	public void process() {
-		
+
 		this.power -= usage;
-		
+
 		progress++;
-		
+
 		if(progress >= processTime) {
-			
+
 			FluidStack out = LiquefactionRecipes.getOutput(slots[0]);
 			tank.setTankType(out.type);
 			tank.setFill(tank.getFill() + out.fill);
 			this.decrStackSize(0, 1);
-			
+
 			progress = 0;
-			
+
 			this.markDirty();
 		}
 	}
@@ -161,20 +161,20 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-		
+
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
 		this.usage = nbt.getInteger("usage");
 		this.processTime = nbt.getInteger("processTime");
 		tank.readFromNBT(nbt, "t");
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		tank.readFromNBT(nbt, "tank");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -197,10 +197,10 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	}
 
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 1,
@@ -211,10 +211,10 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 					zCoord + 2
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {

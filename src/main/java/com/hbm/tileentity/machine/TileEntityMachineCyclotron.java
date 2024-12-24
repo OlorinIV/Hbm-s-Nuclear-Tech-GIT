@@ -48,7 +48,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	private byte plugs;
 
 	public int progress;
-	public static final int duration = 640;
+	public static final int duration = 600;
 
 	public FluidTank[] tanks;
 
@@ -228,13 +228,13 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	public int getSpeed() {
 		int red = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) + 1;
-		int black = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) + 1;
-		return red * black;
+		int black = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+		return red * (black * black + 1);
 	}
 
 	public int getConsumption() {
 		int efficiency = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
-		return consumption - 100_000 * efficiency;
+		return (consumption - 100_000 * efficiency) * getSpeed();
 	}
 
 	public int getCoolantConsumption() {
@@ -408,6 +408,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_cyclotron));
 		if(type == UpgradeType.SPEED) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level + 1)) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_COOLANT_CONSUMPTION, "+" + (level * 100) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
