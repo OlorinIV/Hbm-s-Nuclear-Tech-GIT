@@ -152,7 +152,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				this.progressOre++;
 				this.power -= this.usageOre;
 
-				if (this.progressOre >= this.getDurationMetal() / overLevel) {
+				if (this.progressOre >= this.getDurationMetal() / (overLevel + 1)) {
 					this.processMetal();
 					this.progressOre = 0;
 					this.markChanged();
