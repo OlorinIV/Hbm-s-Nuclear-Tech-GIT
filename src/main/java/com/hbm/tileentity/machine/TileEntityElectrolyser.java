@@ -133,8 +133,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 			int overLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 
-			usageOre = usageOreBase * (4 - powerLevel) / 4 * speedLevel;
-			usageFluid = usageFluidBase * (4 - powerLevel) / 4 * speedLevel;
+			usageOre = usageOreBase * (4 - powerLevel) / 4 * (speedLevel + 1);
+			usageFluid = usageFluidBase * (4 - powerLevel) / 4 * (speedLevel + 1);
 
 			//overdrive: 2/3/4 for metals and 2/5/10 for fluids
 			if (this.canProcessFluid()) {
