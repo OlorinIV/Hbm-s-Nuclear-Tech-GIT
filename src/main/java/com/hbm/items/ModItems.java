@@ -598,11 +598,6 @@ public class ModItems {
 	public static Item mechanism_launcher_2;
 	public static Item mechanism_special;
 
-	public static Item casing_357;
-	public static Item casing_44;
-	public static Item casing_9;
-	public static Item casing_50;
-	public static Item casing_buckshot;
 	public static Item assembly_iron;
 	public static Item assembly_steel;
 	public static Item assembly_lead;
@@ -1526,6 +1521,7 @@ public class ModItems {
 	public static Item gun_hangman;
 	public static Item gun_bolter;
 	public static Item gun_folly;
+	public static Item gun_double_barrel;
 
 	public static Item ammo_standard;
 	public static Item ammo_secret;
@@ -2865,11 +2861,6 @@ public class ModItems {
 		mechanism_launcher_1 = new Item().setUnlocalizedName("mechanism_launcher_1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_5");
 		mechanism_launcher_2 = new Item().setUnlocalizedName("mechanism_launcher_2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_6");
 		mechanism_special = new Item().setUnlocalizedName("mechanism_special").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_7");
-		casing_357 = new Item().setUnlocalizedName("casing_357").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_357");
-		casing_44 = new Item().setUnlocalizedName("casing_44").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_44");
-		casing_9 = new Item().setUnlocalizedName("casing_9").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_9");
-		casing_50 = new Item().setUnlocalizedName("casing_50").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_50");
-		casing_buckshot = new Item().setUnlocalizedName("casing_buckshot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_buckshot");
 		assembly_iron = new Item().setUnlocalizedName("assembly_iron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_iron");
 		assembly_steel = new Item().setUnlocalizedName("assembly_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_steel");
 		assembly_lead = new Item().setUnlocalizedName("assembly_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_lead");
@@ -5724,13 +5715,7 @@ public class ModItems {
 		GameRegistry.registerItem(mechanism_launcher_2, mechanism_launcher_2.getUnlocalizedName());
 		GameRegistry.registerItem(mechanism_special, mechanism_special.getUnlocalizedName());
 
-		//Casings
-		GameRegistry.registerItem(casing_357, casing_357.getUnlocalizedName());
-		GameRegistry.registerItem(casing_44, casing_44.getUnlocalizedName());
-		GameRegistry.registerItem(casing_9, casing_9.getUnlocalizedName());
-		GameRegistry.registerItem(casing_50, casing_50.getUnlocalizedName());
-		GameRegistry.registerItem(casing_buckshot, casing_buckshot.getUnlocalizedName());
-
+		//Casing
 		GameRegistry.registerItem(casing, casing.getUnlocalizedName());
 
 		//Bullet Assemblies
@@ -6563,6 +6548,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_hangman, gun_hangman.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolter, gun_bolter.getUnlocalizedName());
 		GameRegistry.registerItem(gun_folly, gun_folly.getUnlocalizedName());
+		GameRegistry.registerItem(gun_double_barrel, gun_double_barrel.getUnlocalizedName());
 
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_secret, ammo_secret.getUnlocalizedName());
