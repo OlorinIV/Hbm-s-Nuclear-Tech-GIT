@@ -47,7 +47,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider {
-	
+
 	public long power;
 	public static final long maxPower = 2_500_000;
 	public boolean liquidMode = false;
@@ -61,16 +61,16 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public float prevLid;
 	public int approachNum;
 	public float syncLid;
-	
+
 	private AudioWrapper audioLid;
 	private AudioWrapper audioProgress;
-	
+
 	public byte[] electrodes = new byte[3];
 	public static final byte ELECTRODE_NONE = 0;
 	public static final byte ELECTRODE_FRESH = 1;
 	public static final byte ELECTRODE_USED = 2;
 	public static final byte ELECTRODE_DEPLETED = 3;
-	
+
 	public int getMaxInputSize() {
 		return upgrade == 0 ? 1 : upgrade == 1 ? 4 : upgrade == 2 ? 8 : 16;
 	}
@@ -90,7 +90,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	@Override
 	public void setInventorySlotContents(int i, ItemStack stack) {
 		super.setInventorySlotContents(i, stack);
-		
+
 		if(stack != null && stack.getItem() instanceof ItemMachineUpgrade && i == 4) {
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
 		}
@@ -98,31 +98,31 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 	@Override
 	public void updateEntity() {
-		
+
 		UpgradeManager.eval(slots, 4, 4);
 		this.upgrade = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 
 		if(!worldObj.isRemote) {
-			
+
 			this.power = Library.chargeTEFromItems(slots, 3, power, maxPower);
 			this.isProgressing = false;
-			
+
 			for(DirPos pos : getConPos()) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			
+
 			if(power > 0) {
-				
+
 				boolean ingredients = this.hasIngredients();
 				boolean electrodes = this.hasElectrodes();
-				
+
 				int consumption = 1000 * (upgrade * upgrade + 1) * (upgrade * upgrade + 1);
-				
+
 				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
 					if(lid > 0) {
 						lid -= 1F / (60F / (upgrade + 1));
 						if(lid < 0) lid = 0;
 						this.progress = 0;
 					} else {
-						
+
 						if(power >= consumption) {
 							int duration = 400 / (upgrade * upgrade + 1);
 							this.progress += 1F / duration;
@@ -145,18 +145,18 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 						if(lid > 1) lid = 1;
 					}
 				}
-				
+
 				hasMaterial = ingredients;
 			}
-			
+
 			this.decideElectrodeState();
-			
+
 			if(!hasMaterial) hasMaterial = this.hasIngredients();
-			
+
 			if(!this.liquids.isEmpty() && this.lid > 0F) {
-				
+
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-				
+
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
 				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(3), impact);
 
@@ -171,21 +171,21 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1, zCoord + 0.5D + dir.offsetZ * 2.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
 				}
 			}
-			
+
 			this.liquids.removeIf(o -> o.amount <= 0);
-			
+
 			this.networkPackNT(150);
 		} else {
 
 			this.prevLid = this.lid;
-			
+
 			if(this.approachNum > 0) {
 				this.lid = this.lid + ((this.syncLid - this.lid) / (float) this.approachNum);
 				--this.approachNum;
 			} else {
 				this.lid = this.syncLid;
 			}
-			
+
 			if(this.lid != this.prevLid) {
 				if(this.audioLid == null || !this.audioLid.isPlaying()) {
 					this.audioLid = MainRegistry.proxy.getLoopedSound("hbm:door.wgh_start", xCoord, yCoord, zCoord, this.getVolume(0.75F), 15F, 1.0F, 5);
@@ -198,11 +198,11 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 					this.audioLid = null;
 				}
 			}
-			
+
 			if((lid == 1 || lid == 0) && lid != prevLid && !(this.prevLid == 0 && this.lid == 1)) {
 				MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:door.wgh_stop", this.getVolume(1), 1F);
 			}
-			
+
 			if(this.isProgressing) {
 				if(this.audioProgress == null || !this.audioProgress.isPlaying()) {
 					this.audioProgress = MainRegistry.proxy.getLoopedSound("hbm:block.electricHum", xCoord, yCoord, zCoord, this.getVolume(1.5F), 15F, 0.75F, 5);
@@ -216,7 +216,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 					this.audioProgress = null;
 				}
 			}
-			
+
 			if(this.lid != this.prevLid && this.lid > this.prevLid && !(this.prevLid == 0 && this.lid == 1) && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 4, zCoord + 0.5) < 50) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
@@ -233,7 +233,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				data.setFloat("strafe", 0.05F);
 				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
 			}
-			
+
 			if(this.lid != this.prevLid && this.lid < this.prevLid && this.lid > 0.5F && this.hasMaterial && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 4, zCoord + 0.5) < 50) {
 				/*NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
@@ -249,7 +249,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				data.setInteger("color", 0x808080);
 				data.setFloat("strafe", 0.15F);
 				MainRegistry.proxy.effectNT(data);*/
-				
+
 				if(worldObj.rand.nextInt(5) == 0) {
 					NBTTagCompound flame = new NBTTagCompound();
 					flame.setString("type", "rbmkflame");
@@ -262,10 +262,10 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			}
 		}
 	}
-	
+
 	public void decideElectrodeState() {
 		for(int i = 0; i < 3; i++) {
-			
+
 			if(slots[i] != null) {
 				if(slots[i].getItem() == ModItems.arc_electrode_burnt) { this.electrodes[i] = this.ELECTRODE_DEPLETED; continue; }
 				if(slots[i].getItem() == ModItems.arc_electrode) {
@@ -277,20 +277,20 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			this.electrodes[i] = this.ELECTRODE_NONE;
 		}
 	}
-	
+
 	public void process() {
-		
+
 		for(int i = 5; i < 25; i++) {
 			if(slots[i] == null) continue;
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(slots[i], this.liquidMode);
 			if(recipe == null) continue;
-			
+
 			if(!liquidMode && recipe.solidOutput != null) {
 				int amount = slots[i].stackSize;
 				slots[i] = recipe.solidOutput.copy();
 				slots[i].stackSize *= amount;
 			}
-			
+
 			if(liquidMode && recipe.fluidOutput != null) {
 
 				while(slots[i] != null && slots[i].stackSize > 0) {
@@ -308,16 +308,16 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				}
 			}
 		}
-		
+
 		for(int i = 0; i < 3; i++) {
 			if(ItemArcElectrode.damage(slots[i])) {
 				slots[i] = new ItemStack(ModItems.arc_electrode_burnt, 1, slots[i].getItemDamage());
 			}
 		}
 	}
-	
+
 	public boolean hasIngredients() {
-		
+
 		for(int i = 5; i < 25; i++) {
 			if(slots[i] == null) continue;
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(slots[i], this.liquidMode);
@@ -325,10 +325,10 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			if(liquidMode && recipe.fluidOutput != null) return true;
 			if(!liquidMode && recipe.solidOutput != null) return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public boolean hasElectrodes() {
 		for(int i = 0; i < 3; i++) {
 			if(slots[i] == null || slots[i].getItem() != ModItems.arc_electrode) return false;
@@ -381,35 +381,35 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		if(slot > 4) return lid > 0 && ArcFurnaceRecipes.getOutput(stack, this.liquidMode) == null;
 		return false;
 	}
-	
+
 	public void addToStack(MaterialStack matStack) {
-		
+
 		for(MaterialStack mat : liquids) {
 			if(mat.material == matStack.material) {
 				mat.amount += matStack.amount;
 				return;
 			}
 		}
-		
+
 		liquids.add(matStack.copy());
 	}
-	
+
 	public static int getStackAmount(List<MaterialStack> stack) {
 		int amount = 0;
 		for(MaterialStack mat : stack) amount += mat.amount;
 		return amount;
 	}
-	
+
 	public static int getStackAmount(MaterialStack[] stack) {
 		int amount = 0;
 		for(MaterialStack mat : stack) amount += mat.amount;
 		return amount;
 	}
-	
+
 	protected DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+
 		return new DirPos[] {
 				new DirPos(xCoord + dir.offsetX * 3 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 3 + rot.offsetZ, dir),
 				new DirPos(xCoord + dir.offsetX * 3 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 3 - rot.offsetZ, dir),
@@ -429,17 +429,17 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		buf.writeBoolean(isProgressing);
 		buf.writeBoolean(liquidMode);
 		buf.writeBoolean(hasMaterial);
-		
+
 		for(int i = 0; i < 3; i++) buf.writeByte(electrodes[i]);
-		
+
 		buf.writeShort(liquids.size());
-		
+
 		for(MaterialStack mat : liquids) {
 			buf.writeInt(mat.material.id);
 			buf.writeInt(mat.amount);
 		}
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
@@ -449,32 +449,32 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		this.isProgressing = buf.readBoolean();
 		this.liquidMode = buf.readBoolean();
 		this.hasMaterial = buf.readBoolean();
-		
+
 		for(int i = 0; i < 3; i++) electrodes[i] = buf.readByte();
-		
+
 		int mats = buf.readShort();
-		
+
 		this.liquids.clear();
 		for(int i = 0; i < mats; i++) {
 			liquids.add(new MaterialStack(Mats.matById.get(buf.readInt()), buf.readInt()));
 		}
-		
+
 		if(syncLid != 0 && syncLid != 1) this.approachNum = 2;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		this.power = nbt.getLong("power");
 		this.liquidMode = nbt.getBoolean("liquidMode");
 		this.progress = nbt.getFloat("progress");
 		this.lid = nbt.getFloat("lid");
 		this.delay = nbt.getInteger("delay");
-		
+
 		int count = nbt.getShort("count");
 		liquids.clear();
-		
+
 		for(int i = 0; i < count; i++) {
 			liquids.add(new MaterialStack(Mats.matById.get(nbt.getInteger("m" + i)), nbt.getInteger("a" + i)));
 		}
@@ -488,7 +488,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		nbt.setFloat("progress", progress);
 		nbt.setFloat("lid", lid);
 		nbt.setInteger("delay", delay);
-		
+
 		int count = liquids.size();
 		nbt.setShort("count", (short) count);
 		for(int i = 0; i < count; i++) {
@@ -512,12 +512,12 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public long getMaxPower() {
 		return maxPower;
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 3,
@@ -528,10 +528,10 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 					zCoord + 4
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -572,7 +572,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_arc_furnace));
 		if(type == UpgradeType.SPEED) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level * level + 1)) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + ((level * level + 1) * 100 - 100) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + ((level * level + 1) * (level * level + 1) * 100 - 100) + "%"));
 		}
 	}
 

@@ -63,7 +63,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineExcavator extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 
-	public static final long maxPower = 1_000_000;
+	public long maxPower = 1_000_000;
 	public long power;
 	public boolean operational = false;
 
@@ -112,6 +112,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 
 		consumption = baseConsumption * (1 + speedLevel) * (1 + overLevel * overLevel);
 		consumption /= (1 + powerLevel);
+		long intendedMaxPower = 1_000_000 * (1 + overLevel * overLevel);
 
 		if(!worldObj.isRemote) {
 
@@ -153,6 +154,8 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 			} else {
 				this.targetDepth = 0;
 			}
+
+			this.maxPower = Math.max(intendedMaxPower, power);
 
 			this.networkPackNT(150);
 
@@ -218,6 +221,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		buf.writeBoolean(operational);
 		buf.writeInt(targetDepth);
 		buf.writeInt(chuteTimer);
+		buf.writeLong(maxPower);
 		buf.writeLong(power);
 		tank.serialize(buf);
 	}
@@ -233,6 +237,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		operational = buf.readBoolean();
 		targetDepth = buf.readInt();
 		chuteTimer = buf.readInt();
+		maxPower = buf.readLong();
 		power = buf.readLong();
 		tank.deserialize(buf);
 	}
@@ -774,6 +779,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		this.enableVeinMiner = nbt.getBoolean("v");
 		this.enableSilkTouch = nbt.getBoolean("s");
 		this.targetDepth = nbt.getInteger("t");
+		this.maxPower = nbt.getLong("m");
 		this.power = nbt.getLong("p");
 		this.tank.readFromNBT(nbt, "tank");
 	}
@@ -788,6 +794,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		nbt.setBoolean("v", enableVeinMiner);
 		nbt.setBoolean("s", enableSilkTouch);
 		nbt.setInteger("t", targetDepth);
+		nbt.setLong("m", maxPower);
 		nbt.setLong("p", power);
 		tank.writeToNBT(nbt, "tank");
 	}
@@ -885,6 +892,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	public int getMaxLevel(UpgradeType type) {
 		if(type == UpgradeType.SPEED) return 3;
 		if(type == UpgradeType.POWER) return 3;
+		if(type == UpgradeType.EFFECT) return 3;
 		if(type == UpgradeType.OVERDRIVE) return 3;
 		return 0;
 	}

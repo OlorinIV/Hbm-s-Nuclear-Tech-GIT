@@ -138,10 +138,10 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 			//overdrive: 2/3/4 for metals and 2/5/10 for fluids
 			if (this.canProcessFluid()) {
-				this.progressFluid++;
+				this.progressFluid += overLevel * overLevel + 1;
 				this.power -= this.usageFluid;
 
-				if (this.progressFluid >= this.getDurationFluid() / (overLevel * overLevel + 1)) {
+				if (this.progressFluid >= this.getDurationFluid()) {
 					this.processFluids();
 					this.progressFluid = 0;
 					this.markChanged();
@@ -149,10 +149,10 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			}
 
 			if (this.canProcessMetal()) {
-				this.progressOre++;
+				this.progressOre += overLevel + 1;
 				this.power -= this.usageOre;
 
-				if (this.progressOre >= this.getDurationMetal() / (overLevel + 1)) {
+				if (this.progressOre >= this.getDurationMetal()) {
 					this.processMetal();
 					this.progressOre = 0;
 					this.markChanged();
