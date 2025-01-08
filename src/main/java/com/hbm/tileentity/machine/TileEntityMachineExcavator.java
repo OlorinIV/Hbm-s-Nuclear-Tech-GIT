@@ -1,10 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
@@ -12,7 +9,7 @@ import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
 import com.hbm.blocks.network.CraneInserter;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMachineExcavator;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -91,6 +88,8 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 
 	public FluidTank tank;
 
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+
 	public TileEntityMachineExcavator() {
 		super(14);
 		this.tank = new FluidTank(Fluids.SULFURIC_ACID, 16_000);
@@ -105,12 +104,12 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	public void updateEntity() {
 
 		//needs to happen on client too for GUI rendering
-		UpgradeManager.eval(slots, 2, 3);
-		int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-		int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
-		int overLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+		upgradeManager.checkSlots(this, slots, 2, 3);
+		int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+		int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
+		int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 
-		consumption = baseConsumption * (1 + speedLevel) * (1 + overLevel * overLevel);
+		consumption = baseConsumption * (1 + speedLevel);
 		consumption /= (1 + powerLevel);
 		long intendedMaxPower = 1_000_000 * (1 + overLevel * overLevel);
 
@@ -131,7 +130,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 
 			this.power = Library.chargeTEFromItems(slots, 0, this.getPower(), this.getMaxPower());
 			this.operational = false;
-			int radiusLevel = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
+			int radiusLevel = upgradeManager.getLevel(UpgradeType.EFFECT);
 
 			EnumDrillType type = this.getInstalledDrill();
 			if(this.enableDrill && type != null && this.power >= this.getPowerConsumption()) {
@@ -889,12 +888,13 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		if(type == UpgradeType.EFFECT) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.EFFECT, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
+		return upgrades;
 	}
 
 	@Override

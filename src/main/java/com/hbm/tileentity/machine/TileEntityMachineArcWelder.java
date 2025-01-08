@@ -1,10 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMachineArcWelder;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -50,6 +51,8 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 	public FluidTank tank;
 	public ItemStack display;
 
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+
 	public TileEntityMachineArcWelder() {
 		super(8);
 		this.tank = new FluidTank(Fluids.NONE, 24_000);
@@ -87,10 +90,10 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 			ArcWelderRecipe recipe = ArcWelderRecipes.getRecipe(slots[0], slots[1], slots[2]);
 			long intendedMaxPower;
 
-			UpgradeManager.eval(slots, 6, 7);
-			int redLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-			int blueLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
-			int blackLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+			upgradeManager.checkSlots(this, slots, 6, 7);
+			int redLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+			int blueLevel = upgradeManager.getLevel(UpgradeType.POWER);
+			int blackLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 
 			if(recipe != null) {
 				this.processTime = recipe.duration * (4 - redLevel) / 4 / (blackLevel * blackLevel + 1);
@@ -387,11 +390,12 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
+		return upgrades;
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import api.hbm.fluid.IFluidStandardSender;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
+import com.hbm.handler.neutron.NeutronStream;
+import com.hbm.handler.neutron.RBMKNeutronHandler;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerRBMKOutgasser;
 import com.hbm.inventory.fluid.Fluids;
@@ -17,6 +19,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -43,10 +46,10 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public String getName() {
 		return "container.rbmkOutgasser";
 	}
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 			if(slots[0] != null){
 				Triplet<ItemStack, FluidStack, Long> output = OutgasserRecipes.getOutput(slots[0]);
@@ -59,17 +62,17 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			if(!canProcess()) {
 				this.progress = 0;
 			}
-			
+
 			for(DirPos pos : getOutputPos()) {
 				if(this.gas.getFill() > 0) this.sendFluid(gas, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 		}
-		
+
 		super.updateEntity();
 	}
-	
+
 	protected DirPos[] getOutputPos() {
-		
+
 		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
 			return new DirPos[] {
 					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
@@ -96,34 +99,31 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	}
 
 	@Override
-	public void receiveFlux(NType type, double flux) {
-		
+	public void receiveFlux(NeutronStream stream) {
+
 		if(canProcess()) {
-			
-			if(type == NType.FAST)
-				flux *= 0.2D;
 
-			Triplet<ItemStack, FluidStack, Long> output = OutgasserRecipes.getOutput(slots[0]);
-			this.duration = (long)output.getZ();
-			this.progress += flux * RBMKDials.getOutgasserMod(worldObj);
+			double efficiency = Math.min(1 - stream.fluxRatio * 0.8, 1);
 
-			if(this.progress > this.duration) {
+			progress += stream.fluxQuantity * efficiency * RBMKDials.getOutgasserMod(worldObj);
+
+			if(progress > duration) {
 				process();
 				this.markDirty();
 			}
 		}
 	}
-	
+
 	public boolean canProcess() {
-		
+
 		if(slots[0] == null)
 			return false;
-		
+
 		Triplet<ItemStack, FluidStack, Long> output = OutgasserRecipes.getOutput(slots[0]);
-		
+
 		if(output == null)
 			return false;
-		
+
 		FluidStack fluid = output.getY();
 
 		if(fluid != null) {
@@ -131,27 +131,27 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			gas.setTankType(fluid.type);
 			if(gas.getFill() + fluid.fill > gas.getMaxFill()) return false;
 		}
-		
+
 		ItemStack out = output.getX();
-		
+
 		if(slots[1] == null || out == null)
 			return true;
-		
+
 		return slots[1].getItem() == out.getItem() && slots[1].getItemDamage() == out.getItemDamage() && slots[1].stackSize + out.stackSize <= slots[1].getMaxStackSize();
 	}
-	
+
 	private void process() {
 
 		Triplet<ItemStack, FluidStack, Long> output = OutgasserRecipes.getOutput(slots[0]);
 		this.decrStackSize(0, 1);
 		this.progress -= this.duration;
-		
+
 		if(output.getY() != null) {
 			gas.setFill(gas.getFill() + output.getY().fill);
 		}
-		
+
 		ItemStack out = output.getX();
-		
+
 		if(out != null) {
 			if(slots[1] == null) {
 				slots[1] = out.copy();
@@ -160,17 +160,22 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			}
 		}
 	}
-	
+
 	@Override
 	public void onMelt(int reduce) {
-		
+
 		int count = 4 + worldObj.rand.nextInt(2);
-		
+
 		for(int i = 0; i < count; i++) {
 			spawnDebris(DebrisType.BLANK);
 		}
-		
+
 		super.onMelt(reduce);
+	}
+
+	@Override
+	public RBMKNeutronHandler.RBMKType getRBMKType() {
+		return RBMKNeutronHandler.RBMKType.OUTGASSER;
 	}
 
 	@Override
@@ -188,23 +193,37 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		data.setLong("fluxNeeded", this.duration);
 		return data;
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		this.progress = nbt.getDouble("progress");
 		this.gas.readFromNBT(nbt, "gas");
 		this.duration = nbt.getLong("fluxNeeded");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		nbt.setDouble("progress", this.progress);
 		this.gas.writeToNBT(nbt, "gas");
 		nbt.setLong("fluxNeeded",this.duration);
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		this.gas.serialize(buf);
+		buf.writeDouble(this.progress);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.gas.deserialize(buf);
+		this.progress = buf.readDouble();
 	}
 
 	@Override
@@ -250,7 +269,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public Object[] getGasMax(Context context, Arguments args) {
 		return new Object[] {gas.getMaxFill()};
 	}
-	
+
 		@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getGasType(Context context, Arguments args) {

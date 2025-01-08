@@ -1,12 +1,13 @@
 package com.hbm.tileentity.machine;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerCentrifuge;
 import com.hbm.inventory.gui.GUIMachineCentrifuge;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
@@ -50,6 +51,8 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	public static int maxPower = 100000;
 	public static int processingSpeed = 160;
 	public static int baseConsumption = 200;
+
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
 	public String getConfigName() {
 		return "centrifuge";
@@ -188,16 +191,16 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			int consumption = baseConsumption;
 			int speed = 1;
 
-			UpgradeManager.eval(slots, 6, 7);
-			speed += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * baseConsumption;
+			upgradeManager.checkSlots(this, slots, 6, 7);
+			speed += upgradeManager.getLevel(UpgradeType.SPEED);
+			consumption += upgradeManager.getLevel(UpgradeType.SPEED) * baseConsumption;
 
-			int over = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+			int over = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 			over += over > 0 ? 1 : 0;
 			speed *= (int) Math.pow(2 , over);
 			consumption *= (int) Math.pow(2 , over);
 
-			consumption /= (1 + Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3));
+			consumption /= (1 + upgradeManager.getLevel(UpgradeType.POWER));
 
 			if(hasPower() && isProcessing()) {
 				this.power -= consumption;
@@ -371,11 +374,12 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
+		return upgrades;
 	}
 
 	@Override

@@ -1,13 +1,14 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMachineArcFurnaceLarge;
 import com.hbm.inventory.gui.GUIMachineArcFurnaceLarge;
 import com.hbm.inventory.material.MaterialShapes;
@@ -65,6 +66,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	private AudioWrapper audioLid;
 	private AudioWrapper audioProgress;
 
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+
 	public byte[] electrodes = new byte[3];
 	public static final byte ELECTRODE_NONE = 0;
 	public static final byte ELECTRODE_FRESH = 1;
@@ -99,8 +102,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	@Override
 	public void updateEntity() {
 
-		UpgradeManager.eval(slots, 4, 4);
-		this.upgrade = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+		upgradeManager.checkSlots(this, slots, 4, 4);
+		this.upgrade = upgradeManager.getLevel(UpgradeType.SPEED);
 
 		if(!worldObj.isRemote) {
 
@@ -577,8 +580,10 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		return upgrades;
 	}
+
 }

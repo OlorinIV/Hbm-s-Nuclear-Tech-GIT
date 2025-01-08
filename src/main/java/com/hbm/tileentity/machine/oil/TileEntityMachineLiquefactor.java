@@ -1,10 +1,11 @@
 package com.hbm.tileentity.machine.oil;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerLiquefactor;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -26,6 +27,7 @@ import api.hbm.fluid.IFluidStandardSender;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -49,6 +51,8 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 
 	public FluidTank tank;
 
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+
 	public TileEntityMachineLiquefactor() {
 		super(4);
 		tank = new FluidTank(Fluids.NONE, 24_000);
@@ -67,10 +71,10 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 
 			this.updateConnections();
 
-			UpgradeManager.eval(slots, 2, 3);
-			int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-			int power = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
-			int over = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+			upgradeManager.checkSlots(this, slots, 2, 3);
+			int speed = upgradeManager.getLevel(UpgradeType.SPEED);
+			int power = upgradeManager.getLevel(UpgradeType.POWER);
+			int over = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 
 			this.processTime = processTimeBase * (4 - speed) / 4 / (over * over + 1);
 			this.usage = usageBase * (speed + 1) * (over * over + 1) / (power + 1);
@@ -82,13 +86,7 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 
 			this.sendFluid();
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			data.setInteger("progress", this.progress);
-			data.setInteger("usage", this.usage);
-			data.setInteger("processTime", this.processTime);
-			tank.writeToNBT(data, "t");
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		}
 	}
 
@@ -159,14 +157,23 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		buf.writeInt(this.progress);
+		buf.writeInt(this.usage);
+		buf.writeInt(this.processTime);
+		tank.serialize(buf);
+	}
 
-		this.power = nbt.getLong("power");
-		this.progress = nbt.getInteger("progress");
-		this.usage = nbt.getInteger("usage");
-		this.processTime = nbt.getInteger("processTime");
-		tank.readFromNBT(nbt, "t");
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.progress = buf.readInt();
+		this.usage = buf.readInt();
+		this.processTime = buf.readInt();
+		tank.deserialize(buf);
 	}
 
 	@Override
@@ -263,11 +270,12 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
+		return upgrades;
 	}
 
 	@Override

@@ -1,9 +1,10 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMachineExposureChamber;
 import com.hbm.inventory.gui.GUIMachineExposureChamber;
 import com.hbm.inventory.recipes.ExposureChamberRecipes;
@@ -45,6 +46,8 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 	public boolean isOn = false;
 	public float rotation;
 	public float prevRotation;
+
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -92,10 +95,10 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 				for(DirPos pos : getConPos()) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
-			UpgradeManager.eval(slots, 6, 7);
-			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
-			int overLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+			upgradeManager.checkSlots(this, slots, 6, 7);
+			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
+			int overdriveLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 
 			this.consumption = this.consumptionBase;
 
@@ -103,8 +106,8 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 			this.consumption *= (speedLevel / 2 + 1);
 			this.processTime *= (powerLevel / 2 + 1);
 			this.consumption /= (powerLevel + 1);
-			this.processTime /= (overLevel + 1);
-			this.consumption *= (overLevel * 2 + 1);
+			this.processTime /= (overdriveLevel + 1);
+			this.consumption *= (overdriveLevel * 2 + 1);
 
 			if(slots[1] == null && slots[0] != null && slots[3] != null && this.savedParticles <= 0) {
 				ExposureChamberRecipe recipe = this.getRecipe(slots[0], slots[3]);
@@ -337,10 +340,11 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
+		return upgrades;
 	}
 }

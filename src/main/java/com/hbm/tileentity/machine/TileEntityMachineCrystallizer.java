@@ -1,10 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.extprop.HbmPlayerProps;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerCrystallizer;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -15,10 +16,7 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.IFluidCopiable;
-import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.IUpgradeInfoProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.*;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -53,6 +51,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 	public FluidTank tank;
 
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+
 	public TileEntityMachineCrystallizer() {
 		super(8);
 		tank = new FluidTank(Fluids.PEROXIDE, 8000);
@@ -76,7 +76,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			tank.setType(7, slots);
 			tank.loadTank(3, 4, slots);
 
-			UpgradeManager.eval(slots, 5, 6);
+			upgradeManager.checkSlots(this, slots, 5, 6);
 
 			for(int i = 0; i < getCycleCount(); i++) {
 
@@ -104,7 +104,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			prevAngle = angle;
 
 			if(isOn) {
-				angle += 5F + this.getCycleCount();
+				angle += 5F * (upgradeManager.getLevel(UpgradeType.OVERDRIVE) + 1);
 
 				if(angle >= 360) {
 					angle -= 360;
@@ -226,7 +226,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 
 	public int getRequiredAcid(int base) {
-		int efficiency = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
+		int efficiency = upgradeManager.getLevel(UpgradeType.EFFECT);
 		if(efficiency > 0) {
 			return (int) (base * (0.2 * efficiency + 1));
 		}
@@ -234,7 +234,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 
 	public float getFreeChance() {
-		int efficiency = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
+		int efficiency = upgradeManager.getLevel(UpgradeType.EFFECT);
 		if(efficiency > 0) {
 			return Math.min(efficiency * 0.05F, 0.15F);
 		}
@@ -244,7 +244,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public short getDuration() {
 		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
 		int base = result != null ? result.duration : 480;
-		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+		int speed = upgradeManager.getLevel(UpgradeType.SPEED);
 		if(speed > 0) {
 			return (short) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.25F)));
 		}
@@ -252,12 +252,12 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 
 	public int getPowerRequired() {
-		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+		int speed = upgradeManager.getLevel(UpgradeType.SPEED);
 		return (int) (demand + Math.min(speed * 1000, 3000));
 	}
 
 	public float getCycleCount() {
-		int speed = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+		int speed = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 		return (float) speed * speed + 1;
 	}
 
@@ -388,11 +388,12 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.EFFECT) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.EFFECT, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
+		return upgrades;
 	}
 
 	@Override

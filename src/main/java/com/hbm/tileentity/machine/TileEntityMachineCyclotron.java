@@ -1,10 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerMachineCyclotron;
@@ -52,6 +53,8 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	public FluidTank[] tanks;
 
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+
 	public TileEntityMachineCyclotron() {
 		super(12);
 
@@ -75,7 +78,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 			this.power = Library.chargeTEFromItems(slots, 9, power, maxPower);
 
-			UpgradeManager.eval(slots, 10, 11);
+			upgradeManager.checkSlots(this, slots, 10, 11);
 
 			if(canProcess()) {
 				progress += getSpeed();
@@ -227,18 +230,19 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	}
 
 	public int getSpeed() {
-		int red = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) + 1;
-		int black = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+		int red = upgradeManager.getLevel(UpgradeType.SPEED) + 1;
+		int black = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 		return red * (black * black + 1);
 	}
 
 	public int getConsumption() {
-		int efficiency = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
-		return (consumption - 100_000 * efficiency) * getSpeed();
+		int efficiency = upgradeManager.getLevel(UpgradeType.POWER);
+
+		return consumption - 100_000 * efficiency;
 	}
 
 	public int getCoolantConsumption() {
-		int efficiency = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
+		int efficiency = upgradeManager.getLevel(UpgradeType.EFFECT);
 		//half a small tower's worth
 		return 500 / (efficiency + 1) * getSpeed();
 	}
@@ -423,12 +427,13 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		if(type == UpgradeType.EFFECT) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.EFFECT, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
+		return upgrades;
 	}
 
 	@Override
