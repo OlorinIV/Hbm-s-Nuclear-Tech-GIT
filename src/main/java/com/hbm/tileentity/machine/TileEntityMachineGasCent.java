@@ -1,5 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
+import java.util.List;
+
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.tile.IInfoProviderEC;
 import com.hbm.blocks.BlockDummyable;
@@ -29,9 +32,6 @@ import com.hbm.util.InventoryUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardReceiver;
-import api.hbm.tile.IInfoProviderEC;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -46,10 +46,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.List;
 
 //epic!
-public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IInfoProviderEC, IUpgradeInfoProvider{
+public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IUpgradeInfoProvider, IGUIProvider, IInfoProviderEC {
 
 	public long power;
 	public int progress;
@@ -61,6 +60,8 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	public FluidTank tank;
 	public PseudoFluidTank inputTank;
 	public PseudoFluidTank outputTank;
+
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
 	private int audioDuration = 0;
 	private AudioWrapper audio;
@@ -124,7 +125,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			ItemStack[] list = inputTank.getTankType().getOutput();
 
 			if(this.inputTank.getTankType().getIfHighSpeed())
-				if(!this.getProcessingSpeed())
+				if(getOverdrive() == 0)
 					return false;
 
 			if(list == null)
@@ -201,12 +202,11 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 
 			upgradeManager.checkSlots(this, slots, 1, 2);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
-			int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE) + 1;
-			if((overLevel == 1) != (slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed)) overLevel = 0;
+			int over = getOverdrive();
 
 			this.progressNeeded = processingTime * (4 - speedLevel) / 4;
-			int speed = (int) Math.pow(2 , overLevel);
-			int consumption = 200 * (int)Math.pow(2 , overLevel) * (speedLevel + 1);
+			int speed = (int)Math.pow(2, over);
+			int consumption = 200 * (int)Math.pow(2, over) * (speedLevel + 1);
 
 			if(canEnrich()) {
 
@@ -275,6 +275,13 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 				}
 			}
 		}
+	}
+
+	public int getOverdrive() {
+		int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+		overLevel += overLevel > 0 ? 1 : 0;
+		if(slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed) overLevel = 1;
+		return overLevel;
 	}
 
 	@Override
@@ -348,14 +355,6 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	public long getMaxPower() {
 		return maxPower;
 	}
-
-	public boolean getProcessingSpeed() {
-        if (slots[6] != null && (slots[6].getItem() == ModItems.upgrade_gc_speed
-                			  || slots[6].getItem() == ModItems.upgrade_overdrive_1
-               			 	  || slots[6].getItem() == ModItems.upgrade_overdrive_2
-							  || slots[6].getItem() == ModItems.upgrade_overdrive_3)) return true;
-        else return false;
-    }
 
 	public void setTankType(int in) {
 
@@ -545,9 +544,10 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
+		return upgrades;
 	}
 }

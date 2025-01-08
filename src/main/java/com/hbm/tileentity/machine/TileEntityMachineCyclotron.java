@@ -237,8 +237,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	public int getConsumption() {
 		int efficiency = upgradeManager.getLevel(UpgradeType.POWER);
-
-		return consumption - 100_000 * efficiency;
+		return (consumption - 250_000 * efficiency) * getSpeed();
 	}
 
 	public int getCoolantConsumption() {
@@ -416,7 +415,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_COOLANT_CONSUMPTION, "+" + (level * 100) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 10) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 25) + "%"));
 		}
 		if(type == UpgradeType.EFFECT) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_COOLANT_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));

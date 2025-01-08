@@ -107,7 +107,7 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 
 			if(this.canProcess()) {
 				PyroOvenRecipe recipe = getMatchingRecipe();
-				this.progress += 1F / Math.max((recipe.duration - speed * (recipe.duration / 4)) / (overdrive * 2 + 1), 1);
+				this.progress += 1F / Math.max((recipe.duration - speed * (recipe.duration / 4)) / (overdrive * overdrive + 1), 1);
 				this.isProgressing = true;
 				this.power -= this.getConsumption(speed + overdrive * 2, powerSaving);
 
