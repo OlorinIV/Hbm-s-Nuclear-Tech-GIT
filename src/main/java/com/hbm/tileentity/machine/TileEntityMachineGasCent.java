@@ -200,7 +200,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 				attemptConversion();
 			}
 
-			upgradeManager.checkSlots(this, slots, 1, 2);
+			upgradeManager.checkSlots(this, slots, 6, 6);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int over = getOverdrive();
 
