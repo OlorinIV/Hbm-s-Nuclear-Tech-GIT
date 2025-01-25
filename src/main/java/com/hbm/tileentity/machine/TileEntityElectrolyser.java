@@ -61,7 +61,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public int progressFluid;
 	public int processFluidTime = 100;
 	public int progressOre;
-	public int processOreTime = 600;
+	public int processOreTime = 400;
 
 	public MaterialStack leftStack;
 	public MaterialStack rightStack;
@@ -153,7 +153,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			}
 
 			if (this.canProcessMetal()) {
-				this.progressOre += overLevel + 1;
+				this.progressOre += overLevel * overLevel + 1;
 				this.power -= this.usageOre;
 
 				if (this.progressOre >= this.getDurationMetal()) {
@@ -393,7 +393,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	public int getDurationMetal() {
 		ElectrolysisMetalRecipe result = ElectrolyserMetalRecipes.getRecipe(slots[14]);
-		int base = result != null ? result.duration : 320;
+		int base = result != null ? result.duration : 400;
 		int speed = upgradeManager.getLevel(UpgradeType.SPEED);
 		return (int) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.2)));
 	}
