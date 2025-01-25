@@ -171,7 +171,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				toCast.add(this.leftStack);
 
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.INGOT.q(1 + overLevel), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.INGOT.q(overLevel > 0 ? overLevel * 3 : 1), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
