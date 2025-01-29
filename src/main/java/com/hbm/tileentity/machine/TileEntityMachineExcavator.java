@@ -628,7 +628,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		int z = zCoord + dir.offsetZ * 4;
 
 		List<ItemStack> stacks = new ArrayList();
-		items.forEach(i -> stacks.add(i.getEntityItem()));
+		items.forEach(i -> { if(!i.isDead) stacks.add(i.getEntityItem());});
 
 		/* try to insert into a valid container */
 		TileEntity tile = worldObj.getTileEntity(x, y, z);
@@ -647,6 +647,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		/* collect remaining items in internal buffer */
 		outer:
 		for(EntityItem item : items) {
+			if(item.isDead) continue;
 
 			ItemStack stack = item.getEntityItem();
 
