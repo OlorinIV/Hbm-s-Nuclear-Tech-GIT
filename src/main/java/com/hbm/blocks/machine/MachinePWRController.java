@@ -144,6 +144,7 @@ public class MachinePWRController extends BlockContainer implements ITooltipProv
 			controller.setup(assembly, fuelRods);
 		}
 		controller.assembled = !errored;
+		controller.unloadDelay = 60;
 
 		assembly.clear();
 		fuelRods.clear();

@@ -130,6 +130,7 @@ public class BlockCrate extends BlockFalling {
 		BlockCrate.addToListWithWeight(redList, new ItemStack(ModItems.ammo_secret, 1, EnumAmmoSecret.M44_EQUESTRIAN.ordinal()), 1);
 		BlockCrate.addToListWithWeight(redList, new ItemStack(ModItems.ammo_secret, 1, EnumAmmoSecret.G12_EQUESTRIAN.ordinal()), 1);
 		BlockCrate.addToListWithWeight(redList, new ItemStack(ModItems.ammo_secret, 1, EnumAmmoSecret.BMG50_EQUESTRIAN.ordinal()), 1);
+		BlockCrate.addToListWithWeight(redList, ModItems.weaponized_starblaster_cell, 1);
 		BlockCrate.addToListWithWeight(redList, ModItems.battery_spark, 1);
 		BlockCrate.addToListWithWeight(redList, ModItems.bottle_sparkle, 1);
 		BlockCrate.addToListWithWeight(redList, ModItems.bottle_rad, 1);

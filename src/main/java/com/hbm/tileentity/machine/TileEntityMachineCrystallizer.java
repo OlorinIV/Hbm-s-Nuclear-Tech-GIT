@@ -43,7 +43,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public static final long maxPower = 1000000;
 	public static final int demand = 1000;
 	public short progress;
-	public short duration = 600;
+	public short duration = 480;
 	public boolean isOn;
 
 	public float angle;
@@ -104,7 +104,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			prevAngle = angle;
 
 			if(isOn) {
-				angle += 5F * this.getCycleCount();
+				angle += 5F * (upgradeManager.getLevel(UpgradeType.OVERDRIVE) + 1);
 
 				if(angle >= 360) {
 					angle -= 360;
@@ -228,7 +228,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public int getRequiredAcid(int base) {
 		int efficiency = upgradeManager.getLevel(UpgradeType.EFFECT);
 		if(efficiency > 0) {
-			return base * (efficiency + 2);
+			return (int) (base * (0.2 * efficiency + 1));
 		}
 		return base;
 	}
@@ -243,7 +243,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 	public short getDuration() {
 		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
-		int base = result != null ? result.duration : 600;
+		int base = result != null ? result.duration : 480;
 		int speed = upgradeManager.getLevel(UpgradeType.SPEED);
 		if(speed > 0) {
 			return (short) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.25F)));
@@ -258,7 +258,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 	public float getCycleCount() {
 		int speed = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
-		return Math.min(1 + speed * 2, 7);
+		return (float) speed * speed + 1;
 	}
 
 	public long getPowerScaled(int i) {
@@ -380,7 +380,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		}
 		if(type == UpgradeType.EFFECT) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_EFFICIENCY, "+" + (level * 5) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_ACID, "+" + (level * 100 + 100) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_ACID, "+" + (level * 20) + "%"));
 		}
 		if(type == UpgradeType.OVERDRIVE) {
 			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");

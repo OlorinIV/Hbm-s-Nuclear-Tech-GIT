@@ -177,11 +177,10 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 			if(diff == 0) {
 				return;
 			}
-			
-			diff = Math.min(diff, this.maxHeat - this.heat);
 
 			if(diff > 0) {
 				diff = (int) Math.ceil(diff * diffusion);
+				diff = Math.min(diff, this.maxHeat - this.heat);
 				source.useUpHeat(diff);
 				this.heat += diff;
 				if(this.heat > this.maxHeat)
@@ -200,7 +199,13 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 			if(trait.getEfficiency(HeatingType.BOILER) > 0) {
 				HeatingStep entry = trait.getFirstStep();
 				tanks[1].setTankType(entry.typeProduced);
-				tanks[1].changeTankSize(tanks[0].getMaxFill() * entry.amountProduced / entry.amountReq);
+				if(entry.amountProduced < entry.amountReq) {
+					tanks[1].changeTankSize(16_000);
+					tanks[0].changeTankSize(16_000 * entry.amountReq / entry.amountProduced);
+				}else{
+					tanks[0].changeTankSize(16_000);
+					tanks[1].changeTankSize(16_000 * entry.amountProduced / entry.amountReq);
+				}
 				return;
 			}
 		}

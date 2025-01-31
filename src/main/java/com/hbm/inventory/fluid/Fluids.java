@@ -184,7 +184,12 @@ public class Fluids {
 	public static FluidType VITRIOL;
 	public static FluidType SLOP;
 
-	/* Lagacy names for compatibility purposes */
+	//NTMC-only fluids
+	public static FluidType COLLOID_HOT;
+	public static FluidType CRYOGEL_MOD;
+	public static FluidType CRYOGEL_MOD_HOT;
+
+	/* Legacy names for compatibility purposes */
 	@Deprecated public static FluidType ACID;	//JAOPCA uses this, apparently
 
 	public static final HashBiMap<String, FluidType> renameMapping = HashBiMap.create();
@@ -392,6 +397,11 @@ public class Fluids {
 		PERFLUOROMETHYL_COLD =	new FluidType("PERFLUOROMETHYL_COLD",0x99DADE, 1, 0, 1, EnumSymbol.NONE).setTemp(-150).addTraits(LIQUID);
 		PERFLUOROMETHYL_HOT =	new FluidType(146, "PERFLUOROMETHYL_HOT",0xB899DE, 1, 0, 1, EnumSymbol.NONE).setTemp(250).addTraits(LIQUID);
 
+		//NTMC-only fluids, whose IDs start from 512
+		COLLOID_HOT =			new FluidType(512, "COLLOID_HOT",	0x967878, 0, 0, 0, EnumSymbol.NONE).setTemp(120).addTraits(LIQUID, VISCOUS);
+		CRYOGEL_MOD =			new FluidType(513, "CRYOGEL_MOD",	0x9683DF, 0, 0, 0, EnumSymbol.NONE).setTemp(15).addTraits(LIQUID, VISCOUS);
+		CRYOGEL_MOD_HOT =		new FluidType(514, "CRYOGEL_MOD_HOT",	0xD7A2FF, 4, 0, 0, EnumSymbol.NONE).setTemp(2000).addTraits(GASEOUS);
+
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 
@@ -435,6 +445,8 @@ public class Fluids {
 		metaOrder.add(THORIUM_SALT);
 		metaOrder.add(THORIUM_SALT_HOT);
 		metaOrder.add(THORIUM_SALT_DEPLETED);
+		metaOrder.add(CRYOGEL_MOD);
+		metaOrder.add(CRYOGEL_MOD_HOT);
 		//pure elements, cyogenic gasses
 		metaOrder.add(HYDROGEN);
 		metaOrder.add(DEUTERIUM);
@@ -509,6 +521,7 @@ public class Fluids {
 		metaOrder.add(SALIENT);
 		metaOrder.add(SEEDSLURRY);
 		metaOrder.add(COLLOID);
+  		metaOrder.add(COLLOID_HOT);
 		metaOrder.add(VITRIOL);
 		metaOrder.add(SLOP);
 		metaOrder.add(IONGEL);
@@ -604,10 +617,10 @@ public class Fluids {
 		SUPERHOTSTEAM.addTraits(new FT_Coolable(HOTSTEAM, 1, 10, 18).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
 		ULTRAHOTSTEAM.addTraits(new FT_Coolable(SUPERHOTSTEAM, 1, 10, 120).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
 
-		OIL.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(10, 1, HOTOIL, 1));
-		OIL_DS.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(10, 1, HOTOIL_DS, 1));
-		CRACKOIL.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(10, 1, HOTCRACKOIL, 1));
-		CRACKOIL_DS.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(10, 1, HOTCRACKOIL_DS, 1));
+		OIL.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.PWR, 0.1D).addStep(10, 1, HOTOIL, 1));
+		OIL_DS.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.PWR, 0.1D).addStep(10, 1, HOTOIL_DS, 1));
+		CRACKOIL.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.PWR, 0.1D).addStep(10, 1, HOTCRACKOIL, 1));
+		CRACKOIL_DS.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.PWR, 0.1D).addStep(10, 1, HOTCRACKOIL_DS, 1));
 
 		HOTOIL.addTraits(new FT_Coolable(OIL, 1, 1, 10).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		HOTOIL_DS.addTraits(new FT_Coolable(OIL_DS, 1, 1, 10).setEff(CoolingType.HEATEXCHANGER, 1.0D));
@@ -624,7 +637,7 @@ public class Fluids {
 		MUG.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.PWR, 1.0D).setEff(HeatingType.ICF, 1.25D).addStep(400, 1, MUG_HOT, 1), new FT_PWRModerator(1.15D));
 		MUG_HOT.addTraits(new FT_Coolable(MUG, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 
-		BLOOD.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.ICF, 1.25D).addStep(500, 1, BLOOD_HOT, 1));
+		BLOOD.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.PWR, 1.5D).setEff(HeatingType.ICF, 1.25D).addStep(500, 1, BLOOD_HOT, 1));
 		BLOOD_HOT.addTraits(new FT_Coolable(BLOOD, 1, 1, 500).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 
 		HEAVYWATER.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 1.0D).addStep(300, 1, HEAVYWATER_HOT, 1), new FT_PWRModerator(1.25D));
@@ -632,14 +645,18 @@ public class Fluids {
 
 		SODIUM.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 2.5D).setEff(HeatingType.ICF, 3D).addStep(400, 1, SODIUM_HOT, 1));
 		SODIUM_HOT.addTraits(new FT_Coolable(SODIUM, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
-		/* Fuck you, this is final now. If you had any concerns, you could have told me like a normal person instead of shitting on in-dev values that change every other day */
+
 		LEAD.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 0.75D).setEff(HeatingType.ICF, 4D).addStep(800, 1, LEAD_HOT, 1), new FT_PWRModerator(0.75D));
-		/* Or maybe not, because I blocked your sorry ass. Guess why that is? */
 		LEAD_HOT.addTraits(new FT_Coolable(LEAD, 1, 1, 680).setEff(CoolingType.HEATEXCHANGER, 1.0D));
-		/* Maybe shittalking me in some corner where you thought I wouldn't listen was not that bright of an idea afterall? */
 
 		THORIUM_SALT.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 1.0D).addStep(400, 1, THORIUM_SALT_HOT, 1), new FT_PWRModerator(2.5D));
 		THORIUM_SALT_HOT.addTraits(new FT_Coolable(THORIUM_SALT_DEPLETED, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
+
+		COLLOID.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(101, 1, COLLOID_HOT, 1));
+		COLLOID_HOT.addTraits(new FT_Coolable(COLLOID, 1, 1, 101).setEff(CoolingType.HEATEXCHANGER, 1.0D));
+
+		CRYOGEL_MOD.addTraits(new FT_Heatable().setEff(HeatingType.ICF, 3.0D).addStep(6400, 1, CRYOGEL_MOD_HOT, 2));
+		CRYOGEL_MOD_HOT.addTraits(new FT_Coolable(CRYOGEL_MOD, 2, 1, 6400).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
 
 		if(idMapping.size() != metaOrder.size()) {
 			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());
@@ -696,7 +713,7 @@ public class Fluids {
 		registerCalculatedFuel(PETROLEUM, (baseline / 0.10 * flammabilityNormal * demandMedium * complexityRefinery), 1.5, FuelGrade.GAS);
 		registerCalculatedFuel(AROMATICS, (baseline / 0.15 * flammabilityLow * demandHigh * complexityRefinery * complexityCracking), 0, null);
 		registerCalculatedFuel(UNSATURATEDS, (baseline / 0.15 * flammabilityHigh * demandHigh * complexityRefinery * complexityCracking), 0, null);
-		registerCalculatedFuel(LPG, (baseline / 0.1 * flammabilityNormal * demandMedium * complexityRefinery * complexityChemplant), 2.5, FuelGrade.HIGH);
+		registerCalculatedFuel(LPG, (baseline / 0.05 * flammabilityNormal * demandMedium * complexityRefinery * complexityChemplant), 2.5, FuelGrade.HIGH);
 		registerCalculatedFuel(NITAN, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 25L, 2.5, FuelGrade.HIGH);
 		registerCalculatedFuel(BALEFIRE, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 100L, 2.5, FuelGrade.HIGH);
 		registerCalculatedFuel(HEAVYOIL_VACUUM, (baseline / 0.4 * flammabilityLow * demandLow * complexityVacuum), 1.25D, FuelGrade.LOW);

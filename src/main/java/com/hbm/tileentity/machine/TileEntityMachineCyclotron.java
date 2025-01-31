@@ -18,6 +18,7 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.*;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.Tuple.Pair;
@@ -48,7 +49,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	private byte plugs;
 
 	public int progress;
-	public static final int duration = 690;
+	public static final int duration = 600;
 
 	public FluidTank[] tanks;
 
@@ -229,13 +230,14 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	}
 
 	public int getSpeed() {
-		return upgradeManager.getLevel(UpgradeType.SPEED) + 1;
+		int red = upgradeManager.getLevel(UpgradeType.SPEED) + 1;
+		int black = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+		return red * (black * black + 1);
 	}
 
 	public int getConsumption() {
 		int efficiency = upgradeManager.getLevel(UpgradeType.POWER);
-
-		return consumption - 100_000 * efficiency;
+		return (consumption - 250_000 * efficiency) * getSpeed();
 	}
 
 	public int getCoolantConsumption() {
@@ -401,7 +403,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
-		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.EFFECT;
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.EFFECT || type == UpgradeType.OVERDRIVE;
 	}
 
 	@Override
@@ -409,13 +411,17 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_cyclotron));
 		if(type == UpgradeType.SPEED) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level + 1)) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_COOLANT_CONSUMPTION, "+" + (level * 100) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 10) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 25) + "%"));
 		}
 		if(type == UpgradeType.EFFECT) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_COOLANT_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
 		}
 	}
 
@@ -425,6 +431,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		upgrades.put(UpgradeType.SPEED, 3);
 		upgrades.put(UpgradeType.POWER, 3);
 		upgrades.put(UpgradeType.EFFECT, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
 		return upgrades;
 	}
 

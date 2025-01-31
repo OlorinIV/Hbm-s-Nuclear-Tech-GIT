@@ -49,7 +49,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 	//configurable values
 	public static int maxPower = 100000;
-	public static int processingSpeed = 200;
+	public static int processingSpeed = 160;
 	public static int baseConsumption = 200;
 
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
@@ -195,8 +195,10 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			speed += upgradeManager.getLevel(UpgradeType.SPEED);
 			consumption += upgradeManager.getLevel(UpgradeType.SPEED) * baseConsumption;
 
-			speed *= (1 + upgradeManager.getLevel(UpgradeType.OVERDRIVE) * 5);
-			consumption += upgradeManager.getLevel(UpgradeType.OVERDRIVE) * baseConsumption * 50;
+			int over = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+			over += over > 0 ? 1 : 0;
+			speed *= (int) Math.pow(2 , over);
+			consumption *= (int) Math.pow(2 , over);
 
 			consumption /= (1 + upgradeManager.getLevel(UpgradeType.POWER));
 
@@ -218,7 +220,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 				progress += speed;
 
 				if(this.progress >= TileEntityMachineCentrifuge.processingSpeed) {
-					this.progress = 0;
+					this.progress -= TileEntityMachineCentrifuge.processingSpeed;
 					this.processItem();
 				}
 			} else {

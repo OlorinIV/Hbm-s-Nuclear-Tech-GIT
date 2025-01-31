@@ -161,7 +161,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, this.wasteStack, MaterialShapes.NUGGET.q(3), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, this.wasteStack, MaterialShapes.INGOT.q(1), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
@@ -201,7 +201,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				}
 
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, toCast, MaterialShapes.NUGGET.q(3), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, toCast, MaterialShapes.INGOT.q(1), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
@@ -323,11 +323,10 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 			if(diff == 0) {
 				return;
 			}
-			
-			diff = Math.min(diff, this.maxHeat - this.heat);
 
 			if(diff > 0) {
 				diff = (int) Math.ceil(diff * diffusion);
+				diff = Math.min(diff, this.maxHeat - this.heat);
 				source.useUpHeat(diff);
 				this.heat += diff;
 				if(this.heat > this.maxHeat)
@@ -376,16 +375,19 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 
 	protected void tryRecipe() {
 		CrucibleRecipe recipe = this.getLoadedRecipe();
+		int limit = Integer.MAX_VALUE;
 
 		if(recipe == null) return;
-		if(worldObj.getTotalWorldTime() % recipe.frequency > 0) return;
+		if(worldObj.getTotalWorldTime() % 2 > 0) return;
 
 		for(MaterialStack stack : recipe.input) {
-			if(getQuantaFromType(this.recipeStack, stack.material) < stack.amount) return;
+			limit = Math.min(limit,getQuantaFromType(this.recipeStack, stack.material) / stack.amount);
 		}
+		if(limit == 0) return;
 
+		int react = limit / 5 + 1;
 		for(MaterialStack stack : this.recipeStack) {
-			stack.amount -= getQuantaFromType(recipe.input, stack.material);
+			stack.amount -= getQuantaFromType(recipe.input, stack.material) * react;
 		}
 
 		outer:
@@ -393,12 +395,12 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 
 			for(MaterialStack stack : this.recipeStack) {
 				if(stack.material == out.material) {
-					stack.amount += out.amount;
+					stack.amount += out.amount * react;
 					continue outer;
 				}
 			}
 
-			this.recipeStack.add(out.copy());
+			this.recipeStack.add(new MaterialStack(out.material,out.amount * react));
 		}
 	}
 

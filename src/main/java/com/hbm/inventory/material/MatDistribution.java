@@ -14,6 +14,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -86,6 +87,10 @@ public class MatDistribution extends SerializableRecipe {
 		
 		registerEntry(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), MAT_FLUX, DUST.q(10));
 		registerEntry(ModItems.powder_flux, MAT_FLUX, DUST.q(1));
+		if(!GeneralConfig.enable528) {
+			registerEntry(ModItems.pile_rod_plutonium, MAT_RGP, BILLET.q(2), MAT_URANIUM, BILLET.q(1), MAT_IRON, INGOT.q(2));
+			registerEntry(ModItems.pile_rod_pu239, MAT_PU239, BILLET.q(1), MAT_RGP, BILLET.q(1), MAT_URANIUM, BILLET.q(1), MAT_IRON, INGOT.q(2));
+		}
 		registerEntry(new ItemStack(Items.coal, 1, 1), MAT_CARBON, NUGGET.q(3));
 
 		registerEntry(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.WOOD), MAT_CARBON, NUGGET.q(1));

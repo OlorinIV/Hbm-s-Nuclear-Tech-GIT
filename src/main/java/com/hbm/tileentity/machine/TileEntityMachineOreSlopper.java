@@ -121,7 +121,7 @@ public class TileEntityMachineOreSlopper extends TileEntityMachineBase implement
 
 			if(canSlop()) {
 				this.power -= this.consumption;
-				this.progress += 1F / (600 - speed * 150);
+				this.progress += 1F / (480 - speed * 120);
 				this.processing = true;
 				boolean markDirty = false;
 
