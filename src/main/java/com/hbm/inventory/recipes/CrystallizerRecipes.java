@@ -85,7 +85,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(CO.ore(),		new CrystallizerRecipe(ModItems.crystal_cobalt, baseTime), sulfur);
 
 		registerRecipe(new ComparableStack(ModItems.powder_calcium),	new CrystallizerRecipe(new ItemStack(ModItems.powder_cement, 8), utilityTime), new FluidStack(Fluids.REDMUD, 75));
-		registerRecipe(MALACHITE.ingot(), new CrystallizerRecipe(ItemScraps.create(new MaterialStack(Mats.MAT_COPPER, MaterialShapes.INGOT.q(1))), 300), new FluidStack(Fluids.SULFURIC_ACID, 250));
+		registerRecipe(MALACHITE.ingot(), new CrystallizerRecipe(ItemScraps.create(new MaterialStack(Mats.MAT_COPPER, MaterialShapes.INGOT.q(1))), 240), new FluidStack(Fluids.SULFURIC_ACID, 250));
 
 		registerRecipe("oreRareEarth",	new CrystallizerRecipe(ModItems.crystal_rare, baseTime), sulfur);
 		registerRecipe("oreCinnabar",	new CrystallizerRecipe(ModItems.crystal_cinnebar, baseTime));
