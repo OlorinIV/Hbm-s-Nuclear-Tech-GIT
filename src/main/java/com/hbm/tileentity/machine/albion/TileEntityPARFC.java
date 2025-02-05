@@ -19,7 +19,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvider, IParticleUser {
 	
-	public static final long usage = 100_000;
+	public static final long usage = 250_000;
 	public static final int momentumGain = 100;
 	public static final int defocusGain = 100;
 	
@@ -51,7 +51,8 @@ public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvide
 		if(this.power < this.usage)	particle.crash(PAState.CRASH_NOPOWER);
 		
 		if(particle.invalid) return;
-		
+
+		particle.addDistance(9);
 		particle.momentum += this.momentumGain;
 		particle.defocus(defocusGain);
 		this.power -= this.usage;

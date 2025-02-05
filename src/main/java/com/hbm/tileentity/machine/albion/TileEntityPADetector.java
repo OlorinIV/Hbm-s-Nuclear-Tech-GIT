@@ -4,6 +4,7 @@ import com.hbm.inventory.container.ContainerPADetector;
 import com.hbm.inventory.gui.GUIPADetector;
 import com.hbm.inventory.recipes.ParticleAcceleratorRecipes;
 import com.hbm.inventory.recipes.ParticleAcceleratorRecipes.ParticleAcceleratorRecipe;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.PAState;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
@@ -33,6 +34,16 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 	}
 
 	@Override
+	public void updateEntity() {
+		
+		if(!worldObj.isRemote) {
+			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
+		}
+		
+		super.updateEntity();
+	}
+
+	@Override
 	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
@@ -49,6 +60,10 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 	public long getMaxPower() {
 		return 1_000_000;
 	}
+
+	@Override public boolean isItemValidForSlot(int slot, ItemStack stack) { return slot == 1 || slot == 2; }
+	@Override public boolean canExtractItem(int slot, ItemStack stack, int side) { return slot == 3 || slot == 4; }
+	@Override public int[] getAccessibleSlotsFromSide(int side) { return new int[] { 1, 2, 3, 4 }; }
 	
 	AxisAlignedBB bb = null;
 	
@@ -107,7 +122,7 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 					(recipe.input1.matchesRecipe(particle.input2, true) && recipe.input2.matchesRecipe(particle.input1, true)))) {
 				if(canAccept(recipe)) {
 					if(recipe.output1.getItem().hasContainerItem(recipe.output1)) this.decrStackSize(1, 1);
-					if(recipe.output2.getItem().hasContainerItem(recipe.output2)) this.decrStackSize(2, 1);
+					if(recipe.output2 != null && recipe.output2.getItem().hasContainerItem(recipe.output2)) this.decrStackSize(2, 1);
 					
 					if(slots[3] == null) {
 						slots[3] = recipe.output1.copy();
@@ -115,16 +130,20 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 						slots[3].stackSize += recipe.output1.stackSize;
 					}
 					
-					if(slots[4] == null) {
-						slots[4] = recipe.output2.copy();
-					} else {
-						slots[4].stackSize += recipe.output2.stackSize;
+					if(recipe.output2 != null) {
+						if(slots[4] == null) {
+							slots[4] = recipe.output2.copy();
+						} else {
+							slots[4].stackSize += recipe.output2.stackSize;
+						}
 					}
 				}
 				particle.crash(PAState.SUCCESS);
 				return;
 			}
 		}
+		
+		this.power -= this.usage;
 	}
 	
 	public boolean canAccept(ParticleAcceleratorRecipe recipe) {

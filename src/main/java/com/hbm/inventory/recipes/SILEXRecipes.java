@@ -100,12 +100,22 @@ public class SILEXRecipes {
 				.addOut(new ItemStack(ModItems.powder_impure_osmiridium), 1)
 				);
 
-		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.VITRIOL.getID()), new SILEXRecipe(1000, 1000, EnumWavelengths.IR)
+		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.VITRIOL.getID()), new SILEXRecipe(1000, 300, EnumWavelengths.IR)
 				.addOut(new ItemStack(ModItems.powder_bromine), 5)
 				.addOut(new ItemStack(ModItems.powder_iodine), 5)
 				.addOut(new ItemStack(ModItems.powder_iron), 5)
 				.addOut(new ItemStack(ModItems.sulfur), 15)
 				);
+
+		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.REDMUD.getID()), new SILEXRecipe(300, 50, EnumWavelengths.VISIBLE)
+			.addOut(new ItemStack(ModItems.powder_aluminium), 10)
+			.addOut(new ItemStack(ModItems.powder_neodymium_tiny, 3), 5)
+			.addOut(new ItemStack(ModItems.powder_boron_tiny, 3), 5)
+			.addOut(new ItemStack(ModItems.nugget_zirconium), 5)
+			.addOut(new ItemStack(ModItems.powder_iron), 20)
+			.addOut(new ItemStack(ModItems.powder_titanium), 15)
+			.addOut(new ItemStack(ModItems.powder_sodium), 10)
+		);
 
 		for(int i = 0; i < 5; i++) {
 
