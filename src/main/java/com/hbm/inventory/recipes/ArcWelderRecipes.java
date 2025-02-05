@@ -23,7 +23,9 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.util.Compat;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ArcWelderRecipes extends SerializableRecipe {
@@ -118,6 +120,10 @@ public class ArcWelderRecipes extends SerializableRecipe {
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.sat_radar), 600, 10_000L, new ComparableStack(ModItems.sat_base), new ComparableStack(ModItems.sat_head_radar)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.sat_laser), 600, 50_000L, new ComparableStack(ModItems.sat_base), new ComparableStack(ModItems.sat_head_laser)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.sat_resonator), 600, 50_000L, new ComparableStack(ModItems.sat_base), new ComparableStack(ModItems.sat_head_resonator)));
+	
+		//Written by CrpBnrz: This is the best machine I could think of for charging certus crystals
+		Item certus = Compat.tryLoadItem(Compat.MOD_AE, "item.ItemMultiMaterial");
+		if(certus != null) recipes.add(new ArcWelderRecipe(new ItemStack(certus, 1, 1), 30, 25_000L, new OreDictStack("crystalCertusQuartz")));
 	}
 	
 	public static HashMap getRecipes() {
