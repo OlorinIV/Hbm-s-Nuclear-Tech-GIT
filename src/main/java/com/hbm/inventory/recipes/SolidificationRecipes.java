@@ -18,6 +18,7 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.ModItems;
+import com.hbm.util.Compat;
 import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.block.Block;
@@ -115,6 +116,10 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerSFAuto(XYLENE);
 		registerSFAuto(BALEFIRE, 24_000_000L, ModItems.solid_fuel_bf); //holy shit this is energy dense*/
 
+		//NTMC Special: AA Compat
+		Item aaSolidifiedXP = Compat.tryLoadItem(Compat.MOD_AA, "itemSolidifiedExperience");
+		if(aaSolidifiedXP != null) registerRecipe(XPJUICE, 8, aaSolidifiedXP);
+	
 	}
 
 	private static void registerSFAuto(FluidType fluid) {

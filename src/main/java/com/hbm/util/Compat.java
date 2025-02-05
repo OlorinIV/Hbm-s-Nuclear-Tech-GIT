@@ -38,6 +38,9 @@ public class Compat {
 	public static final String MOD_EIDS = "endlessids";
 	public static final String MOD_ANG = "angelica";
 
+	public static final String MOD_AA = "ActuallyAdditions";
+	public static final String MOD_AE = "";
+
 	public static Item tryLoadItem(String domain, String name) {
 		return (Item) Item.itemRegistry.getObject(getReg(domain, name));
 	}

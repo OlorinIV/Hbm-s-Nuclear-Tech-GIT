@@ -14,6 +14,7 @@ import com.hbm.items.ModItems;
 import com.hbm.util.Compat;
 
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -60,6 +61,10 @@ public class FluidContainerRegistry {
 
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.can_mug), new ItemStack(ModItems.can_empty), Fluids.MUG, 100));
 		
+		//AA Solidified XP to XP Juice
+		Item aaSolidifiedXP = Compat.tryLoadItem(Compat.MOD_AA, "itemSolidifiedExperience");
+		if(aaSolidifiedXP != null) FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(aaSolidifiedXP), null, Fluids.XPJUICE, 8)); //1 solidified XP = 8 XP points
+
 		FluidType[] fluids = Fluids.getAll();
 		for(int i = 1; i < fluids.length; i++) {
 			
