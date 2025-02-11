@@ -37,6 +37,7 @@ import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Pair;
+import com.hbm.util.Compat;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -241,6 +242,15 @@ public class CrystallizerRecipes extends SerializableRecipe {
 			MainRegistry.logger.info("Fetched " + IMCCrystallizer.buffer.size() + " IMC crystallizer recipes!");
 			IMCCrystallizer.buffer.clear();
 		}
+
+		//NTMC: Crystal Seed Growth
+		Item seed = Compat.tryLoadItem(Compat.MOD_AE, "item.ItemCrystalSeed");
+		Item pure_crystal = Compat.tryLoadItem(Compat.MOD_AE, "item.ItemMultiMaterial");
+		if(seed != null && pure_crystal != null) {
+			registerRecipe(new ComparableStack(seed, 1, 0), new CrystallizerRecipe(new ItemStack(pure_crystal, 1, 10), baseTime / 3), new FluidStack(Fluids.WATER, 500));
+			registerRecipe(new ComparableStack(seed, 1, 600), new CrystallizerRecipe(new ItemStack(pure_crystal, 1, 11), baseTime / 3), new FluidStack(Fluids.WATER, 500));
+		}
+
 	}
 
 	public static CrystallizerRecipe getOutput(ItemStack stack, FluidType type) {

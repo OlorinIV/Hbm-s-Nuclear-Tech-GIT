@@ -392,6 +392,13 @@ public class ChemplantRecipes extends SerializableRecipe {
 				new FluidStack(Fluids.XYLENE, 1000),
 				new FluidStack(Fluids.OXYGEN, 1000))
 			.outputItems(new ComparableStack(ModItems.powder_ash, 1, EnumAshType.SOOT).toStack()));
+		//Cryolite chunks directly from processed materials
+		recipes.add(new ChemRecipe(513, "CRYOLITE", 50)
+			.inputItems(
+				new OreDictStack(NA.dust()),
+				new OreDictStack(AL.dust()),
+				new OreDictStack(F.dust(), 2))
+			.outputItems(new ComparableStack(ModItems.chunk_ore, 1, EnumChunkType.CRYOLITE).toStack()));
 
 	}
 

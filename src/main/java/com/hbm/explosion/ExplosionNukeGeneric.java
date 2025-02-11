@@ -30,6 +30,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.Compat;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import cofh.api.energy.IEnergyProvider;
@@ -232,6 +233,10 @@ public class ExplosionNukeGeneric {
 		if (!world.isRemote) {
 			int rand;
 			Block b = world.getBlock(x,y,z);
+			
+			Block certus = Compat.tryLoadBlock(Compat.MOD_AE, "tile.OreQuartz");
+			Block certus_charged = Compat.tryLoadBlock(Compat.MOD_AE, "tile.OreQuartzCharged");
+
 			if (b == Blocks.wooden_door || b == Blocks.iron_door) {
 				world.setBlock(x, y, z, Blocks.air,0,2);
 			}
@@ -320,6 +325,15 @@ public class ExplosionNukeGeneric {
 					world.setBlock(x, y, z, ModBlocks.ore_gneiss_schrabidium);
 				} else {
 					world.setBlock(x, y, z, ModBlocks.ore_gneiss_uranium_scorched);
+				}
+			}
+
+			else if (b == Blocks.quartz_ore && certus != null && certus_charged != null) {
+				rand = random.nextInt(15);
+				if (rand == 1) {
+					world.setBlock(x, y, z, certus_charged);
+				} else {
+					world.setBlock(x, y, z, certus);
 				}
 			}
 
