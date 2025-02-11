@@ -77,7 +77,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			minHeight = 32;
 			maxHeight = 32;
-			sizeLimit = 128;
+			sizeLimit = 192;
 			canSpawn = biome -> biome.rootHeight >= 0;
 			startPool = "start";
 			pools = new HashMap<String, NBTStructure.JigsawPool>() {{
