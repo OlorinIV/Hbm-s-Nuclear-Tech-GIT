@@ -421,7 +421,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(1000, Fluids.BITUMEN))
 				.outputItems(new ItemStack(ModBlocks.asphalt, 16)));
 
-		//Oils Fractioning Readded & Renewed
+		//Oils Fractionating Re-added & Renewed
 		recipes.add(new ChemRecipe(200, "FP_HEAVYOIL", 50)
 			.inputFluids(new FluidStack(1000, Fluids.HEAVYOIL))
 			.outputFluids(
@@ -509,7 +509,16 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.outputFluids(
 				new FluidStack(750, Fluids.NAPHTHA_CRACK),
 				new FluidStack(250, Fluids.LIGHTOIL_CRACK)));
-
+		recipes.add(new ChemRecipe(241, "FP_CHLOROCALCITE_MIX", 50)
+			.inputFluids(new FluidStack(1000, Fluids.CHLOROCALCITE_MIX))
+			.outputFluids(
+				new FluidStack(500, Fluids.CHLOROCALCITE_CLEANED),
+				new FluidStack(500, Fluids.COLLOID)));
+		recipes.add(new ChemRecipe(242, "FP_BAUXITE_SOLUTION", 50)
+			.inputFluids(new FluidStack(1000, Fluids.BAUXITE_SOLUTION))
+			.outputFluids(
+				new FluidStack(500, Fluids.REDMUD),
+				new FluidStack(500, Fluids.SODIUM_ALUMINATE)));
 	}
 
 	public static class ChemRecipe {

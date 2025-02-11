@@ -119,7 +119,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 					add(new JigsawPiece("meteor_3_pillar", StructureManager.meteor_3_pillar), 1);
 					add(new JigsawPiece("meteor_3_star", StructureManager.meteor_3_star), 1);
 					add(new JigsawPiece("meteor_3_tesla", StructureManager.meteor_3_tesla), 1);
-					add(new JigsawPiece("meteor_3_book", StructureManager.meteor_3_book), 1);
+					add(new JigsawPiece("meteor_3_book", StructureManager.meteor_3_book), 2);
 					add(new JigsawPiece("meteor_3_mku", StructureManager.meteor_3_mku), 1);
 					add(new JigsawPiece("meteor_3_statue", StructureManager.meteor_3_statue), 1);
 					add(new JigsawPiece("meteor_3_glow", StructureManager.meteor_3_glow), 1);
