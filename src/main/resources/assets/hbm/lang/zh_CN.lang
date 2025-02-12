@@ -6190,6 +6190,8 @@ tile.pa_source.desc=需要冷却！$使用两个物品来创造一个粒子
 item.gun_vortex.name=涡流
 
 # NTMC Addon Strings
+chem.FP_CHLOROCALCITE_MIX=混合氯方解石溶液分馏
+chem.FP_BAUXITE_SOLUTION=铝土矿溶液分馏
 chem.FP_COALOIL=煤液化油分馏
 chem.FP_COALCREOSOTE=煤焦杂酚油分馏
 chem.FP_EGG=蛋溶解液分馏
@@ -6207,8 +6209,10 @@ chem.FP_NAPHTHA_CRACK=裂化石脑油分馏
 chem.FP_OIL_COKER=焦化油分馏
 chem.FP_REFORMATE=重整油分馏
 chem.FP_SMEAR=工业油分馏
-chem.FULLERENE_PRODUCTION=粗富勒烯生产
+
 chem.CRYOLITE=冰晶石生产
+chem.FULLERENE_PRODUCTION=粗富勒烯生产
+chem.NITROGEN=液氮分离
 
 hbmfluid.colloid_hot=热胶体
 hbmfluid.cryogel_mod=改性冷凝胶
