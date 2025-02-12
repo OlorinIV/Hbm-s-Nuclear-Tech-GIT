@@ -55,8 +55,8 @@ public class RotaryFurnaceRecipes extends SerializableRecipe {
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALLOY, INGOT.q(2)), 100, 50, new OreDictStack(MINGRADE.ingot()), new OreDictStack(STEEL.ingot())));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_DURA, INGOT.q(9)), 200, 50, new OreDictStack(STEEL.ingot(), 5), new OreDictStack(W.ingot(), 3), new OreDictStack(CO.ingot())));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_FERRO, INGOT.q(3)), 250, 50, new OreDictStack(STEEL.ingot(), 2), new OreDictStack(U238.ingot(), 1)));
-		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_BBRONZE, INGOT.q(9)), 400, 100, new OreDictStack(CU.ingot(), 8), new OreDictStack(BI.ingot(), 1), new ComparableStack(ModItems.powder_flux, 2)));
-		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ABRONZE, INGOT.q(9)), 400, 100, new OreDictStack(CU.ingot(), 8), new OreDictStack(AS.ingot(), 1), new ComparableStack(ModItems.powder_flux, 2)));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_BBRONZE, INGOT.q(9)), 400, 100, new OreDictStack(CU.ingot(), 8), new OreDictStack(BI.ingot(), 1), new ComparableStack(ModItems.powder_flux, 3)));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ABRONZE, INGOT.q(9)), 400, 100, new OreDictStack(CU.ingot(), 8), new OreDictStack(AS.ingot(), 1), new ComparableStack(ModItems.powder_flux, 3)));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_CMB, INGOT.q(3)), 300, 100, new OreDictStack(MAGTUNG.ingot(), 2), new OreDictStack(MUD.ingot())));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_MAGTUNG, INGOT.q(1)), 200, 50, new OreDictStack(W.ingot()), new OreDictStack(SA326.nugget())));
 		// no enough slots for BSCCO
