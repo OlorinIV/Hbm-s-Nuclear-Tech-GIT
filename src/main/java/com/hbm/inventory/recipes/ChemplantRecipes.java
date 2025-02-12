@@ -399,7 +399,10 @@ public class ChemplantRecipes extends SerializableRecipe {
 				new OreDictStack(AL.dust()),
 				new OreDictStack(F.dust(), 2))
 			.outputItems(new ComparableStack(ModItems.chunk_ore, 1, EnumChunkType.CRYOLITE).toStack()));
-
+		//LN2 production
+		recipes.add(new ChemRecipe(514, "NITROGEN", 20)
+			.inputFluids(new FluidStack(Fluids.NONE, 0))
+			.outputFluids(new FluidStack(Fluids.NITROGEN, 1000))); //hope that a base speed of 50mB/t is enough
 	}
 
 	public static void registerOtherOil() {

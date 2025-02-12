@@ -267,6 +267,11 @@ public class ModItems {
 	public static Item billet_zirconium;
 	public static Item billet_nuclear_waste;
 
+	//NTMC research rods
+	public static Item billet_rs1;
+	public static Item billet_rs2;
+	public static Item billet_rs3;
+
 	public static Item nugget_th232;
 	public static Item nugget_uranium;
 	public static Item nugget_u233;
@@ -1129,6 +1134,15 @@ public class ModItems {
 	public static ItemRBMKPellet rbmk_pellet_zfb_pu241;
 	public static ItemRBMKPellet rbmk_pellet_zfb_am_mix;
 	public static ItemRBMKPellet rbmk_pellet_drx;
+
+	//NTMC research rods & corresponding pellets
+	public static ItemRBMKRod rbmk_fuel_rs1;
+	public static ItemRBMKRod rbmk_fuel_rs2;
+	public static ItemRBMKRod rbmk_fuel_rs3;
+
+	public static ItemRBMKPellet rbmk_pellet_rs1;
+	public static ItemRBMKPellet rbmk_pellet_rs2;
+	public static ItemRBMKPellet rbmk_pellet_rs3;
 
 	public static Item watz_pellet;
 	public static Item watz_pellet_depleted;
@@ -2431,6 +2445,11 @@ public class ModItems {
 		billet_zfb_am_mix = new Item().setUnlocalizedName("billet_zfb_am_mix").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_zfb_am_mix");
 		billet_nuclear_waste = new Item().setUnlocalizedName("billet_nuclear_waste").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_nuclear_waste");
 
+		billet_rs1 = new Item().setUnlocalizedName("billet_rs1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_rs1");
+		billet_rs2 = new Item().setUnlocalizedName("billet_rs2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_rs2");
+		billet_rs3 = new Item().setUnlocalizedName("billet_rs3").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_rs3");
+
+
 		ball_resin = new ItemCustomLore().setUnlocalizedName("ball_resin").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ball_resin");
 		ingot_dura_steel = new ItemCustomLore().setUnlocalizedName("ingot_dura_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_dura_steel");
 		ingot_polymer = new ItemCustomLore().setUnlocalizedName("ingot_polymer").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_polymer");
@@ -3314,6 +3333,12 @@ public class ModItems {
 		rbmk_pellet_zfb_am_mix = (ItemRBMKPellet) new ItemRBMKPellet("Zirconium Fast Breeder - HEP-241#MEA").setUnlocalizedName("rbmk_pellet_zfb_am_mix").setTextureName(RefStrings.MODID + ":rbmk_pellet_zfb_am_mix");
 		rbmk_pellet_drx = (ItemRBMKPellet) new ItemRBMKPellet(EnumChatFormatting.OBFUSCATED + "can't you hear, can't you hear the thunder?").setUnlocalizedName("rbmk_pellet_drx").setTextureName(RefStrings.MODID + ":rbmk_pellet_drx");
 
+		//NTMC research rods pellets
+		rbmk_pellet_rs1 = (ItemRBMKPellet) new ItemRBMKPellet("Research Rod Mix - Ra226Be&Pu239").disableXenon().setUnlocalizedName("rbmk_pellet_rs1").setTextureName(RefStrings.MODID + ":rbmk_pellet_rs1");
+		rbmk_pellet_rs2 = (ItemRBMKPellet) new ItemRBMKPellet("Research Rod Mix - Po210Be&Pu241").disableXenon().setUnlocalizedName("rbmk_pellet_rs2").setTextureName(RefStrings.MODID + ":rbmk_pellet_rs2");
+		rbmk_pellet_rs3 = (ItemRBMKPellet) new ItemRBMKPellet("Research Rod Mix - DNT&Sa327").disableXenon().setUnlocalizedName("rbmk_pellet_rs3").setTextureName(RefStrings.MODID + ":rbmk_pellet_rs3");
+
+
 		rbmk_fuel_empty = new Item().setUnlocalizedName("rbmk_fuel_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_fuel_empty");
 		rbmk_fuel_ueu = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_ueu)
 				.setYield(100000000D)
@@ -3572,6 +3597,38 @@ public class ModItems {
 				.setMeltingPoint(100000)
 				.setUnlocalizedName("rbmk_fuel_curve").setTextureName(RefStrings.MODID + ":rbmk_fuel_curve");
 		 */
+
+		//NTMC research rods
+		rbmk_fuel_rs1 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs1)
+				.setYield(50000000D)
+				.setStats(0D, 150)
+				.setFunction(EnumBurnFunc.PASSIVE)
+				.setDepletionFunction(EnumDepleteFunc.LINEAR)
+				.setXenon(0.0D, 50D)
+				.setHeat(0.75D)
+				.setMeltingPoint(2750)
+				.setNeutronTypes(NType.SLOW, NType.SLOW)
+				.setUnlocalizedName("rbmk_fuel_rs1").setTextureName(RefStrings.MODID + ":rbmk_fuel_rs1");
+		rbmk_fuel_rs2 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs2)
+				.setYield(50000000D)
+				.setStats(0D, 300)
+				.setFunction(EnumBurnFunc.PASSIVE)
+				.setDepletionFunction(EnumDepleteFunc.LINEAR)
+				.setXenon(0.0D, 50D)
+				.setHeat(0.75D)
+				.setMeltingPoint(3350)
+				.setNeutronTypes(NType.SLOW, NType.SLOW)
+				.setUnlocalizedName("rbmk_fuel_rs2").setTextureName(RefStrings.MODID + ":rbmk_fuel_rs2");
+		rbmk_fuel_rs3 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs3)
+				.setYield(50000000D)
+				.setStats(0D, 1000)
+				.setFunction(EnumBurnFunc.PASSIVE)
+				.setDepletionFunction(EnumDepleteFunc.LINEAR)
+				.setXenon(0.0D, 50D)
+				.setHeat(0.3D)
+				.setMeltingPoint(6500)
+				.setNeutronTypes(NType.SLOW, NType.SLOW)
+				.setUnlocalizedName("rbmk_fuel_rs3").setTextureName(RefStrings.MODID + ":rbmk_fuel_rs3");
 
 		watz_pellet = new ItemWatzPellet().setUnlocalizedName("watz_pellet").setTextureName(RefStrings.MODID + ":watz_pellet");
 		watz_pellet_depleted = new ItemWatzPellet().setUnlocalizedName("watz_pellet_depleted").setTextureName(RefStrings.MODID + ":watz_pellet");
@@ -5242,6 +5299,10 @@ public class ModItems {
 		GameRegistry.registerItem(billet_flashlead, billet_flashlead.getUnlocalizedName());
 		GameRegistry.registerItem(billet_nuclear_waste, billet_nuclear_waste.getUnlocalizedName());
 
+		GameRegistry.registerItem(billet_rs1, billet_rs1.getUnlocalizedName());
+		GameRegistry.registerItem(billet_rs2, billet_rs2.getUnlocalizedName());
+		GameRegistry.registerItem(billet_rs3, billet_rs3.getUnlocalizedName());
+
 		//Dusts & Other
 		GameRegistry.registerItem(cinnebar, cinnebar.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_mercury, nugget_mercury.getUnlocalizedName());
@@ -6139,6 +6200,10 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_fuel_test, rbmk_fuel_test.getUnlocalizedName());
 		//GameRegistry.registerItem(rbmk_fuel_curve, rbmk_fuel_curve.getUnlocalizedName());
 
+		GameRegistry.registerItem(rbmk_fuel_rs1, rbmk_fuel_rs1.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_rs2, rbmk_fuel_rs2.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_rs3, rbmk_fuel_rs3.getUnlocalizedName());
+
 		GameRegistry.registerItem(rbmk_pellet_ueu, rbmk_pellet_ueu.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_meu, rbmk_pellet_meu.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_heu233, rbmk_pellet_heu233.getUnlocalizedName());
@@ -6170,6 +6235,10 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_pellet_zfb_pu241, rbmk_pellet_zfb_pu241.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_zfb_am_mix, rbmk_pellet_zfb_am_mix.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_drx, rbmk_pellet_drx.getUnlocalizedName());
+
+		GameRegistry.registerItem(rbmk_pellet_rs1, rbmk_pellet_rs1.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_pellet_rs2, rbmk_pellet_rs2.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_pellet_rs3, rbmk_pellet_rs3.getUnlocalizedName());
 
 		GameRegistry.registerItem(watz_pellet, watz_pellet.getUnlocalizedName());
 		GameRegistry.registerItem(watz_pellet_depleted, watz_pellet_depleted.getUnlocalizedName());

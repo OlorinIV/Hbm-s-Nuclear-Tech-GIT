@@ -197,6 +197,9 @@ public class MineralRecipes {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_zfb_bismuth, 6), new Object[] { ZR.billet(), ZR.billet(), ZR.billet(), U.billet(), PU240.billet(), BI.billet() }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_zfb_am_mix, 6), new Object[] { ZR.billet(), ZR.billet(), ZR.billet(), PU241.billet(), PU241.billet(), AMRG.billet() }));
 
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_rs1, 2), new Object[] { ModItems.billet_ra226be, PU239.billet() }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_rs2, 2), new Object[] { ModItems.billet_po210be, PU241.billet() }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_rs3, 1), new Object[] { DNT.nugget(), DNT.nugget(), DNT.nugget(), SA327.nugget(), SA327.nugget(), SA327.nugget() }));
 
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_uranium, 2), new Object[] { ModItems.billet_uranium_fuel, ModItems.billet_u238 });
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.billet_uranium, 2), new Object[] { ModItems.billet_u238, "nuggetUranium238", "nuggetUranium238", "nuggetUranium238", "nuggetUranium238", "nuggetUranium238", "nuggetUranium235" }));
