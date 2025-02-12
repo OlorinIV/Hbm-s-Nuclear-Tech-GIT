@@ -3,15 +3,17 @@ package com.hbm.uninos;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-public class GenNode<T> {
+public class GenNode<T extends INetworkProvider> {
 	
 	public BlockPos[] positions;
 	public DirPos[] connections;
 	public INodeNet<T> net;
 	public boolean expired = false;
 	public boolean recentlyChanged = true;
+	public T networkProvider;
 	
-	public GenNode(BlockPos... positions) {
+	public GenNode(T provider, BlockPos... positions) {
+		this.networkProvider = provider;
 		this.positions = positions;
 	}
 	
