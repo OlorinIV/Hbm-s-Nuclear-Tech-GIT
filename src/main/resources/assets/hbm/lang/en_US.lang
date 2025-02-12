@@ -6345,6 +6345,7 @@ chem.CRYOLITE=Cryolite Production
 hbmfluid.colloid_hot=Hot Colloid
 hbmfluid.cryogel_mod=Modifed Cryogel
 hbmfluid.cryogel_mod_hot=Hot Modified Cryogel
+hbmfluid.nitrogen=Liquid Nitrogen
 
 item.drillbit_cmb.name=CMB Steel Drillbit
 item.drillbit_cmb_diamond.name=CMB Steel Drillbit (Diamond-tipped)
