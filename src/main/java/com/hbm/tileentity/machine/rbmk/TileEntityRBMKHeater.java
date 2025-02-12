@@ -61,7 +61,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 				if(tempRange > 0 && eff > 0) {
 					double TU_PER_DEGREE = 2_000D * eff; //based on 1mB of water absorbing 200 TU as well as 0.1°C from an RBMK column
 					int inputOps = feed.getFill() / step.amountReq;
-					int outputOps = (steam.getMaxFill() - steam.getFill()) / step.amountProduced;
+					int outputOps = step.amountProduced == 0 ? inputOps : (steam.getMaxFill() - steam.getFill()) / step.amountProduced; //Written by CrpBnrz: patched in order to prevent crashes caused by heaters heating LN2
 					int tempOps = (int) Math.floor((tempRange * TU_PER_DEGREE) / step.heatReq);
 					int ops = Math.min(inputOps, Math.min(outputOps, tempOps));
 
