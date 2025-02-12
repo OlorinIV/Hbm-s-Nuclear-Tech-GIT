@@ -6360,6 +6360,16 @@ item.night_vision_mk2.name=Self-Charging Night Vision Goggles
 item.night_vision_mk2.description.item=Grants you night vision (does not require electric set)
 item.spawn_maskman.name=Mask Man
 
+item.billet_rs1.name=Research RBMK Fuel Billet Tier 1
+item.billet_rs2.name=Research RBMK Fuel Billet Tier 2
+item.billet_rs3.name=Research RBMK Fuel Billet Tier 3
+item.rbmk_fuel_rs1.name=Research RBMK Fuel Rod Tier 1
+item.rbmk_fuel_rs2.name=Research RBMK Fuel Rod Tier 2
+item.rbmk_fuel_rs3.name=Research RBMK Fuel Rod Tier 3
+item.rbmk_pellet_rs1.name=Research RBMK Fuel Pellet Tier 1
+item.rbmk_pellet_rs2.name=Research RBMK Fuel Pellet Tier 2
+item.rbmk_pellet_rs3.name=Research RBMK Fuel Pellet Tier 3
+
 tile.block_neodymium.name=Block of Neodymium
 tile.block_sodium.name=Block of Sodium
 tile.block_strontium.name=Block of Strontium

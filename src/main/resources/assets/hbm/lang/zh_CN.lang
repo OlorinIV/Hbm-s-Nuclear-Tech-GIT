@@ -6228,6 +6228,16 @@ item.night_vision_mk2.name=自充电夜视眼镜
 item.night_vision_mk2.description.item=提供夜视功能（无需电动装备）
 item.spawn_maskman.name=面具人
 
+item.billet_rs1.name=研究型RBMK燃料坯料 T1
+item.billet_rs2.name=研究型RBMK燃料坯料 T2
+item.billet_rs3.name=研究型RBMK燃料坯料 T3
+item.rbmk_fuel_rs1.name=研究型RBMK燃料棒 T1
+item.rbmk_fuel_rs2.name=研究型RBMK燃料棒 T2
+item.rbmk_fuel_rs3.name=研究型RBMK燃料棒 T3
+item.rbmk_pellet_rs1.name=研究型RBMK燃料芯块 T1
+item.rbmk_pellet_rs2.name=研究型RBMK燃料芯块 T2
+item.rbmk_pellet_rs3.name=研究型RBMK燃料芯块 T3
+
 tile.block_neodymium.name=钕块
 tile.block_sodium.name=钠块
 tile.block_strontium.name=锶块
