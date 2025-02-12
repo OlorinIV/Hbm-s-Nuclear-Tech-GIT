@@ -192,6 +192,7 @@ public class Fluids {
 	public static FluidType COLLOID_HOT;
 	public static FluidType CRYOGEL_MOD;
 	public static FluidType CRYOGEL_MOD_HOT;
+	public static FluidType NITROGEN;
 
 	/* Legacy names for compatibility purposes */
 	@Deprecated public static FluidType ACID;	//JAOPCA uses this, apparently
@@ -408,8 +409,10 @@ public class Fluids {
 		//NTMC-only fluids, whose IDs start from 512
 		COLLOID_HOT =			new FluidType(512, "COLLOID_HOT",	0x967878, 0, 0, 0, EnumSymbol.NONE).setTemp(120).addTraits(LIQUID, VISCOUS);
 		CRYOGEL_MOD =			new FluidType(513, "CRYOGEL_MOD",	0x9683DF, 0, 0, 0, EnumSymbol.NONE).setTemp(15).addTraits(LIQUID, VISCOUS);
-		CRYOGEL_MOD_HOT =		new FluidType(514, "CRYOGEL_MOD_HOT",	0xD7A2FF, 4, 0, 0, EnumSymbol.NONE).setTemp(2000).addTraits(GASEOUS);
+		CRYOGEL_MOD_HOT =		new FluidType(514, "CRYOGEL_MOD_HOT",0xD7A2FF, 4, 0, 0, EnumSymbol.NONE).setTemp(2000).addTraits(GASEOUS);
+		NITROGEN =				new FluidType(515, "NITROGEN",		0x86b699, 0, 0, 0, EnumSymbol.CROYGENIC).setTemp(-196).addContainers(new CD_Gastank(0x86b699, 0xffffff)).addTraits(LIQUID, EVAP);
 
+		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 
@@ -462,6 +465,7 @@ public class Fluids {
 		metaOrder.add(HELIUM3);
 		metaOrder.add(HELIUM4);
 		metaOrder.add(OXYGEN);
+		metaOrder.add(NITROGEN);
 		metaOrder.add(XENON);
 		metaOrder.add(CHLORINE);
 		metaOrder.add(MERCURY);
@@ -669,6 +673,8 @@ public class Fluids {
 
 		CRYOGEL_MOD.addTraits(new FT_Heatable().setEff(HeatingType.ICF, 3.0D).addStep(6400, 1, CRYOGEL_MOD_HOT, 2));
 		CRYOGEL_MOD_HOT.addTraits(new FT_Coolable(CRYOGEL_MOD, 2, 1, 6400).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
+
+		NITROGEN.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 2.5D).addStep(100, 1, NONE, 0));  //just trying to get a "super coolant"...
 
 		if(idMapping.size() != metaOrder.size()) {
 			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());
