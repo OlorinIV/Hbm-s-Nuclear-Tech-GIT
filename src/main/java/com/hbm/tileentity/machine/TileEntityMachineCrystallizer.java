@@ -183,9 +183,9 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		else if(slots[2].stackSize + stack.stackSize <= slots[2].getMaxStackSize())
 			slots[2].stackSize += stack.stackSize;
 
-		tank.setFill(tank.getFill() - getRequiredAcid(result.acidAmount));
+		tank.setFill(tank.getFill() - result.acidAmount);
 
-		float freeChance = this.getFreeChance();
+		float freeChance = this.getFreeChance(result);
 
 		if(freeChance == 0 || freeChance < worldObj.rand.nextFloat())
 			this.decrStackSize(0, result.itemAmount);
@@ -210,7 +210,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		if(slots[0].stackSize < result.itemAmount)
 			return false;
 
-		if(tank.getFill() < getRequiredAcid(result.acidAmount)) return false;
+		if(tank.getFill() < result.acidAmount) return false;
 
 		ItemStack stack = result.output.copy();
 
@@ -225,18 +225,10 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		return true;
 	}
 
-	public int getRequiredAcid(int base) {
+	public float getFreeChance(CrystallizerRecipe recipe) {
 		int efficiency = upgradeManager.getLevel(UpgradeType.EFFECT);
 		if(efficiency > 0) {
-			return (int) (base * (0.2 * efficiency + 1));
-		}
-		return base;
-	}
-
-	public float getFreeChance() {
-		int efficiency = upgradeManager.getLevel(UpgradeType.EFFECT);
-		if(efficiency > 0) {
-			return Math.min(efficiency * 0.05F, 0.15F);
+			return Math.min(efficiency * recipe.productivity, 0.99F);
 		}
 		return 0;
 	}
@@ -253,7 +245,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 	public int getPowerRequired() {
 		int speed = upgradeManager.getLevel(UpgradeType.SPEED);
-		return (int) (demand + Math.min(speed * 1000, 3000));
+		int effect = upgradeManager.getLevel(UpgradeType.EFFECT);
+		return (int) (demand + speed * demand + effect * demand * 2);
 	}
 
 	public float getCycleCount() {
@@ -379,8 +372,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
 		}
 		if(type == UpgradeType.EFFECT) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_EFFICIENCY, "+" + (level * 5) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_ACID, "+" + (level * 20) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_EFFICIENCY, "x" + level));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 200) + "%"));
 		}
 		if(type == UpgradeType.OVERDRIVE) {
 			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
