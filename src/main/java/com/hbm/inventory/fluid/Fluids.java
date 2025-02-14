@@ -410,9 +410,9 @@ public class Fluids {
 		COLLOID_HOT =			new FluidType(512, "COLLOID_HOT",	0x967878, 0, 0, 0, EnumSymbol.NONE).setTemp(120).addTraits(LIQUID, VISCOUS);
 		CRYOGEL_MOD =			new FluidType(513, "CRYOGEL_MOD",	0x9683DF, 0, 0, 0, EnumSymbol.NONE).setTemp(15).addTraits(LIQUID, VISCOUS);
 		CRYOGEL_MOD_HOT =		new FluidType(514, "CRYOGEL_MOD_HOT",0xD7A2FF, 4, 0, 0, EnumSymbol.NONE).setTemp(2000).addTraits(GASEOUS);
-		NITROGEN =				new FluidType(515, "NITROGEN",		0x86b699, 0, 0, 0, EnumSymbol.CROYGENIC).setTemp(-196).addContainers(new CD_Gastank(0x86b699, 0xffffff)).addTraits(LIQUID, EVAP);
+		NITROGEN =				new FluidType(515, "NITROGEN",		0x86b699, 0, 0, 0, EnumSymbol.CROYGENIC).setTemp(-200).addContainers(new CD_Gastank(0x86b699, 0xffffff)).addTraits(LIQUID, EVAP);
 
-		
+
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 
