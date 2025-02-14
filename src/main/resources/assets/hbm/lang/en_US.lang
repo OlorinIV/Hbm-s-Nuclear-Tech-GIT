@@ -6322,6 +6322,8 @@ desc.gui.upgrade.power= * §1Power-Saving§r: Stacks to level 3
 desc.gui.upgrade.speed= * §4Speed§r: Stacks to level 3
 
 # NTMC Addon Strings
+chem.FP_CHLOROCALCITE_MIX=Mixed Chlorocalcite Solution Fractionating
+chem.FP_BAUXITE_SOLUTION=Bauxite Solution Fractionating
 chem.FP_COALOIL=Coal Oil Fractionating
 chem.FP_COALCREOSOTE=Coal Tar Creosote Fractionating
 chem.FP_EGG=Dissolved Egg Fractionating
@@ -6339,8 +6341,10 @@ chem.FP_NAPHTHA_CRACK=Cracked Naphtha Fractionating
 chem.FP_OIL_COKER=Coker Oil Fractionating
 chem.FP_REFORMATE=Reformate Fractionating
 chem.FP_SMEAR=Industrial Oil Fractionating
-chem.FULLERENE_PRODUCTION=Raw Fullerene Production
+
 chem.CRYOLITE=Cryolite Production
+chem.FULLERENE_PRODUCTION=Raw Fullerene Production
+chem.NITROGEN=Liquid Nitrogen Separation
 
 hbmfluid.colloid_hot=Hot Colloid
 hbmfluid.cryogel_mod=Modifed Cryogel
@@ -6355,6 +6359,16 @@ item.ingot_strontium.name=Strontium Ingot
 item.night_vision_mk2.name=Self-Charging Night Vision Goggles
 item.night_vision_mk2.description.item=Grants you night vision (does not require electric set)
 item.spawn_maskman.name=Mask Man
+
+item.billet_rs1.name=Research RBMK Fuel Billet Tier 1
+item.billet_rs2.name=Research RBMK Fuel Billet Tier 2
+item.billet_rs3.name=Research RBMK Fuel Billet Tier 3
+item.rbmk_fuel_rs1.name=Research RBMK Fuel Rod Tier 1
+item.rbmk_fuel_rs2.name=Research RBMK Fuel Rod Tier 2
+item.rbmk_fuel_rs3.name=Research RBMK Fuel Rod Tier 3
+item.rbmk_pellet_rs1.name=Research RBMK Fuel Pellet Tier 1
+item.rbmk_pellet_rs2.name=Research RBMK Fuel Pellet Tier 2
+item.rbmk_pellet_rs3.name=Research RBMK Fuel Pellet Tier 3
 
 tile.block_neodymium.name=Block of Neodymium
 tile.block_sodium.name=Block of Sodium

@@ -55,7 +55,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 				FT_Heatable trait = feed.getTankType().getTrait(FT_Heatable.class);
 				HeatingStep step = trait.getFirstStep();
 				steam.setTankType(step.typeProduced);
-				double tempRange = this.heat - steam.getTankType().temperature;
+				double tempRange = feed.getTankType().temperature < -20 ? this.heat - feed.getTankType().temperature : this.heat - steam.getTankType().temperature; //temperature of hot coolant for normal coolants, and temperature of coolant itself for "cryo" fluids (e.g. LN2) 
 				double eff = trait.getEfficiency(HeatingType.HEATEXCHANGER);
 				
 				if(tempRange > 0 && eff > 0) {
