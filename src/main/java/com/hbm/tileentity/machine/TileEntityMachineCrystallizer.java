@@ -228,7 +228,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public float getFreeChance(CrystallizerRecipe recipe) {
 		int efficiency = upgradeManager.getLevel(UpgradeType.EFFECT);
 		if(efficiency > 0) {
-			return Math.min(efficiency * recipe.productivity, 0.99F);
+			return Math.min(efficiency * recipe.productivity, 1.01F);
 		}
 		return 0;
 	}
