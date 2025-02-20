@@ -6061,6 +6061,7 @@ trait.rbmk.melt=熔点: %s
 trait.rbmk.neutron.any=所有中子
 trait.rbmk.neutron.fast=快中子
 trait.rbmk.neutron.slow=慢中子
+trait.rbmk.neutron.none=无
 trait.rbmk.skinTemp=表面温度: %s
 trait.rbmk.source=自燃
 trait.rbmk.splitsInto=裂变后释放出: %s

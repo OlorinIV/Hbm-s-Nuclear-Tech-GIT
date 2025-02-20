@@ -3599,24 +3599,24 @@ public class ModItems {
 
 		//NTMC research rods
 		rbmk_fuel_rs1 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs1)
-				.setYield(50000000D)
+				.setYield(7500000D)
 				.setStats(0D, 150)
 				.setFunction(EnumBurnFunc.PASSIVE)
 				.setDepletionFunction(EnumDepleteFunc.LINEAR)
 				.setXenon(0.0D, 50D)
 				.setHeat(0.75D)
 				.setMeltingPoint(2750)
-				.setNeutronTypes(NType.SLOW, NType.SLOW)
+				.setNeutronTypes(NType.NONE, NType.SLOW)
 				.setUnlocalizedName("rbmk_fuel_rs1").setTextureName(RefStrings.MODID + ":rbmk_fuel_rs1");
 		rbmk_fuel_rs2 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs2)
-				.setYield(50000000D)
+				.setYield(15000000D)
 				.setStats(0D, 300)
 				.setFunction(EnumBurnFunc.PASSIVE)
 				.setDepletionFunction(EnumDepleteFunc.LINEAR)
 				.setXenon(0.0D, 50D)
 				.setHeat(0.75D)
 				.setMeltingPoint(3350)
-				.setNeutronTypes(NType.SLOW, NType.SLOW)
+				.setNeutronTypes(NType.NONE, NType.SLOW)
 				.setUnlocalizedName("rbmk_fuel_rs2").setTextureName(RefStrings.MODID + ":rbmk_fuel_rs2");
 		rbmk_fuel_rs3 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs3)
 				.setYield(50000000D)
@@ -3626,7 +3626,7 @@ public class ModItems {
 				.setXenon(0.0D, 50D)
 				.setHeat(0.3D)
 				.setMeltingPoint(6500)
-				.setNeutronTypes(NType.SLOW, NType.SLOW)
+				.setNeutronTypes(NType.NONE, NType.SLOW)
 				.setUnlocalizedName("rbmk_fuel_rs3").setTextureName(RefStrings.MODID + ":rbmk_fuel_rs3");
 
 		watz_pellet = new ItemWatzPellet().setUnlocalizedName("watz_pellet").setTextureName(RefStrings.MODID + ":watz_pellet");

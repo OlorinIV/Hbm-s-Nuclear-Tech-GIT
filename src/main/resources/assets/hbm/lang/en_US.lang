@@ -6220,6 +6220,7 @@ trait.rbmk.melt=Melting point: %s
 trait.rbmk.neutron.any=All Neutrons
 trait.rbmk.neutron.fast=Fast Neutrons
 trait.rbmk.neutron.slow=Slow Neutrons
+trait.rbmk.neutron.none=No Neutrons
 trait.rbmk.skinTemp=Skin temp: %s
 trait.rbmk.source=Self-igniting
 trait.rbmk.splitsInto=Splits into: %s

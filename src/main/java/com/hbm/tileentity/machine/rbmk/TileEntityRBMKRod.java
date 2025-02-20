@@ -168,11 +168,12 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 		double fastFlux = this.fluxQuantity * this.fluxFastRatio;
 		double slowFlux = this.fluxQuantity * (1 - this.fluxFastRatio);
-		
+
 		switch(type) {
 		case SLOW: return slowFlux + fastFlux * 0.5;
 		case FAST: return fastFlux + slowFlux * 0.3;
 		case ANY: return this.fluxQuantity;
+		case NONE: return 0.0D;
 		}
 
 		return 0.0D;

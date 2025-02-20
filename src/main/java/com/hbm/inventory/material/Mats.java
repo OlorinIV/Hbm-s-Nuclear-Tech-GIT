@@ -50,7 +50,7 @@ public class Mats {
 	public static final NTMMaterial MAT_WOOD			= makeNonSmeltable(_VS + 03,	WOOD,				0x896727, 0x281E0B, 0x896727).setAutogen(STOCK, GRIP).n();
 	public static final NTMMaterial MAT_IVORY			= makeNonSmeltable(_VS + 04,	BONE,				0xFFFEEE, 0x797870, 0xEDEBCA).setAutogen(GRIP).n();
 	public static final NTMMaterial MAT_STONE			= makeSmeltable(_VS + 00,		df("Stone"),		0x7F7F7F, 0x353535, 0x4D2F23).n();
-	public static final NTMMaterial MAT_CARBON			= makeAdditive(	699,			CARBON,				0x363636, 0x030303, 0x404040).setAutogen(WIRE, BLOCK).n();
+	public static final NTMMaterial MAT_CARBON			= makeSmeltable(	699,			CARBON,				0x363636, 0x030303, 0x404040).setAutogen(WIRE, BLOCK).n();
 	public static final NTMMaterial MAT_COAL			= makeNonSmeltable(600,			COAL, 				0x363636, 0x030303, 0x404040).setConversion(MAT_CARBON,  2, 1).setAutogen(FRAGMENT).n();
 	public static final NTMMaterial MAT_LIGNITE			= makeNonSmeltable(601,			LIGNITE,			0x542D0F, 0x261508, 0x472913).setConversion(MAT_CARBON,  3, 1).setAutogen(FRAGMENT).n();
 	public static final NTMMaterial MAT_COALCOKE		= make(			610,			COALCOKE)			.setConversion(MAT_CARBON,  4, 3).n();
