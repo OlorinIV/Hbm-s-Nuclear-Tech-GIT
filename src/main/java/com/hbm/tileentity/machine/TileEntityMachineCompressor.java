@@ -40,7 +40,7 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 
 	public FluidTank[] tanks;
 	public long power;
-	public static final long maxPower = 200_000;
+	public static final long maxPower = 1_000_000;
 	public boolean isOn;
 	public int progress;
 	public int processTime = 100;
@@ -93,9 +93,9 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 
 			this.processTime = timeBase / (speedLevel * speedLevel + 1);
 			this.powerRequirement = this.powerRequirementBase / (powerLevel + 1);
-			this.processTime = this.processTime / (overLevel + 1);
+			this.processTime = this.processTime / (overLevel * overLevel + 1);
 			this.powerRequirement = this.powerRequirement * (speedLevel * speedLevel + 1);
-			this.powerRequirement = this.powerRequirement * (overLevel + 1);
+			this.powerRequirement = this.powerRequirement * (overLevel * overLevel + 1);
 
 			if(processTime <= 0) processTime = 1;
 

@@ -3599,7 +3599,7 @@ public class ModItems {
 
 		//NTMC research rods
 		rbmk_fuel_rs1 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs1)
-				.setYield(7500000D)
+				.setYield(3000000D)
 				.setStats(0D, 150)
 				.setFunction(EnumBurnFunc.PASSIVE)
 				.setDepletionFunction(EnumDepleteFunc.LINEAR)
@@ -3609,7 +3609,7 @@ public class ModItems {
 				.setNeutronTypes(NType.NONE, NType.SLOW)
 				.setUnlocalizedName("rbmk_fuel_rs1").setTextureName(RefStrings.MODID + ":rbmk_fuel_rs1");
 		rbmk_fuel_rs2 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs2)
-				.setYield(15000000D)
+				.setYield(6000000D)
 				.setStats(0D, 300)
 				.setFunction(EnumBurnFunc.PASSIVE)
 				.setDepletionFunction(EnumDepleteFunc.LINEAR)
@@ -3619,7 +3619,7 @@ public class ModItems {
 				.setNeutronTypes(NType.NONE, NType.SLOW)
 				.setUnlocalizedName("rbmk_fuel_rs2").setTextureName(RefStrings.MODID + ":rbmk_fuel_rs2");
 		rbmk_fuel_rs3 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs3)
-				.setYield(50000000D)
+				.setYield(20000000D)
 				.setStats(0D, 1000)
 				.setFunction(EnumBurnFunc.PASSIVE)
 				.setDepletionFunction(EnumDepleteFunc.LINEAR)
