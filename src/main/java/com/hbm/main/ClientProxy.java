@@ -771,7 +771,6 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public void registerBlockRenderer() {
 
-		RenderingRegistry.registerBlockHandler(new RenderTaintBlock());
 		RenderingRegistry.registerBlockHandler(new RenderScaffoldBlock());
 		RenderingRegistry.registerBlockHandler(new RenderTapeBlock());
 		RenderingRegistry.registerBlockHandler(new RenderSteelBeam());
@@ -2039,6 +2038,7 @@ public class ClientProxy extends ServerProxy {
 		switch(key){
 		case JETPACK:			return Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
 		case TOGGLE_JETPACK:	return HbmKeybinds.jetpackKey.getIsKeyPressed();
+		case TOGGLE_MAGNET:		return HbmKeybinds.magnetKey.getIsKeyPressed();
 		case TOGGLE_HEAD:		return HbmKeybinds.hudKey.getIsKeyPressed();
 		case RELOAD:			return HbmKeybinds.reloadKey.getIsKeyPressed();
 		case DASH:				return HbmKeybinds.dashKey.getIsKeyPressed();

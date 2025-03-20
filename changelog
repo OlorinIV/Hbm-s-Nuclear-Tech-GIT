@@ -1,44 +1,43 @@
 ## Added
-* Refueling station
-  * Like a charging station, but for fluids
+* `/ntmserver`
+  * Functions like `/ntmclient` but for common settings
+  * Can toggle `DAMAGE_COMPATIBILITY_MODE`, off by default, enables a more compatible (but slightly jankier) version of the bullet damage code
+  * `MINE_<xxx>_DAMAGE` can be used to adjust landmine damage
+  * `TAINT_TRAILS` now replaces the hardcore taint config option, making taint blocks more potent and the potion effect trail taint blocks
+* New ammo types
+  * Explosive 7.62mm
+  * Explosive .50 BMG
+  * Explosive 10 gauge buckshot (unlike 12 gauge which has explosive slugs)
+* Lincoln's repeater, a b-side to the lever action rifle
 
 ## Changed
-* Updated chinese localization
-* Particle detectors now print an error for when the recipe could not be completed
-* Night Vision Goggles toggles with armor HUD
-* Removed "no ore dict data" line from tooltips with extended view enabled
-* Added a client config called `GUN_ANIMATION_SPEED` which allows the speed of gun animations to be changed
-  * Mostly for debugging, since it only applies to the bus animation system, things like smoke trails and muzzle flashes are unaffected
-* Item filters can now filter by bedrock ore grade
-* Meteorite dungeons now use a new structure system
-  * The rooms have been completely changed, and the dungeons are no longer single-level with fixed room sizes
-  * Dungeons no longer lag the game to hell when generating
-* Decimated bobmazon
-  * All books have been merged into one with way fewer offers
-  * Sells things like basic gear, MREs, plushies, snow globes, and certain things only found in worldgen like jungle tree saplings and NTM flowers (including mustard willow)
-* Each acidizer recipe now has a "productivity" value which is the percent chance that the effectiveness upgrades use, instead of a fixed 5% per level
-  * This means that certain recipes like re-crystallizing gems no longer allow for item duping
-  * Due to duping no longer being a concern, productivity rates for certain recipes can now be much higher
-  * Things like sawdust to cordite have a 75% chance of not using the input at level 3
-  * Effectiveness no longer increases acid consumption (since many recipes now use the acidizer like a solid output "mixer") but instead adds +200% power consumption per level
-  * Effectiveness can be configured with the recipe and caps out at 99% (since 100% would just print free items)
-* Chemical dyes can now also be made with light oil
-* There's now statistics for creating legendary weapons and ammo, stepping on landmines and firing guns
-* Assembly templates no longer specify whether they are persistent and volatile, since volatile templates haven't existed in years
-* Obliterated the HTR-01 item for good
-  * Idk why it still existed
-* Skeletons, slimes and cybercrabs can no longer be gibbed, since they don't have flesh
-* The template folder's description now uses flashing colors to make it harder to ignore
-* Scaled swords no longer use 1.1 scale in the inventory, making them larger than the inventory slot
-* Fissures can now be connected to fluid ducts, providing 1,000mB of lava per tick
+* Fat mines now use the standardized mini nuke code
+  * Fat mines now have a base damage of exactly 100, being identical to demolition mini nukes
+  * Fat mines now gib affected entities
+* IV bags now use `setHealth` operations instead of dealing damage, preventing health duplication by just avoiding the damage
+* The settings tool can now copy and paste the "paint" from paintable cables and fluid ducts
+* Changed the way taint works
+  * Instead of neon purple vines, taint is bow a greyish sludge
+  * Taint now actively replaces blocks instead of growing along them
+  * Taint is still limited in spread, however taint spread is lower underground, taint decays three times faster in intensity if the block is not exposed to air, making taint spread more along the surface
+  * Taint has a 25% chance of splashing down when replacing a block with no supports, causing structures to collapse and taint to spread faster
+  * Similar to soil sand, entities will sink in taint and get slowed down
+  * The sludge consumeth
+* `enableGuns` config option now applies to SEDNA system guns, simply canceling all gun-related keybinds
+* Cinnabar dust, if registered by another mod, can now be acidized into cinnabar using hydrogen peroxide
+* Copper wires, like AA and gold, can now be welded into dense wires
+* Removed the crafting recipe for the small geothermal generator and ZPE generators
+* Removed the gemothermal, ZPE and ambient radiation generators from the creative menu
+* Disabled the horrid flicker on the quad rocket launcher's antenna, making steered mode look less terrible
 
 ## Fixed
-* Fixed items being annihilated when shift clicking them into the particle source
-* Fixed packet optimization not allowing packets to be sent when the day night cycle is halted
-* Fixed particle detectors not always using power when they should
-* Fixed rotary furnace voiding low pressure steam when dealing with input numbers not divisible by 100
-* Fixed state leak causing smoke from the right akimbo weapon to glow when the first one is fired
-* Fixed incorrect default values for new RBMK dials
-* Fixed blast doors self-destructing when closing
-* Fixed PA coils being in the wrong creative tab
-* Fixed flux calculation for RBMKs being wrong, mainly affecting reactors using fast flux
+* Fixed animation errors on the MAS-36
+* Fixed drone docks, requester and provider crates not dropping their contents when broken
+* Fixed all missing texture errors that appear in the startup log
+* Potentially fixed a crash with mekanism during the recipe change phase
+* Removed the coke to heavy oil recipe for allowing infinite oil loops
+  * Coke to syngas and coalgas recipes should be fine though, so they stay
+* Potentially fixed another issue regarding NPCs firing belt-fed guns
+* Chunk-loading drones may or may not be fixed
+* Fixed disperser canisters not actually despawning on impact, endlessly spawning mist clouds
+* Fixed issues where the new packet system didn't play nice with machines that are being sent packets by other machines, like watz segments and radar screens

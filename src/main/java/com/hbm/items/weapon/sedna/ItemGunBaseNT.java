@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
@@ -96,7 +98,8 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	
 	public GunConfig getConfig(ItemStack stack, int index) {
 		GunConfig cfg = configs_DNA[index];
-		return WeaponUpgradeManager.eval(cfg, stack, O_GUNCONFIG + index, this);
+		if(stack == null) return cfg;
+		return WeaponModManager.eval(cfg, stack, O_GUNCONFIG + index, this, index);
 	}
 	
 	public int getConfigCount() {
@@ -108,6 +111,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		this.configs_DNA = cfg;
 		this.quality = quality;
 		this.lastShot = new long[cfg.length];
+		for(int i = 0; i < cfg.length; i++) cfg[i].index = i;
 		if(quality == WeaponQuality.A_SIDE || quality == WeaponQuality.SPECIAL) this.setCreativeTab(MainRegistry.weaponTab);
 		if(quality == WeaponQuality.LEGENDARY || quality == WeaponQuality.SECRET) this.secrets.add(this);
 		this.setTextureName(RefStrings.MODID + ":gun_darter");
@@ -146,6 +150,10 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 					list.add("Damage with current ammo: " + dmg * bullet.damageMult + (bullet.projectilesMin > 1 ? (" x" + (bullet.projectilesMin != bullet.projectilesMax ? (bullet.projectilesMin + "-" + bullet.projectilesMax) : bullet.projectilesMin)) : ""));
 				}
 			}
+			
+			for(ItemStack upgrade : WeaponModManager.getUpgradeItems(stack, i)) {
+				list.add(EnumChatFormatting.YELLOW + upgrade.getDisplayName());
+			}
 		}
 		
 		switch(this.quality) {
@@ -169,6 +177,8 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	}
 
 	public void handleKeybind(EntityLivingBase entity, IInventory inventory, ItemStack stack, EnumKeybind keybind, boolean newState) {
+		if(!GeneralConfig.enableGuns) return;
+		
 		int configs = this.configs_DNA.length;
 		
 		for(int i = 0; i < configs; i++) {
@@ -259,6 +269,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 				}
 			}
 			this.setIsAiming(stack, false);
+			this.setReloadCancel(stack, false);
 			return;
 		}
 		
