@@ -249,9 +249,9 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		return (int) (demand + speed * demand + effect * demand * 2);
 	}
 
-	public float getCycleCount() {
+	public int getCycleCount() {
 		int speed = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
-		return (float) speed * speed + 1;
+		return speed * speed + 1;
 	}
 
 	public long getPowerScaled(int i) {
