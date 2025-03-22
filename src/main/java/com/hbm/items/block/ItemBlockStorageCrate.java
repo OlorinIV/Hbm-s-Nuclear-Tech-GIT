@@ -47,14 +47,12 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 					if(item.stackTagCompound == null) // Skip if there is no NBT (wouldn't open it anyway).
 						continue;
 					if (item.stackTagCompound.getInteger("pins") == stack.stackTagCompound.getInteger("lock")) { // Check if pins are equal (if it can open it)
-						TileEntityCrateBase.spawnSpiders(player, world, stack);
 						player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
 						break;
 					}
 				}
 				return stack; // Return early if it was locked.
 			}
-			TileEntityCrateBase.spawnSpiders(player, world, stack);
 			player.openGui(MainRegistry.instance, 0, world, 0, 0, 0); // If there is no lock then don't bother checking.
 		}
 

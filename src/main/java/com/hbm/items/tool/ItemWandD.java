@@ -60,8 +60,6 @@ public class ItemWandD extends Item {
 				safe.setPins(rand.nextInt(999) + 1);
 				safe.lock();
 
-				safe.fillWithSpiders(); // debug
-
 				if(GeneralConfig.enableDebugMode)
 					MainRegistry.logger.info("[Debug] Successfully spawned safe at " + pos.blockX + " " + (y + 1) +" " + pos.blockZ);
 			}
