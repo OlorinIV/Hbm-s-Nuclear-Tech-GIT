@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.container.ContainerMachineRotaryFurnace;
 import com.hbm.inventory.fluid.Fluids;
@@ -21,7 +22,6 @@ import com.hbm.inventory.recipes.RotaryFurnaceRecipes.RotaryFurnaceRecipe;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.module.ModuleBurnTime;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.*;
 import com.hbm.util.CrucibleUtil;
@@ -119,7 +119,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 					data.setFloat("off", 0.625F);
 					data.setFloat("base", 0.625F);
 					data.setFloat("len", Math.max(1F, yCoord + 1 - (float) (Math.ceil(impact.yCoord) - 1.125)));
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + rot.offsetX * 2.875D, yCoord + 0.75, zCoord + 0.5D + rot.offsetZ * 2.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.5D + rot.offsetX * 2.875D, yCoord + 0.75, zCoord + 0.5D + rot.offsetZ * 2.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
 				}
 
 				if(output.amount <= 0) this.output = null;
