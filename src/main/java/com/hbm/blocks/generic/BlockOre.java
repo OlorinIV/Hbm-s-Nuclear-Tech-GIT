@@ -95,6 +95,9 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.deco_steel) {
 			return ModItems.ingot_steel;
 		}
+		if(this == ModBlocks.deco_rusty_steel) {
+			return rand.nextInt(2) == 0 ? ModItems.ingot_steel : null;
+		}
 		if(this == ModBlocks.deco_titanium) {
 			return ModItems.ingot_titanium;
 		}
@@ -152,17 +155,17 @@ public class BlockOre extends Block {
 
 		return 1;
 	}
-	
+
 	public boolean allowFortune = true;
-	
+
 	public BlockOre noFortune() {
 		this.allowFortune = false;
 		return this;
 	}
-	
+
 	@Override
 	public int quantityDroppedWithBonus(int fortune, Random rand) {
-		
+
 		if(fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(0, rand, fortune) && allowFortune) {
 			int mult = rand.nextInt(fortune + 2) - 1;
 
