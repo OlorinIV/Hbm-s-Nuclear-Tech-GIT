@@ -79,8 +79,8 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 			this.consumption = 50;
 
 			this.consumption += speedLevel * 150;
-			this.consumption -= this.consumption * powerLevel * 0.25;
-			this.consumption *= (overLevel * 3 + 1);
+			this.consumption -= this.consumption * powerLevel / 4;
+			this.consumption *= (overLevel * overLevel + 1);
 
 			for(DirPos pos : getConPos()) {
 				this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -95,7 +95,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 				this.power -= this.getConsumption();
 
 				this.processTime -= this.processTime * speedLevel / 4;
-				this.processTime /= (overLevel + 1);
+				this.processTime /= (overLevel * overLevel + 1);
 
 				if(processTime <= 0) this.processTime = 1;
 
