@@ -38,7 +38,7 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 
 	public FluidTank[] tanks;
 	public long power;
-	public static final long maxPower = 100_000;
+	public static final long maxPower = 1_000_000;
 	public boolean isOn;
 	public int progress;
 	public int processTime = 100;
@@ -85,11 +85,10 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 
 			//there is a reason to do this but i'm not telling you
 			// ^ a few months later i have to wonder what the fuck this guy was on about, and if i ever see him i will punch him in the nuts
-			if(rec == null) this.processTime = speedLevel == 3 ? 10 : speedLevel == 2 ? 20 : speedLevel == 1 ? 60 : timeBase;
-			else this.processTime = timeBase / (speedLevel + 1);
+			this.processTime = timeBase / (speedLevel * speedLevel + 1);
 			this.powerRequirement = this.powerRequirementBase / (powerLevel + 1);
-			this.processTime = this.processTime / (overLevel + 1);
-			this.powerRequirement = this.powerRequirement * ((overLevel * 2) + 1);
+			this.processTime = this.processTime / (overLevel * overLevel + 1);
+			this.powerRequirement = this.powerRequirement * (speedLevel * speedLevel + 1) * (overLevel * overLevel + 1);
 
 			if(processTime <= 0) processTime = 1;
 
