@@ -54,7 +54,7 @@ import java.util.Iterator;
  */
 public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 
-	public double heat;
+	public double heat = 20D;
 
 	public int reasimWater;
 	public static final int maxWater = 16000;
