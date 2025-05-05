@@ -64,7 +64,7 @@ public class XFactory556mm {
 				.setCasing(casing556.clone().register("r556fmj"));
 		r556_jhp = new BulletConfig().setItem(EnumAmmo.R556_JHP).setCasing(EnumCasingType.SMALL, 8).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing556.clone().register("r556jhp"));
-		r556_ap = new BulletConfig().setItem(EnumAmmo.R556_AP).setCasing(EnumCasingType.SMALL_STEEL, 8).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(10F).setArmorPiercing(0.15F)
+		r556_ap = new BulletConfig().setItem(EnumAmmo.R556_AP).setCasing(EnumCasingType.SMALL_STEEL, 8).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.25F).setThresholdNegation(10F).setArmorPiercing(0.15F)
 				.setCasing(casing556.clone().setColor(SpentCasing.COLOR_CASE_44).register("r556ap"));
 
 		r556_inc_sp = r556_sp.clone().setOnImpact(INCENDIARY);
@@ -88,7 +88,7 @@ public class XFactory556mm {
 						.dmg(7.5F).delay(2).auto(true).dry(15).spreadHipfire(0.01F).reload(50).jam(47).sound("hbm:weapon.fire.silenced", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(r556_inc_sp, r556_inc_fmj, r556_inc_jhp, r556_inc_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
-						.setupStandardFire().recoil(LAMBDA_RECOIL_G3))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_ZEBRA))
 				.setupStandardConfiguration().ps(Lego.LAMBDA_STANDARD_CLICK_SECONDARY)
 				.anim(LAMBDA_G3_ANIMS).orchestra(Orchestras.ORCHESTRA_G3)
 				).setNameMutator(LAMBDA_NAME_G3).setUnlocalizedName("gun_g3_zebra");
@@ -131,6 +131,10 @@ public class XFactory556mm {
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_G3 = (stack, ctx) -> {
 		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 0.25), (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.25));
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_ZEBRA = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 0.125), (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.125));
 	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_STG = (stack, ctx) -> { };

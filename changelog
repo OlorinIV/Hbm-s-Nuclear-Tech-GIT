@@ -1,49 +1,54 @@
 ## Added
-* Laser pistol
-  * Saturnite-tier pistol using capacitors
-  * Also has variants
-* B-side for the assault rifle
-* Ammo bag
-  * Holds up to 8 stacks of items with no NBT
-  * Reloading guns will access the contents of the bag directly without it having to be emptied first
-  * Comes with a handy little indicator to shot roughly how full it is
+* Infinite ammo bag
+  * Identical to the regular ammo bag, but ammo is never depleted
+  * Provides 9,999 units of ammo for the purposes of reloading/belts, meaning that even a single bullet in the bag allows a full reload
+  * Obviously creative-only
+* Redstone-over-radio reader
+  * Can read certain values from connected machines and send them as signals
+  * Currently supports batteries, capacitors and tanks
+* Redstone-over-radio controller
+  * Can receive control signals to perform certain actions within the connected machine
+  * Currently supports mode and priority changes for batteries and tanks
 
 ## Changed
-* Trenchmaster armor now has the fast reload and more ammo traits again
-  * Fast reload now also plays the animation twice as fast
-  * More ammo does not apply to weapons that can only hold one round, like nuke and rocket launchers
-* Ace of spades now works as advertised again
-* Clay tablets now have "pools", tablets obtained from a black room no longer shows recipes for things not related to black rooms
-* Pedestal crafting extras `GOOD_KARMA` and `BAD_KARMA` are now properly implemented
-  * If you don't know what this means, just ignore it
-* Pneumatic tubes now have a special case when supplying autocrafters, they will only send single items since larger stacks are not accepted
-* Simplified turbofan recipe
-* Solar boilers will now show a tooltip when they are too cold
-* Updated the satellite dish structure, due to the new spawn rules it's also no longer obscenely rare
-* The rare small lab structures have been removed and replaced with a new lighthouse
-* ReaSim connectors will no longer function if ReaSim boilers are disabled
-* Updated the placed geiger counter model
-* Updated random gear on hostile mobs, there's now more variety in what armor/weapons mobs can have
-* Removed the cryo cannon. It was the last true weapon to use the NT system and may return later
-* Mines will no longer trigger from all ambient creatures (originally just bats) and water creatures
-* Mines can no longer be triggered if a non-air block is above them
-* Moved the cooling tower particle toggle from `hbm.cfg` to the client config, named `COOLING_TOWER_PARTICLES`
-* Updated HSS textures
-* The diesel generator and turbofan will both now halt operation when powered by redstone
-* Infinite batteries will now also drain energy when put into a charging slot
-* TOREX effects now cause the sky to go fullbright again for 10 seconds after they spawn
-* Weapon tooltips now show the weapon's condition
-* Updated the catalytic cracking tower model
-* Leviathan turbine and powered condenser tooltip now use thousand separaators to make the numbers actually readable
-* Catalytic converters can now be crafted with `ANY_BISMOID` instead of just bismuth (that includes arsenic)
+* Nerfed AP and DU round damage multiplier
+  * Effective damage is still much higher than on gunmetal ammo due to the armor piercing effect
+* Increased flamethrower turret detection range from 32 to 48 blocks
+* Flamethrower turrets and chemthrower now use the green fire effect when using balefire fuel
+* Flamethrower turret projectile damage is now capped to 20
+  * Balefire fuel should no longer instantly vaporize bosses
+* Tobacco and Hemp plants are now biome tinted and are no longer radioactive green
+* Most chemthrower ammo types with variable damage output are now capped to 15 damage per shot (that is still a ton)
+* Chemthrower combustible liquids now use SEDNA type fire particles
+* Halved recoil on the zebra rifle
+* The laser pistols now make a click when dry firing
+* Solid fuel in the rotary furnace no longer ticks down if no recipe is actually being done
+* Pneumatic tube round robin will now progress even if a destination is not accessible, preventing cases where the tubes are stuck if one of the containers has run full
+* Tesla cannons now accept low-wavelength capacitors
+  * The resulting beam is non-penetrating and 20% less powerful than standard capacitor beams
+  * In addition to the splash damage, the beam will split and fire smaller beams at any living entity in a 20 block radius, with half damage
+  * Sub-beams do not cause splash damage
+  * Sub-beams will strike the initially hit entity again, meaning that the more sub-beams there are, the more powerful the initial strike ends up being
+* Renamed the default capacitor ammo to "capacitor (standard)" to avoid confusion
+* Low wavelength capacitors now need niobium instead of silicon to make
+* Bayonets can now be applied to the carbine, making it the first standard arsenal gun that can take the mod
+* VNT type explosions with smooth damage falloff (used by guns, mines, etc) no longer calculate entity distance using the entity's origin position (i.e. in the center at the ground) but rather the closest hitbox intercept
+  * This means that shooting entities directly with explosives should deal roughly the same damage no matter where they are hit, instead of dealing more damage closer to the feet
+  * This also fixes an issue where entities with large hitboxes (eg. mas man) are unaffected by small explosions that deal direct hits (like explosive buckshot)
+* VNT type explosions with smooth damage falloff should no longer deal any damage if more than 1 in 8 blocks between the source and the target are solid
+  * This prevents any damage taken if the target is behind a wall
+  * This also means that thin walls do not protect against sufficiently large explosions
+* Added circuits to the turbofan recipe
+* Simplified the industrial combustion engine recipe
+* Removed the old hadron core recipe
+* Changed the old pylon and energy storage block textures to use standardized red copper connectors instead of the non-standard three prong outlets
 
 ## Fixed
-* Fixed fatal gamebreaking hard drive corrupting issue where taurun leggings were misspelled
-* Fixed minor display issue where compressed air ducts would visually connect to non-ejector pneumatic tubes
-* Fixed special creeper types being able to spawn in other dimensions
-* Fixed modeled armor using weird rotation rules, causing issues with Customizable Player Models
-* Fixed rotation issues for certain blocks using the new structure system
-* Fixed ReaSim water never moving if the reactor is at 20°
-* Fixed strand caster LPS gauge exceeding the limit
-* The SPAS-12 and congo lake now change type immediately when hitting the reload key, fixing an issue where the first loaded round may have the worng color when the ammo type changes
-* Fixed crash caused by `/ntmreload` when NEI is not installed
+* Fixed a potential crash caused by cargo dropships landing on cargo docks with no satellite chip installed
+* Fixed potential crash related to hazard handling for dropped items
+* Fixed errors thrown when loading in old system bullet entities
+* Fixed dupe regarding breaking transport drones
+* Fixed 12 gauge flechette DT negation not being the intended value
+* Fixed carbine mistakenly showing a round being chambered even after firing the last loaded round
+* Fixed `any` OD prefix not registering correctly, breaking some recipe compatibility as well as older recipe configs
+* Fixed bug where changing a pipe's type with a fluid ID will keep a "zombie" pipe of the previous type around, which keeps a connection up even when the pipe nets end up separated

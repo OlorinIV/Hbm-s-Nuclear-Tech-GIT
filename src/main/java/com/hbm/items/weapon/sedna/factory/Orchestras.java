@@ -986,6 +986,10 @@ public class Orchestras {
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
 
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 1.5F);
+		}
+
 		if(type == AnimType.RELOAD) {
 			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverCock", 1F, 1F);
 			if(timer == 10) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallRemove", 1F, 1.25F);
@@ -1352,7 +1356,7 @@ public class Orchestras {
 				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity,
 						0.375, aiming ? 0 : -0.125, aiming ? 0 : -0.25D,
 						-0.05, 0.2, -0.025,
-						0.01, -10F + (float) entity.getRNG().nextGaussian() * 10F, (float) entity.getRNG().nextGaussian() * 12.5F, casing.getName());
+						0.01, -10F + (float) entity.getRNG().nextGaussian() * 10F, (float) entity.getRNG().nextGaussian() * 12.5F, casing.getName(), true, 60, 0.5D, 10);
 			}
 		}
 		
