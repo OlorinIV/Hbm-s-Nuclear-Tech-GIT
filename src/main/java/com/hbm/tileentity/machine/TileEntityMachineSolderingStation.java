@@ -107,7 +107,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 				intendedMaxPower = recipe.consumption * 20 * (blackLevel * blackLevel + 1);
 
 				if(canProcess(recipe)) {
-					this.progress++;
+					this.progress += (1 + blackLevel);
 					this.power -= this.consumption;
 
 					if(progress >= processTime) {
@@ -374,6 +374,9 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 		}
 		if(type == UpgradeType.POWER) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 25) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
 		}
 		if(type == UpgradeType.OVERDRIVE) {
 			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");

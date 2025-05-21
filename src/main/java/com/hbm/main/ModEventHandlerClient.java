@@ -941,6 +941,7 @@ public class ModEventHandlerClient {
 			if(comp != null) {
 				CanneryBase cannery = Jars.canneries.get(comp);
 				if(cannery != null) {
+					Minecraft.getMinecraft().thePlayer.closeScreen();
 					FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon(), cannery.seeAlso()));
 				}
 			}
@@ -952,6 +953,7 @@ public class ModEventHandlerClient {
 			if(stack != null) {
 				stack = stack.copy();
 				stack.stackSize = 1;
+				Minecraft.getMinecraft().thePlayer.closeScreen();
 				FMLCommonHandler.instance().showGuiScreen(new GUIScreenPreview(stack));
 			}
 		}
@@ -995,6 +997,7 @@ public class ModEventHandlerClient {
 					}
 				}
 
+				Minecraft.getMinecraft().thePlayer.closeScreen();
 				FMLCommonHandler.instance().showGuiScreen(new GUIScreenWikiRender(stacks.toArray(new ItemStack[0]), prefix, "wiki-block-renders-256", scale));
 			}
 		} else {
