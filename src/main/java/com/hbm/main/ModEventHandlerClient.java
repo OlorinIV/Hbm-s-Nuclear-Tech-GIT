@@ -492,27 +492,6 @@ public class ModEventHandlerClient {
 		ItemStack held = player.getHeldItem();
 
 		if(held == null) return;
-		if(!(held.getItem() instanceof ItemGunBase)) return;
-
-		GunConfiguration config = ((ItemGunBase) held.getItem()).mainConfig;
-
-		if(config == null) return;
-		if(config.zoomFOV == 0F || !player.isSneaking()) return;
-
-		if(config.absoluteFOV) {
-			event.newfov = config.zoomFOV;
-		} else {
-			event.newfov += config.zoomFOV;
-		}
-	}
-
-	@SubscribeEvent
-	public void setupNewFOV(FOVUpdateEvent event) {
-
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		ItemStack held = player.getHeldItem();
-
-		if(held == null) return;
 
 		IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(held, IItemRenderer.ItemRenderType.EQUIPPED);
 		if(!(customRenderer instanceof ItemRenderWeaponBase)) return;
@@ -1306,14 +1285,21 @@ public class ModEventHandlerClient {
 
 		if(hudOn) {
 			RenderOverhead.renderMarkers(event.partialTicks);
+			boolean thermalSights = false;
 
 			if(ArmorFSB.hasFSBArmor(player)) {
 				ItemStack plate = player.inventory.armorInventory[2];
 				ArmorFSB chestplate = (ArmorFSB) plate.getItem();
 
-				if(chestplate.thermal)
-					RenderOverhead.renderThermalSight(event.partialTicks);
+				if(chestplate.thermal) thermalSights = true;
 			}
+			
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT && ItemGunBaseNT.aimingProgress == 1) {
+				ItemGunBaseNT gun = (ItemGunBaseNT) player.getHeldItem().getItem();
+				for(int i = 0; i < gun.getConfigCount(); i++) if(gun.getConfig(player.getHeldItem(), i).hasThermalSights(player.getHeldItem())) thermalSights = true;
+			}
+
+			if(thermalSights) RenderOverhead.renderThermalSight(event.partialTicks);
 		}
 
 		RenderOverhead.renderActionPreview(event.partialTicks);
