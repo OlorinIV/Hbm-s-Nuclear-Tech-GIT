@@ -1,24 +1,13 @@
-## Added
-* Two new anti-material rifle variants
-  * .50 BMG demolisher rounds are finally usable
-  * Added a special ammo type exclusive to one of the variants
-* Starmetal .50 BMG now returns
-  * Overall better armor piercing stats than DU
-  * Not compatible with the M2, only usable in amat rifles
-
 ## Changed
-* The RBMK console's grid can now be rotated using a screwdriver
-* Tool abilities have changed
-  * Righ-clicking while holding ALT now opens a configuration window
-  * The configuration window allows creation of tool presets
-  * Area and block abilities can now be toggled independently from each other. For example, the vein miner ability can be combined with silk touch
-  * Clicking on the same ability allows switching between levels
-* Updated textures for the armor and gun modification tables
-* Ported the fire extinguisher to the SEDNA gun system, eliminating the final remaining ItemGunBase gun
-* Water extinguishers can now wash away foam blocks
+* Opening the tool ability configuration menu is now its own keybind instead of using the copy tool's alt keybind + right click
+* Cycling though tool abilities is now a custom keybind (still right click by default)
+* Removed legacy hardron cooler
+* Removed 20hz transformers
+* High-octane diesel is now called high-cetane diesel
 
 ## Fixed
-* Conveyor ejectors should now correctly place items onto the back of splitters instead of on the output belts
-* Fixed strand caster fluid gauges going out of bounds
-* Fixed arc welder and soldering station not changing buffer size based on upgrade, preventing use of higher overdrive tiers
-* Fixed non-standard template folder recipes not using the correct icon
+* Fixed new chemical plant ports not initializing their proxies properly
+* Fixed chunkloading entities immediately throwing away their loader ticket
+* Fixed builder jetpack not resetting flight time properly
+* Fixed new chemplant's ferric schrabidate recipe
+* Fixed single reload guns reloading multiple rounds at once when having multiple valid ammo stacks

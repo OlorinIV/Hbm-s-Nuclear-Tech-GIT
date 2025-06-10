@@ -26,6 +26,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+@Deprecated
 public class ChemplantRecipes extends SerializableRecipe {
 
 	/**
@@ -539,7 +540,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				new FluidStack(500, Fluids.SODIUM_ALUMINATE)));
 	}
 
-	public static class ChemRecipe {
+	@Deprecated public static class ChemRecipe {
 
 		public int listing;
 		private int id;

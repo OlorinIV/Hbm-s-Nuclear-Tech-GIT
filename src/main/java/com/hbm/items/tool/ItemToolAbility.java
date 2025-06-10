@@ -13,9 +13,9 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.hbm.inventory.gui.GUIScreenToolAbility;
 import com.hbm.items.IItemControlReceiver;
-import com.hbm.handler.HbmKeybinds;
+import com.hbm.items.IKeybindReceiver;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ability.AvailableAbilities;
 import com.hbm.handler.ability.IBaseAbility;
 import com.hbm.handler.ability.IToolAreaAbility;
@@ -31,7 +31,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -47,7 +46,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumChatFormatting;
@@ -56,7 +54,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.world.BlockEvent;
 
-public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIProvider, IItemControlReceiver {
+public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIProvider, IItemControlReceiver, IKeybindReceiver {
 	
 	protected boolean isShears = false;
 	protected EnumToolType toolType;
@@ -253,37 +251,6 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 		}
 	}
 
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		
-		if(!canOperate(stack))
-			return super.onItemRightClick(stack, world, player);
-
-		if(HbmPlayerProps.getData(player).getKeyPressed(HbmKeybinds.EnumKeybind.TOOL_ALT)) {
-			if(world.isRemote) player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
-			return stack;
-		}
-		
-		Configuration config = getConfiguration(stack);
-
-		if(config.presets.size() < 2 || world.isRemote)
-			return super.onItemRightClick(stack, world, player);
-
-
-		if(player.isSneaking()) {
-			config.currentPreset = 0;
-		} else {
-			config.currentPreset = (config.currentPreset + 1) % config.presets.size();
-		}
-
-		setConfiguration(stack, config);
-
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(config.getActivePreset().getMessage(), MainRegistry.proxy.ID_TOOLABILITY), (EntityPlayerMP) player);
-
-		world.playSoundAtEntity(player, "random.orb", 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
-		
-		return stack;
-	}
-
 	public void breakExtraBlock(World world, int x, int y, int z, EntityPlayer playerEntity, int refX, int refY, int refZ) {
 
 		if(world.isAirBlock(x, y, z))
@@ -352,16 +319,16 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 		Block block = world.getBlock(x, y, z);
 		int l = world.getBlockMetadata(x, y, z);
 		world.playAuxSFXAtEntity(player, 2001, x, y, z, Block.getIdFromBlock(block) + (world.getBlockMetadata(x, y, z) << 12));
-		boolean flag = false;
+		boolean removedByPlayer = false;
 
 		if(player.capabilities.isCreativeMode) {
-			flag = removeBlock(world, x, y, z, false, player);
+			removedByPlayer = removeBlock(world, x, y, z, false, player);
 			player.playerNetServerHandler.sendPacket(new S23PacketBlockChange(x, y, z, world));
 		} else {
 			ItemStack itemstack = player.getCurrentEquippedItem();
-			boolean flag1 = block.canHarvestBlock(player, l);
+			boolean canHarvest = block.canHarvestBlock(player, l);
 
-			flag = removeBlock(world, x, y, z, flag1, player);
+			removedByPlayer = removeBlock(world, x, y, z, canHarvest, player);
 
 			if(itemstack != null) {
 				itemstack.func_150999_a(world, block, x, y, z, player);
@@ -371,13 +338,9 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 				}
 			}
 			
-			// TODO: Missing from other method, may be unneeded
-			if(flag && flag1) {
+			if(removedByPlayer && canHarvest) {
 				block.harvestBlock(world, player, x, y, z, l);
 			}
-			
-			// TODO: Added from other method, may be unneeded
-			Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(2, x, y, z, Minecraft.getMinecraft().objectMouseOver.sideHit));
 		}
 
 		// Why was this commented out?
@@ -526,5 +489,39 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 	@SideOnly(Side.CLIENT)
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIScreenToolAbility(this.availableAbilities);
+	}
+
+	@Override
+	public boolean canHandleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind) {
+		if(player.worldObj.isRemote) return keybind == EnumKeybind.ABILITY_ALT;
+		return keybind == EnumKeybind.ABILITY_CYCLE;
+	}
+
+	@Override
+	public void handleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean state) {
+		
+		if(keybind == EnumKeybind.ABILITY_CYCLE && state) {
+
+			World world = player.worldObj;
+			if(!canOperate(stack)) return;
+			
+			Configuration config = getConfiguration(stack);
+			if(config.presets.size() < 2 || world.isRemote) return;
+
+			if(player.isSneaking()) {
+				config.currentPreset = 0;
+			} else {
+				config.currentPreset = (config.currentPreset + 1) % config.presets.size();
+			}
+
+			setConfiguration(stack, config);
+			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(config.getActivePreset().getMessage(), MainRegistry.proxy.ID_TOOLABILITY), (EntityPlayerMP) player);
+			world.playSoundAtEntity(player, "random.orb", 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
+		}
+	}
+
+	@Override
+	public void handleKeybindClient(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean state) {
+		if(state) player.openGui(MainRegistry.instance, 0, player.worldObj, 0, 0, 0);
 	}
 }

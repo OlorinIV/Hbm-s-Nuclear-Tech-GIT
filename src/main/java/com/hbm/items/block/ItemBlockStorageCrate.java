@@ -120,7 +120,11 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 
 		@Override
 		public String getInventoryName() {
-			return findCrateType(target.getItem()).getInventoryName();
+			TileEntityCrateBase tile = findCrateType(target.getItem());
+			if (hasCustomInventoryName()) {
+				tile.setCustomName(target.getDisplayName());
+			}
+			return tile.getInventoryName();
 		}
 
 		@Override
@@ -146,6 +150,10 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 				NBTTagCompound slot = new NBTTagCompound();
 				stack.writeToNBT(slot);
 				nbt.setTag("slot" + i, slot);
+			}
+
+			if (nbt.hasNoTags()) {
+				nbt = null;
 			}
 
 			target.setTagCompound(nbt);

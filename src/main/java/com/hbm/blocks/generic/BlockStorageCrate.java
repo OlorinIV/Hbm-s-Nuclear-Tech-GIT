@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.IBlockMulti;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
@@ -39,8 +40,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
-public class BlockStorageCrate extends BlockContainer implements IBlockMulti, ITooltipProvider {
+public class BlockStorageCrate extends BlockContainer implements IBlockMulti, ILookOverlay, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
@@ -106,7 +108,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IT
 
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
-		
+
 		if(!world.isRemote && !ServerConfig.CRATE_KEEP_CONTENTS.get()) {
 			dropInv = true;
 			if(!player.capabilities.isCreativeMode) {
@@ -154,9 +156,18 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IT
 
 			if(!nbt.hasNoTags()) {
 				drop.stackTagCompound = nbt;
+			}
 
+			if(inv instanceof TileEntityCrateBase) {
+				TileEntityCrateBase crate = (TileEntityCrateBase) inv;
+				if (crate.hasCustomInventoryName()) {
+					drop.setStackDisplayName(crate.getInventoryName());
+				}
+			}
+
+			if (drop.hasTagCompound()) {
 				try {
-					byte[] abyte = CompressedStreamTools.compress(nbt);
+					byte[] abyte = CompressedStreamTools.compress(drop.stackTagCompound);
 
 					if(abyte.length > 6000) {
 						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
@@ -213,6 +224,13 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IT
 					lockable.setPins(stack.stackTagCompound.getInteger("lock"));
 					lockable.setMod(stack.stackTagCompound.getDouble("lockMod"));
 					lockable.lock();
+				}
+			}
+
+			if(inv instanceof TileEntityCrateBase) {
+				TileEntityCrateBase crate = (TileEntityCrateBase) inv;
+				if (stack.hasDisplayName()) {
+					crate.setCustomName(stack.getDisplayName());
 				}
 			}
 		}
@@ -345,5 +363,21 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IT
 				}
 			}
 		}
+	}
+
+	@Override
+	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
+
+		TileEntity te = world.getTileEntity(x, y, z);
+
+		if (!(te instanceof IInventory))
+			return;
+
+		IInventory inv = (IInventory) te;
+
+		if (!inv.hasCustomInventoryName())
+			return;
+
+		ILookOverlay.printGeneric(event, inv.getInventoryName(), 0xffff00, 0x404000, new ArrayList<String>(0));
 	}
 }

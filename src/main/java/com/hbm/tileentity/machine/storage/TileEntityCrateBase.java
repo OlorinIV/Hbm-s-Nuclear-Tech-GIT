@@ -9,6 +9,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -59,6 +62,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
@@ -124,6 +128,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		customName = nbt.getString("name");
 	}
 
 	@Override
@@ -141,6 +146,22 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 			}
 		}
 		nbt.setTag("items", list);
+
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+		readFromNBT(packet.func_148857_g());
 	}
 
 	@Override
