@@ -6098,6 +6098,8 @@ tile.machine_chemical_plant.name=化工厂二代 : 电子布加洛
 item.gun_vortex.name=涡流
 
 # NTMC Addon Strings
+
+# 旧化工配方
 chem.FP_CHLOROCALCITE_MIX=混合氯方解石溶液分馏
 chem.FP_BAUXITE_SOLUTION=铝土矿溶液分馏
 chem.FP_COALOIL=煤液化油分馏
@@ -6117,6 +6119,27 @@ chem.FP_NAPHTHA_CRACK=裂化石脑油分馏
 chem.FP_OIL_COKER=焦化油分馏
 chem.FP_REFORMATE=重整油分馏
 chem.FP_SMEAR=工业油分馏
+
+# 新化工配方
+chem.fp_heavyoil=重油分馏
+chem.fp_heavyoil_vacuum=减压重油分馏
+chem.fp_smear=工业油分馏
+chem.fp_naphtha=石脑油分馏
+chem.fp_naphtha_ds=脱硫石脑油分馏
+chem.fp_naphtha_crack=裂化石脑油分馏
+chem.fp_naphtha_coker=焦化石脑油分馏
+chem.fp_oil_coker=焦化油分馏
+chem.fp_gas_coker=焦化气分馏
+chem.fp_lightoil=轻油分馏
+chem.fp_lightoil_ds=脱硫轻油分馏
+chem.fp_lightoil_crack=裂化轻油分馏
+chem.fp_lightoil_vacuum=减压轻油分馏
+chem.fp_coalcreosote=煤焦杂酚油分馏
+chem.fp_coaloil=煤液化油分馏
+chem.fp_reformate=重整油分馏
+chem.fp_egg=蛋溶解液分馏
+chem.fp_chlorocalcite_mix=混合氯方解石溶液分馏
+chem.fp_bauxite_solution=铝土矿溶液分馏
 
 chem.CRYOLITE=冰晶石生产
 chem.FULLERENE_PRODUCTION=粗富勒烯生产
