@@ -1225,6 +1225,9 @@ public class ModItems {
 	public static Item siren_track;
 	public static Item fluid_duct;
 
+	//NTMC Extra Generic Recipe Icons
+	public static ItemEnumMulti recipe_icon;
+
 	public static Item bobmazon;
 	public static Item bobmazon_hidden;
 
@@ -4216,6 +4219,9 @@ public class ModItems {
 		inf_water = new ItemInfiniteFluid(Fluids.WATER, 50).setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water");
 		inf_water_mk2 = new ItemInfiniteFluid(Fluids.WATER, 500).setUnlocalizedName("inf_water_mk2").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water_mk2");
 
+		//NTMC Extra Generic Recipe Icons
+		recipe_icon = (ItemEnumMulti) new ItemRecipeIcon().setUnlocalizedName("recipe_icon").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recipe_icon");
+
 		FluidTank.noDualUnload.add(fluid_barrel_infinite);
 		FluidTank.noDualUnload.add(inf_water);
 		FluidTank.noDualUnload.add(inf_water_mk2);
@@ -5918,6 +5924,9 @@ public class ModItems {
 		GameRegistry.registerItem(chemistry_template, chemistry_template.getUnlocalizedName());
 		GameRegistry.registerItem(chemistry_icon, chemistry_icon.getUnlocalizedName());
 		GameRegistry.registerItem(crucible_template, crucible_template.getUnlocalizedName());
+
+		//NTMC Extra Generic Recipe Icons
+		GameRegistry.registerItem(recipe_icon, recipe_icon.getUnlocalizedName());
 
 		//Machine Items
 		GameRegistry.registerItem(fuse, fuse.getUnlocalizedName());

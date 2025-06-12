@@ -19,6 +19,7 @@ import com.hbm.items.ItemEnums.EnumFuelAdditive;
 import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.items.machine.ItemRecipeIcon;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -352,79 +353,79 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.outputFluids(new FluidStack(Fluids.DEATH, 1_000, 0)));
 
 		/// FRACTIONATING ///
-		this.register(new GenericRecipe("chem.fp_heavyoil").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_heavyoil").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_heavyoil)
 			.inputFluids(new FluidStack(Fluids.HEAVYOIL, 1_000))
 			.outputFluids(new FluidStack(Fluids.BITUMEN, 300), new FluidStack(Fluids.SMEAR, 700)));
 
-		this.register(new GenericRecipe("chem.fp_heavyoil_vacuum").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_heavyoil_vacuum").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_heavyoil_vacuum)
 			.inputFluids(new FluidStack(Fluids.HEAVYOIL_VACUUM, 1_000))
 			.outputFluids(new FluidStack(Fluids.SMEAR, 400), new FluidStack(Fluids.HEATINGOIL_VACUUM, 600)));
 
-		this.register(new GenericRecipe("chem.fp_smear").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_smear").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_smear)
 			.inputFluids(new FluidStack(Fluids.SMEAR, 1_000))
 			.outputFluids(new FluidStack(Fluids.LUBRICANT, 400), new FluidStack(Fluids.HEATINGOIL, 600)));
 
-		this.register(new GenericRecipe("chem.fp_naphtha").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_naphtha").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_naphtha)
 			.inputFluids(new FluidStack(Fluids.NAPHTHA, 1_000))
 			.outputFluids(new FluidStack(Fluids.HEATINGOIL, 400), new FluidStack(Fluids.DIESEL, 600)));
 
-		this.register(new GenericRecipe("chem.fp_naphtha_ds").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_naphtha_ds").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_naphtha_ds)
 			.inputFluids(new FluidStack(Fluids.NAPHTHA_DS, 1_000))
 			.outputFluids(new FluidStack(Fluids.XYLENE, 600), new FluidStack(Fluids.DIESEL_REFORM, 400)));
 
-		this.register(new GenericRecipe("chem.fp_naphtha_crack").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_naphtha_crack").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_naphtha_crack)
 			.inputFluids(new FluidStack(Fluids.NAPHTHA_CRACK, 1_000))
 			.outputFluids(new FluidStack(Fluids.HEATINGOIL, 300), new FluidStack(Fluids.DIESEL_CRACK, 700)));
 
-		this.register(new GenericRecipe("chem.fp_naphtha_coker").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_naphtha_coker").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_naphtha_coker)
 			.inputFluids(new FluidStack(Fluids.NAPHTHA_COKER, 1_000))
 			.outputFluids(new FluidStack(Fluids.NAPHTHA_CRACK, 750), new FluidStack(Fluids.LIGHTOIL_CRACK, 250)));
 
-		this.register(new GenericRecipe("chem.fp_oil_coker").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_oil_coker").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_oil_coker)
 			.inputFluids(new FluidStack(Fluids.OIL_COKER, 1_000))
 			.outputFluids(new FluidStack(Fluids.CRACKOIL, 300), new FluidStack(Fluids.HEATINGOIL, 700)));
 
-		this.register(new GenericRecipe("chem.fp_gas_coker").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_gas_coker").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_gas_coker)
 			.inputFluids(new FluidStack(Fluids.GAS_COKER, 1_000))
 			.outputFluids(new FluidStack(Fluids.AROMATICS, 250), new FluidStack(Fluids.CARBONDIOXIDE, 750)));
 
-		this.register(new GenericRecipe("chem.fp_lightoil").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_lightoil").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_lightoil)
 			.inputFluids(new FluidStack(Fluids.LIGHTOIL, 1_000))
 			.outputFluids(new FluidStack(Fluids.DIESEL, 400), new FluidStack(Fluids.KEROSENE, 600)));
 
-		this.register(new GenericRecipe("chem.fp_lightoil_ds").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_lightoil_ds").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_lightoil_ds)
 			.inputFluids(new FluidStack(Fluids.LIGHTOIL_DS, 1_000))
 			.outputFluids(new FluidStack(Fluids.DIESEL_REFORM, 600), new FluidStack(Fluids.KEROSENE_REFORM, 400)));
 
-		this.register(new GenericRecipe("chem.fp_lightoil_crack").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_lightoil_crack").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_lightoil_crack)
 			.inputFluids(new FluidStack(Fluids.LIGHTOIL_CRACK, 1_000))
 			.outputFluids(new FluidStack(Fluids.KEROSENE, 700), new FluidStack(Fluids.PETROLEUM, 300)));
 
-		this.register(new GenericRecipe("chem.fp_lightoil_vacuum").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_lightoil_vacuum").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_lightoil_vacuum)
 			.inputFluids(new FluidStack(Fluids.LIGHTOIL_VACUUM, 1_000))
 			.outputFluids(new FluidStack(Fluids.KEROSENE, 700), new FluidStack(Fluids.REFORMGAS, 300)));
 
-		this.register(new GenericRecipe("chem.fp_coaloil").setup(50, 1_000)
-			.inputFluids(new FluidStack(Fluids.COALOIL, 1_000))
-			.outputFluids(new FluidStack(Fluids.COALGAS, 300), new FluidStack(Fluids.OIL, 700)));
-
-		this.register(new GenericRecipe("chem.fp_egg").setup(50, 1_000)
-			.inputFluids(new FluidStack(Fluids.EGG, 1_000))
-			.outputFluids(new FluidStack(Fluids.CHOLESTEROL, 500), new FluidStack(Fluids.RADIOSOLVENT, 500)));
-
-		this.register(new GenericRecipe("chem.fp_reformate").setup(50, 1_000)
-			.inputFluids(new FluidStack(Fluids.REFORMATE, 1_000))
-			.outputFluids(new FluidStack(Fluids.AROMATICS, 400), new FluidStack(Fluids.XYLENE, 600)));
-
-		this.register(new GenericRecipe("chem.fp_coalcreosote").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_coalcreosote").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_coalcreosote)
 			.inputFluids(new FluidStack(Fluids.COALCREOSOTE, 1_000))
 			.outputFluids(new FluidStack(Fluids.COALOIL, 100), new FluidStack(Fluids.BITUMEN, 900)));
 
-		this.register(new GenericRecipe("chem.fp_chlorocalcite_mix").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_coaloil").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_coaloil)
+			.inputFluids(new FluidStack(Fluids.COALOIL, 1_000))
+			.outputFluids(new FluidStack(Fluids.COALGAS, 300), new FluidStack(Fluids.OIL, 700)));
+
+		this.register(new GenericRecipe("chem.fp_reformate").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_reformate)
+			.inputFluids(new FluidStack(Fluids.REFORMATE, 1_000))
+			.outputFluids(new FluidStack(Fluids.AROMATICS, 400), new FluidStack(Fluids.XYLENE, 600)));
+
+		this.register(new GenericRecipe("chem.fp_egg").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_egg)
+			.inputFluids(new FluidStack(Fluids.EGG, 1_000))
+			.outputFluids(new FluidStack(Fluids.CHOLESTEROL, 500), new FluidStack(Fluids.RADIOSOLVENT, 500)));
+
+		this.register(new GenericRecipe("chem.fp_chlorocalcite_mix").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_chlorocalcite_mix)
 			.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_MIX, 1_000))
 			.outputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.COLLOID, 500)));
 
-		this.register(new GenericRecipe("chem.fp_bauxite_solution").setup(50, 1_000)
+		this.register(new GenericRecipe("chem.fp_bauxite_solution").setup(50, 1_000).setIcon(ModItems.recipe_icon, ItemRecipeIcon.EnumCustomRecipeIcon.fp_bauxite_solution)
 			.inputFluids(new FluidStack(Fluids.BAUXITE_SOLUTION, 1_000))
 			.outputFluids(new FluidStack(Fluids.REDMUD, 500), new FluidStack(Fluids.SODIUM_ALUMINATE, 500)));
 	}
