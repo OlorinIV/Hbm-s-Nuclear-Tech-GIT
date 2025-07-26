@@ -104,14 +104,14 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 	public void despawn() {
 
 		if(!worldObj.isRemote) {
-			for(int i = 0; i < 150; i++) {
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "bf");
-				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data,
-						posX + rand.nextDouble() * 20 - 10,
-						posY + rand.nextDouble() * 25,
-						posZ + rand.nextDouble() * 20 - 10),
-						new TargetPoint(dimension, posX, posY, posZ, 150));
+			for(int i = 0; i < 10; i++) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "bf");
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data,
+					posX + rand.nextDouble() * 20 - 10,
+					posY + rand.nextDouble() * 25,
+					posZ + rand.nextDouble() * 20 - 10),
+						new TargetPoint(dimension, posX, posY, posZ, 50));
 			}
 
 			dropItem(ModItems.spawn_duck, 3);
