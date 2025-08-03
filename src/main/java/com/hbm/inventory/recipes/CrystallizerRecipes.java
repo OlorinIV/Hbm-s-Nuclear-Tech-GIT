@@ -119,6 +119,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(LAPIS.dust(),									new CrystallizerRecipe(new ItemStack(Items.dye, 1, 4), utilityTime));
 		registerRecipe(new ComparableStack(ModItems.powder_semtex_mix),	new CrystallizerRecipe(ModItems.ingot_semtex, baseTime).prod(0.05F));
 		registerRecipe(new ComparableStack(ModItems.powder_desh_ready),	new CrystallizerRecipe(ModItems.ingot_desh, baseTime).prod(0.05F));
+		registerRecipe(new ComparableStack(ModItems.powder_desh_ready),	new CrystallizerRecipe(ItemScraps.create(new MaterialStack(Mats.MAT_DESH, MaterialShapes.INGOT.q(1))), utilityTime).prod(0.05F), sulfur);
 		registerRecipe(new ComparableStack(ModItems.powder_meteorite),	new CrystallizerRecipe(ModItems.fragment_meteorite, utilityTime).prod(0.3F));
 		registerRecipe(CD.dust(),										new CrystallizerRecipe(ModItems.ingot_rubber, utilityTime).prod(0.05F), new FluidStack(Fluids.FISHOIL, 250));
 		registerRecipe(LATEX.ingot(),									new CrystallizerRecipe(ModItems.ingot_rubber, mixingTime).prod(0.15F), new FluidStack(Fluids.SOURGAS, 25));
@@ -242,7 +243,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		if(dustCinnabar != null && !dustCinnabar.isEmpty()) {
 			registerRecipe(CINNABAR.dust(), new CrystallizerRecipe(new ItemStack(ModItems.cinnebar), utilityTime), new FluidStack(Fluids.PEROXIDE, 50));
 		}
-		
+
 		registerRecipe(new ComparableStack(ModBlocks.moon_turf, 16), new CrystallizerRecipe(new ItemStack(ModItems.chunk_ore, 1, EnumChunkType.MOONSTONE.ordinal()), 1200));
 
 		if(!IMCCrystallizer.buffer.isEmpty()) {
