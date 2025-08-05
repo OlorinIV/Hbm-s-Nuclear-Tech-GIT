@@ -999,7 +999,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 
 		//NTMC Extra & Rejuvenated
 		this.register(new GenericRecipe("ass.maskman").setup(900, 100).outputItems(new ItemStack(ModItems.spawn_maskman, 1))
-			.inputItems(new ComparableStack(Items.bone, 128),
+			.inputItems(new ComparableStack(Items.bone, 64),
 				new ComparableStack(ModItems.gas_mask_m65),
 				new ComparableStack(ModItems.t45_plate),
 				new ComparableStack(ModItems.gun_minigun),
