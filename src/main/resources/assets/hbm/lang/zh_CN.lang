@@ -6165,6 +6165,12 @@ chem.fp_egg=蛋溶解液分馏
 chem.fp_chlorocalcite_mix=混合氯方解石溶液分馏
 chem.fp_bauxite_solution=铝土矿溶液分馏
 
+chem.cryolite=Cryolite Production
+chem.btx2soot=Raw Fullerene Production
+chem.ln2=Liquid Nitrogen Separation
+chem.electrolysis_h2o=Water Cryo-Electrolysis
+chem.electrolysis_d2o=Heavy Water Cryo-Electrolysis
+
 chem.CRYOLITE=冰晶石生产
 chem.FULLERENE_PRODUCTION=粗富勒烯生产
 chem.NITROGEN=液氮分离
@@ -6195,4 +6201,30 @@ item.rbmk_pellet_rs3.name=研究型RBMK燃料芯块 T3
 
 tile.block_neodymium.name=钕块
 tile.block_sodium.name=钠块
-tile.block_strontium.name=锶块
+tile.block_strontium.name=锶块autoswitch=Part of auto switch group "%s"$Recipe changes based on first ingredient
+autoswitch.plate=Reprocessing Plate Fuel
+autoswitch.plates=Metal Plates
+autoswitch.pwr=Reprocessing PWR Fuel
+autoswitch.schrab=Schrabidium Extraction
+autoswitch.watz=Reprocessing Watz Pellet
+autoswitch.zirnox=Reprocessing ZIRNOX Fuel
+container.machinePUREX=PUREX
+container.rbmkAutoloader=RBMK Autoloader
+item.gun_autoshotgun_heretic.name=The Heretic
+item.item_expensive.bronze_tubes.name=Bronze Structural Elements
+item.item_expensive.circuit.name=Extensive Circuit Board
+item.item_expensive.computer.name=Mainframe
+item.item_expensive.ferro_plating.name=Reinforced Ferrouranium Panels
+item.item_expensive.heavy_frame.name=Heavy Framework
+item.item_expensive.lead_plating.name=Radiation Resistant Plating
+item.item_expensive.steel_plating.name=Bolted Steel Plating
+purex.recycle=Reprocessing of %s
+purex.schrab=Schrabidium extraction from %s
+tile.machine_purex.name=PUREX
+tile.machine_purex.desc=Reprocessing machine for many nuclear fuels.$Most recipes require kerosene and nitric acid.
+tile.rbmk_autoloader.name=RBMK Autoloader
+chem.cryolite=Cryolite Production
+chem.btx2soot=Raw Fullerene Production
+chem.ln2=Liquid Nitrogen Separation
+chem.electrolysis_h2o=Water Cryo-Electrolysis
+chem.electrolysis_d2o=Heavy Water Cryo-Electrolysisautoswitch=Part of auto switch group "%s"$Recipe changes based on first ingredient

@@ -41,28 +41,28 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 
 	public FluidTank[] inputTanks;
 	public FluidTank[] outputTanks;
-	
+
 	public long power;
 	public long maxPower = 1_000_000;
 	public boolean didProcess = false;
-	
+
 	public boolean frame = false;
 	public int anim;
 	public int prevAnim;
 
 	public ModuleMachinePUREX purexModule;
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
-	
+
 	public TileEntityMachinePUREX() {
 		super(13);
-		
+
 		this.inputTanks = new FluidTank[3];
 		this.outputTanks = new FluidTank[1];
 		for(int i = 0; i < 3; i++) {
 			this.inputTanks[i] = new FluidTank(Fluids.NONE, 24_000);
 		}
 		this.outputTanks[0] = new FluidTank(Fluids.NONE, 24_000);
-		
+
 		this.purexModule = new ModuleMachinePUREX(0, this, slots)
 				.itemInput(4).itemOutput(7)
 				.fluidInput(inputTanks[0], inputTanks[1], inputTanks[2]).fluidOutput(outputTanks[0]);
@@ -75,20 +75,20 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(maxPower <= 0) this.maxPower = 1_000_000;
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			GenericRecipe recipe = PUREXRecipes.INSTANCE.recipeNameMap.get(purexModule.recipe);
 			if(recipe != null) {
-				this.maxPower = recipe.power * 100;
+				this.maxPower = recipe.power * 1_000;
 			}
 			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 1_000_000);
-			
+
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			upgradeManager.checkSlots(slots, 2, 3);
-			
+
 			for(DirPos pos : getConPos()) {
 				this.trySubscribe(worldObj, pos);
 				for(FluidTank tank : inputTanks) if(tank.getTankType() != Fluids.NONE) this.trySubscribe(tank.getTankType(), worldObj, pos);
@@ -97,31 +97,33 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 
 			double speed = 1D;
 			double pow = 1D;
+			int speedLevel = Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int overLevel = Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 
-			speed += Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3) / 3D;
-			speed += Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+			speed /= (4 - speedLevel) / 4D;
+			speed *= overLevel * overLevel + 1D;
 
 			pow -= Math.min(upgradeManager.getLevel(UpgradeType.POWER), 3) * 0.25D;
-			pow += Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3) * 1D;
-			pow += Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10D / 3D;
-			
+			pow *= speedLevel + 1D;
+			pow *= overLevel * overLevel + 1D;
+
 			this.purexModule.update(speed, pow, true, slots[1]);
 			this.didProcess = this.purexModule.didProcess;
 			if(this.purexModule.markDirty) this.markDirty();
-			
+
 			this.networkPackNT(100);
-			
+
 		} else {
-			
+
 			this.prevAnim = this.anim;
 			if(this.didProcess) this.anim++;
-			
+
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				frame = !worldObj.getBlock(xCoord, yCoord + 5, zCoord).isAir(worldObj, xCoord, yCoord + 5, zCoord);
 			}
 		}
 	}
-	
+
 	public DirPos[] getConPos() {
 		return new DirPos[] {
 				new DirPos(xCoord + 3, yCoord, zCoord - 2, Library.POS_X),
@@ -168,11 +170,11 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 		this.didProcess = buf.readBoolean();
 		this.purexModule.deserialize(buf);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		for(int i = 0; i < 3; i++) {
 			this.inputTanks[i].readFromNBT(nbt, "i" + i);
 		}
@@ -182,11 +184,11 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 		this.maxPower = nbt.getLong("maxPower");
 		this.purexModule.readFromNBT(nbt);
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		for(int i = 0; i < 3; i++) {
 			this.inputTanks[i].writeToNBT(nbt, "i" + i);
 		}
@@ -240,21 +242,21 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 			}
 		}
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		if(bb == null) bb = AxisAlignedBB.getBoundingBox(xCoord - 2, yCoord, zCoord - 2, xCoord + 3, yCoord + 5, zCoord + 3);
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
-	
+
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
 		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
@@ -264,8 +266,8 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_purex));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_SPEED, "+" + (level * 100 / 3) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_CONSUMPTION, "+" + (level * 50) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_SPEED, "+" + (400 / (4 - level) - 100) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_CONSUMPTION, "+" + (level * 100) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_CONSUMPTION, "-" + (level * 25) + "%"));

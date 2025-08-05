@@ -256,8 +256,8 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		Item seed = Compat.tryLoadItem(Compat.MOD_AE, "item.ItemCrystalSeed");
 		Item pure_crystal = Compat.tryLoadItem(Compat.MOD_AE, "item.ItemMultiMaterial");
 		if(seed != null && pure_crystal != null) {
-			registerRecipe(new ComparableStack(seed, 2, 0), new CrystallizerRecipe(new ItemStack(pure_crystal, 2, 10), baseTime / 3), new FluidStack(Fluids.WATER, 500));
-			registerRecipe(new ComparableStack(seed, 2, 600), new CrystallizerRecipe(new ItemStack(pure_crystal, 2, 11), baseTime / 3), new FluidStack(Fluids.WATER, 500));
+			registerRecipe(new ComparableStack(seed, 2, 0), new CrystallizerRecipe(new ItemStack(pure_crystal, 2, 10), utilityTime), new FluidStack(Fluids.WATER, 500));
+			registerRecipe(new ComparableStack(seed, 2, 600), new CrystallizerRecipe(new ItemStack(pure_crystal, 2, 11), utilityTime), new FluidStack(Fluids.WATER, 500));
 		}
 
 	}

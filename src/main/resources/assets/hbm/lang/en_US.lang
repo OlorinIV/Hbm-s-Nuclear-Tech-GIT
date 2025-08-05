@@ -6318,6 +6318,8 @@ chem.fp_bauxite_solution=Bauxite Solution Fractionating
 chem.cryolite=Cryolite Production
 chem.btx2soot=Raw Fullerene Production
 chem.ln2=Liquid Nitrogen Separation
+chem.electrolysis_h2o=Water Cryo-Electrolysis
+chem.electrolysis_d2o=Heavy Water Cryo-Electrolysis
 
 hbmfluid.colloid_hot=Hot Colloid
 hbmfluid.cryogel_mod=Modifed Cryogel

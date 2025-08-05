@@ -54,7 +54,9 @@ public class ItemRecipeIcon extends ItemEnumMulti {
 		fp_reformate,
 		fp_egg,
 		fp_chlorocalcite_mix,
-		fp_bauxite_solution;
+		fp_bauxite_solution,
+		electrolysis_h2o,
+		electrolysis_d2o;
 
 		private EnumCustomRecipeIcon() {
 		}
