@@ -35,7 +35,7 @@ import net.minecraft.potion.PotionEffect;
 public class Fluids {
 
 	public static final Gson gson = new Gson();
-	
+
 	public static List<IFluidRegisterListener> additionalListeners = new ArrayList();
 
 	public static FluidType NONE;
@@ -682,8 +682,8 @@ public class Fluids {
 		COLLOID.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(101, 1, COLLOID_HOT, 1));
 		COLLOID_HOT.addTraits(new FT_Coolable(COLLOID, 1, 1, 101).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 
-		CRYOGEL_MOD.addTraits(new FT_Heatable().setEff(HeatingType.ICF, 3.0D).addStep(6400, 1, CRYOGEL_MOD_HOT, 2));
-		CRYOGEL_MOD_HOT.addTraits(new FT_Coolable(CRYOGEL_MOD, 2, 1, 6400).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
+		CRYOGEL_MOD.addTraits(new FT_Heatable().setEff(HeatingType.ICF, 3.0D).addStep(6400, 1, CRYOGEL_MOD_HOT, 1));
+		CRYOGEL_MOD_HOT.addTraits(new FT_Coolable(CRYOGEL_MOD, 1, 1, 6400).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
 
 		NITROGEN.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(100, 1, NONE, 0));  //just trying to get a "super coolant"...
 
@@ -902,12 +902,12 @@ public class Fluids {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public static void reloadFluids(){
 		File folder = MainRegistry.configHbmDir;
 		File customTypes = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFluidTypes.json");
 		if(!customTypes.exists()) initDefaultFluids(customTypes);
-		
+
 		for(FluidType type : customFluids){
 			idMapping.remove(type.getID());
 			registerOrder.remove(type);
@@ -915,7 +915,7 @@ public class Fluids {
 			metaOrder.remove(type);
 		}
 		customFluids.clear();
-		
+
 		for(FluidType type : foreignFluids){
 			idMapping.remove(type.getID());
 			registerOrder.remove(type);
@@ -923,7 +923,7 @@ public class Fluids {
 			metaOrder.remove(type);
 		}
 		foreignFluids.clear();
-		
+
 		readCustomFluids(customTypes);
 		for(FluidType custom : customFluids) metaOrder.add(custom);
 		File config = new File(MainRegistry.configHbmDir.getAbsolutePath() + File.separatorChar + "hbmFluidTraits.json");
@@ -934,7 +934,7 @@ public class Fluids {
 		} else {
 			readTraits(config);
 		}
-		
+
 		for(IFluidRegisterListener listener : additionalListeners) listener.onFluidsLoad();
 	}
 	private static void registerCalculatedFuel(FluidType type, double base, double combustMult, FuelGrade grade) {

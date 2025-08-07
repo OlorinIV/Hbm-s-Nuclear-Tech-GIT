@@ -70,12 +70,12 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		this.inputTanks = new FluidTank[12];
 		this.outputTanks = new FluidTank[12];
 		for(int i = 0; i < 12; i++) {
-			this.inputTanks[i] = new FluidTank(Fluids.NONE, 24_000);
-			this.outputTanks[i] = new FluidTank(Fluids.NONE, 24_000);
+			this.inputTanks[i] = new FluidTank(Fluids.NONE, 64_000);
+			this.outputTanks[i] = new FluidTank(Fluids.NONE, 64_000);
 		}
 
-		this.water = new FluidTank(Fluids.WATER, 4_000);
-		this.lps = new FluidTank(Fluids.SPENTSTEAM, 4_000);
+		this.water = new FluidTank(Fluids.WATER, 16_000);
+		this.lps = new FluidTank(Fluids.SPENTSTEAM, 16_000);
 
 		this.allTanks = new FluidTank[this.inputTanks.length + this.outputTanks.length + 2];
 		for(int i = 0; i < inputTanks.length; i++) this.allTanks[i] = this.inputTanks[i];
@@ -132,6 +132,8 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 
 		if(!worldObj.isRemote) {
 
+			int overLevel = Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 6);
+
 			long nextMaxPower = 0;
 			for(int i = 0; i < 4; i++) {
 				GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(chemplantModule[i].recipe);
@@ -139,7 +141,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 					nextMaxPower += recipe.power * 2_500;
 				}
 			}
-			this.maxPower = nextMaxPower;
+			this.maxPower = overLevel > 3 ? 10 * nextMaxPower : nextMaxPower;
 			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 10_000_000);
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
@@ -168,7 +170,6 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			double speed = 1D;
 			double pow = 1D;
 			int speedLevel = Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3);
-			int overLevel = Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 6);
 
 			speed /= (4 - speedLevel) / 4D;
 			speed *= overLevel > 3 ? 10 * ((overLevel - 3) * (overLevel - 3) + 1D) : overLevel * overLevel + 1D;
