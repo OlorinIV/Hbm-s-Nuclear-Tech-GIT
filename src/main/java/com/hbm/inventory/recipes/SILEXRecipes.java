@@ -107,7 +107,7 @@ public class SILEXRecipes {
 				.addOut(new ItemStack(ModItems.sulfur), 15)
 				);
 
-		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.REDMUD.getID()), new SILEXRecipe(300, 50, EnumWavelengths.VISIBLE)
+		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.REDMUD.getID()), new SILEXRecipe(900, 150, EnumWavelengths.VISIBLE)
 			.addOut(new ItemStack(ModItems.powder_aluminium), 10)
 			.addOut(new ItemStack(ModItems.powder_neodymium_tiny, 3), 5)
 			.addOut(new ItemStack(ModItems.powder_boron_tiny, 3), 5)
@@ -465,7 +465,7 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nugget_ra226), 23 - 5 * i)
 					.addOut(new ItemStack(ModItems.nugget_beryllium), 23 - 5 * i)
 					.addOut(new ItemStack(ModItems.nugget_polonium), 2 + 5 * i)
-					.addOut(new ItemStack(ModItems.powder_coal_tiny), 2 + 5 * i) 
+					.addOut(new ItemStack(ModItems.powder_coal_tiny), 2 + 5 * i)
 					.addOut(new ItemStack(ModItems.nugget_pu239), 45 - 10 * i)
 					.addOut(new ItemStack(ModItems.nugget_pu240), 5 + 10 * i) );
 
@@ -474,7 +474,7 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nugget_polonium), 23 - 5 * i)
 					.addOut(new ItemStack(ModItems.nugget_beryllium), 23 - 5 * i)
 					.addOut(new ItemStack(ModItems.nugget_lead), 2 + 5 * i)
-					.addOut(new ItemStack(ModItems.powder_coal_tiny), 2 + 5 * i) 
+					.addOut(new ItemStack(ModItems.powder_coal_tiny), 2 + 5 * i)
 					.addOut(new ItemStack(ModItems.nugget_pu241), 45 - 10 * i)
 					.addOut(new ItemStack(ModItems.nugget_am_mix), 5 + 10 * i) );
 			//RS3
