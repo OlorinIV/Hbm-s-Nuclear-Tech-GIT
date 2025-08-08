@@ -17,7 +17,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerMachineArcFurnaceLarge extends Container {
-	
+
 	private TileEntityMachineArcFurnaceLarge furnace;
 
 	public ContainerMachineArcFurnaceLarge(InventoryPlayer playerInv, TileEntityMachineArcFurnaceLarge tile) {
@@ -57,12 +57,12 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 					return null;
 				}
 			} else {
-				
+
 				if(rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
 					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 3, 4, false)) return null;
-				} else if(rStack.getItem() == ModItems.arc_electrode) {
-					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 4, 5, false)) return null;
 				} else if(rStack.getItem() instanceof ItemMachineUpgrade) {
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 4, 5, false)) return null;
+				} else if(rStack.getItem() == ModItems.arc_electrode) {
 					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 0, 3, false)) return null;
 				} else {
 					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 5, 25, false)) return null;
@@ -83,7 +83,7 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 	public boolean canInteractWith(EntityPlayer player) {
 		return furnace.isUseableByPlayer(player);
 	}
-	
+
 	public static class SlotArcFurnace extends SlotNonRetarded {
 
 		public SlotArcFurnace(IInventory inventory, int id, int x, int y) {
@@ -100,7 +100,7 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 			}
 			return false;
 		}
-		
+
 		@Override
 		public int getSlotStackLimit() {
 			TileEntityMachineArcFurnaceLarge furnace = (TileEntityMachineArcFurnaceLarge) this.inventory;

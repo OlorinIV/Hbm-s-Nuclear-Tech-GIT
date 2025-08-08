@@ -72,7 +72,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public int channelCount;
 	public int sourceCount;
 
-	public int unloadDelay = 0;
+	public int unloadDelay = 60;
 	public boolean assembled;
 
 	private AudioWrapper audio;
