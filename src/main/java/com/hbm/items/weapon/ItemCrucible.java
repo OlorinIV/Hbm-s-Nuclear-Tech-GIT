@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.tool.ItemSwordAbility;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -46,7 +46,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver {
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setString("type", "anim");
 			nbt.setString("mode", "crucible");
-			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(nbt, 0, 0, 0), (EntityPlayerMP)player);
+			PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0), (EntityPlayerMP)player);
 		}
 	}
 
@@ -62,7 +62,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver {
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setString("type", "anim");
 		nbt.setString("mode", "cSwing");
-		PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(nbt, 0, 0, 0), (EntityPlayerMP)entityLiving);
+		PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0), (EntityPlayerMP)entityLiving);
 
 		return false;
 	}
@@ -85,7 +85,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver {
 				data.setDouble("motion", 0.1D);
 				data.setString("mode", "blockdust");
 				data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, victim.posX, victim.posY + victim.height * 0.5, victim.posZ), new TargetPoint(victim.dimension, victim.posX, victim.posY + victim.height * 0.5, victim.posZ, 50));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, victim.posX, victim.posY + victim.height * 0.5, victim.posZ), new TargetPoint(victim.dimension, victim.posX, victim.posY + victim.height * 0.5, victim.posZ, 50));
 			}
 
 			if(attacker instanceof EntityPlayer && (((EntityPlayer)attacker).getDisplayName().equals("Tankish") || ((EntityPlayer)attacker).getDisplayName().equals("Tankish020")))

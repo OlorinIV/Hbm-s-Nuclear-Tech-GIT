@@ -27,12 +27,12 @@ import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.conveyor.IConveyorBelt;
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -92,7 +92,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 
 	public TileEntityMachineExcavator() {
 		super(14);
-		this.tank = new FluidTank(Fluids.SULFURIC_ACID, 16_000);
+		this.tank = new FluidTank(Fluids.NONE, 16_000);
 	}
 
 	@Override

@@ -16,8 +16,8 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.*;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -79,8 +79,8 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 			this.consumption = 50;
 
 			this.consumption += speedLevel * 150;
-			this.consumption -= this.consumption * powerLevel * 0.25;
-			this.consumption *= (overLevel * 3 + 1);
+			this.consumption -= this.consumption * powerLevel / 4;
+			this.consumption *= (overLevel * overLevel + 1);
 
 			for(DirPos pos : getConPos()) {
 				this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -95,7 +95,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 				this.power -= this.getConsumption();
 
 				this.processTime -= this.processTime * speedLevel / 4;
-				this.processTime /= (overLevel + 1);
+				this.processTime /= (overLevel * overLevel + 1);
 
 				if(processTime <= 0) this.processTime = 1;
 

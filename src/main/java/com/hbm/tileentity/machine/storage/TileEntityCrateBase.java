@@ -3,15 +3,22 @@ package com.hbm.tileentity.machine.storage;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 
+import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.world.World;
+
+import java.util.Random;
 
 public abstract class TileEntityCrateBase extends TileEntityLockableBase implements ISidedInventory, IGUIProvider {
 
-	protected ItemStack slots[];
+	protected ItemStack[] slots;
 	public String customName;
 
 	public TileEntityCrateBase(int count) {
@@ -50,11 +57,12 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
+		return this.customName != null && !this.customName.isEmpty();
 	}
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
@@ -110,7 +118,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		
+
 		slots = new ItemStack[getSizeInventory()];
 
 		for (int i = 0; i < list.tagCount(); i++) {
@@ -120,12 +128,13 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		customName = nbt.getString("name");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		NBTTagList list = new NBTTagList();
 
 		for (int i = 0; i < slots.length; i++) {
@@ -137,6 +146,22 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 			}
 		}
 		nbt.setTag("items", list);
+
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+		readFromNBT(packet.func_148857_g());
 	}
 
 	@Override

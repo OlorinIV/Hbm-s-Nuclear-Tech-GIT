@@ -26,6 +26,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+@Deprecated
 public class ChemplantRecipes extends SerializableRecipe {
 
 	/**
@@ -179,10 +180,12 @@ public class ChemplantRecipes extends SerializableRecipe {
 				new FluidStack(Fluids.HYDROGEN, 1600),
 				new FluidStack(Fluids.OXYGEN, 800)));
 		recipes.add(new ChemRecipe(59, "XENON", 300)
-			.inputFluids(new FluidStack(Fluids.NONE, 0))
-			.outputFluids(new FluidStack(Fluids.XENON, 50)));
+				.inputFluids(new FluidStack(Fluids.AIR, 16_000))
+				.outputFluids(new FluidStack(Fluids.XENON, 50)));
 		recipes.add(new ChemRecipe(60, "XENON_OXY", 20)
-				.inputFluids(new FluidStack(Fluids.OXYGEN, 250))
+				.inputFluids(
+						new FluidStack(Fluids.AIR, 8_000),
+						new FluidStack(Fluids.OXYGEN, 250))
 				.outputFluids(new FluidStack(Fluids.XENON, 50)));
 		recipes.add(new ChemRecipe(62, "BALEFIRE", 100)
 			.inputItems(new ComparableStack(ModItems.egg_balefire_shard))
@@ -256,13 +259,13 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.inputItems(new ComparableStack(ModBlocks.moon_turf, 8))
 			.outputFluids(new FluidStack(Fluids.HELIUM3, 1000)));
 		recipes.add(new ChemRecipe(74, "OSMIRIDIUM_DEATH", 240)
-			.inputItems(
-				new ComparableStack(ModItems.powder_paleogenite),
-				new OreDictStack(F.dust(), 8),
-				new ComparableStack(ModItems.nugget_bismuth, 4))
-			.inputFluids(new FluidStack(Fluids.PEROXIDE, 1000, 5))
-			.outputFluids(new FluidStack(Fluids.DEATH, 1000, 0)));
-		//one bucket of ethanol equals 275_000 TU using the diesel baseline0
+				.inputItems(
+						new ComparableStack(ModItems.powder_paleogenite),
+						new OreDictStack(F.dust(), 8),
+						new ComparableStack(ModItems.nugget_bismuth, 4))
+				.inputFluids(new FluidStack(Fluids.PEROXIDE, 1000, 5))
+				.outputFluids(new FluidStack(Fluids.DEATH, 1000, 0)));
+		//one bucket of ethanol equals 275_000 TU using the diesel baseline
 		//the coal baseline is 400_000 per piece
 		//if we assume a burntime of 1.5 ops (300 ticks) for sugar at 100 TU/t that would equal a total of 30_000 TU
 		recipes.add(new ChemRecipe(75, "ETHANOL", 50)
@@ -384,6 +387,18 @@ public class ChemplantRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_u233, 1),
 				new ItemStack(ModItems.nuclear_waste_tiny, 1)));
 
+		recipes.add(new ChemRecipe(103, "MEAT_PROCESSING", 200)
+			.inputItems(new OreDictStack(KEY_GLYPHID_MEAT, 3))
+			.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
+			.outputItems(new ItemStack(ModItems.sulfur, 4),
+				new ItemStack(ModItems.niter, 3))
+			.outputFluids(new FluidStack(Fluids.SALIENT, 250)));
+
+		recipes.add(new ChemRecipe(104, "RUSTY_DECO_STEEL", 100)
+			.inputItems(new ComparableStack(ModBlocks.deco_steel, 8))
+			.inputFluids(new FluidStack(Fluids.WATER, 1000))
+			.outputItems(new ItemStack(ModBlocks.deco_rusty_steel, 8)));
+
 		//NTMC Extra recipes except fluid fractioning
 
 		//Alternative fullerene production
@@ -408,6 +423,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 	public static void registerOtherOil() {
 		recipes.add(new ChemRecipe(31, "BP_BIOGAS", 60)
 				.inputItems(new ComparableStack(ModItems.biomass, 16)) //if we assume 1B BF = 500k and translate that to 2B BG = 500k, then each biomass is worth ~31k or roughly 1.5 furnace operations
+				.inputFluids(new FluidStack(Fluids.AIR, 4000))
 				.outputFluids(new FluidStack(2000, Fluids.BIOGAS)));
 		recipes.add(new ChemRecipe(32, "BP_BIOFUEL", 60)
 				.inputFluids(new FluidStack(1500, Fluids.BIOGAS), new FluidStack(250, Fluids.ETHANOL))
@@ -524,7 +540,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				new FluidStack(500, Fluids.SODIUM_ALUMINATE)));
 	}
 
-	public static class ChemRecipe {
+	@Deprecated public static class ChemRecipe {
 
 		public int listing;
 		private int id;

@@ -17,10 +17,10 @@ public class EntityCreeperGold extends EntityCreeper {
 
 	@Override
 	public void func_146077_cc() {
-		
+
 		if(!this.worldObj.isRemote) {
 			this.setDead();
-			
+
 			ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, this.getPowered() ? 14 : 7, this);
 			vnt.setBlockAllocator(new BlockAllocatorBulkie(60, this.getPowered() ? 32 : 16));
 			vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBulkie(Blocks.gold_ore)));
@@ -30,12 +30,12 @@ public class EntityCreeperGold extends EntityCreeper {
 			vnt.explode();
 		}
 	}
-	
+
 	@Override
 	public boolean getCanSpawnHere() {
-		return super.getCanSpawnHere() && this.posY <= 40;
+		return super.getCanSpawnHere() && this.posY <= 40 && this.dimension == 0;
 	}
-	
+
 	@Override
 	protected void dropFewItems(boolean byPlayer, int looting) {
 

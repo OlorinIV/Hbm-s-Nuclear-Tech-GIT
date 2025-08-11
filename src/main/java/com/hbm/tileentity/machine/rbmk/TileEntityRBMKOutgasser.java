@@ -36,6 +36,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public FluidTank gas;
 	public double progress;
 	public long duration = 10000L;
+	public boolean idct = false;
 
 	public TileEntityRBMKOutgasser() {
 		super(2);
@@ -53,7 +54,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		if(!worldObj.isRemote) {
 			if(slots[0] != null){
 				Triplet<ItemStack, FluidStack, Long> output = OutgasserRecipes.getOutput(slots[0]);
-				if(output != null) this.duration = (long)output.getZ();
+				if(output != null) this.duration = output.getZ();
 			} else {
 				this.duration = 10000L;
 				this.progress = 0;
@@ -66,6 +67,8 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			for(DirPos pos : getOutputPos()) {
 				if(this.gas.getFill() > 0) this.sendFluid(gas, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
+
+			this.idct = false;
 		}
 
 		super.updateEntity();
@@ -93,13 +96,25 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			};
 		} else {
 			return new DirPos[] {
-					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
+					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
+					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord, Library.NEG_Y)
 			};
 		}
 	}
 
 	@Override
 	public void receiveFlux(NeutronStream stream) {
+
+		if(!this.idct) {
+			if(slots[0] != null){
+				Triplet<ItemStack, FluidStack, Long> output = OutgasserRecipes.getOutput(slots[0]);
+				if(output != null) this.duration = output.getZ();
+			} else {
+				this.duration = 10000L;
+				this.progress = 0;
+			}
+			this.idct = true;
+		}
 
 		if(canProcess()) {
 
@@ -217,6 +232,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		super.serialize(buf);
 		this.gas.serialize(buf);
 		buf.writeDouble(this.progress);
+		buf.writeLong(this.duration);
 	}
 
 	@Override
@@ -224,6 +240,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		super.deserialize(buf);
 		this.gas.deserialize(buf);
 		this.progress = buf.readDouble();
+		this.duration = buf.readLong();
 	}
 
 	@Override

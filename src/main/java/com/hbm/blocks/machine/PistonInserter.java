@@ -213,7 +213,7 @@ public class PistonInserter extends BlockContainerBase implements ITooltipProvid
 		public ItemStack slot;
 
 		public int extend; //why don't we just make all these ones serverside? we're never using them on the client anyway
-		public static final int maxExtend = 25;
+		public static final int maxExtend = 5;
 		public boolean isRetracting = true;
 		public int delay;
 
@@ -282,8 +282,6 @@ public class PistonInserter extends BlockContainerBase implements ITooltipProvid
 			if(this.slot != null) {
 				BufferUtil.writeNBT(buf, slot.stackTagCompound);
 			}
-
-			this.turnProgress = 2;
 		}
 
 		@Override

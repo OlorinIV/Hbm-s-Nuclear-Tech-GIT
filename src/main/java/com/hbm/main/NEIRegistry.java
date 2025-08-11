@@ -24,14 +24,15 @@ public class NEIRegistry {
 		handlers.add(new GasCentrifugeRecipeHandler());
 		handlers.add(new BreederRecipeHandler());
 		handlers.add(new CyclotronRecipeHandler());
-		handlers.add(new AssemblerRecipeHandler());
+		handlers.add(new AssemblyMachineRecipeHandler());
 		handlers.add(new RefineryRecipeHandler());
 		handlers.add(new VacuumRecipeHandler());
 		handlers.add(new CrackingHandler());
 		handlers.add(new RadiolysisRecipeHandler());
 		handlers.add(new ReformingHandler());
 		handlers.add(new HydrotreatingHandler());
-		handlers.add(new ChemplantRecipeHandler());
+		handlers.add(new ChemicalPlantRecipeHandler());
+		handlers.add(new PUREXRecipeHandler());
 		handlers.add(new OreSlopperHandler()); //before acidizing
 		handlers.add(new CrystallizerRecipeHandler());
 		handlers.add(new BookRecipeHandler());
@@ -39,11 +40,14 @@ public class NEIRegistry {
 		handlers.add(new HadronRecipeHandler());
 		handlers.add(new SILEXRecipeHandler());
 		handlers.add(new FuelPoolHandler());
+		handlers.add(new RBMKRodDisassemblyHandler());
+		handlers.add(new RBMKWasteDecayHandler());
 		handlers.add(new CrucibleSmeltingHandler());
 		handlers.add(new CrucibleAlloyingHandler());
 		handlers.add(new CrucibleCastingHandler());
 		handlers.add(new ToolingHandler());
 		handlers.add(new ConstructionHandler());
+		handlers.add(new SatelliteHandler());
 
 		//universal boyes
 		handlers.add(new ZirnoxRecipeHandler());
