@@ -192,10 +192,10 @@ public class ModItems {
 	public static Item ingot_mercury; //It's to prevent any ambiguity, as it was treated as a full ingot in the past anyway
 	public static Item bottle_mercury;
 
-	//NTMC extra ingots
-	public static Item ingot_sodium;
-	public static Item ingot_strontium;
-	public static Item ingot_neodymium;
+	//NTMC extra ingots, deprecated and replaced by Bob's auto-generated items
+	/* public static Item ingot_sodium;
+	 * public static Item ingot_strontium;
+	 * public static Item ingot_neodymium; */
 
 	public static Item ore_byproduct; //byproduct of variable purity and quantity, can be treated as a nugget, might require shredding or acidizing, depends on the type
 
@@ -2470,9 +2470,9 @@ public class ModItems {
 		ingot_cft = new Item().setUnlocalizedName("ingot_cft").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_cft");
 
 		//NTMC extra ingots
-		ingot_sodium = new Item().setUnlocalizedName("ingot_sodium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_sodium");
-		ingot_strontium = new Item().setUnlocalizedName("ingot_strontium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_strontium");
-		ingot_neodymium = new Item().setUnlocalizedName("ingot_neodymium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_neodymium");
+		/* ingot_sodium = new Item().setUnlocalizedName("ingot_sodium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_sodium");
+		 * ingot_strontium = new Item().setUnlocalizedName("ingot_strontium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_strontium");
+		 * ingot_neodymium = new Item().setUnlocalizedName("ingot_neodymium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_neodymium"); */
 
 		ore_byproduct = new ItemByproduct().setUnlocalizedName("ore_byproduct").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":byproduct");
 
@@ -2958,7 +2958,11 @@ public class ModItems {
 		mold_base = new Item().setUnlocalizedName("mold_base").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":mold_base");
 		mold = new ItemMold().setUnlocalizedName("mold").setCreativeTab(MainRegistry.controlTab);
 		scraps = new ItemScraps().aot(Mats.MAT_BISMUTH, "scraps_bismuth").setUnlocalizedName("scraps").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":scraps");
-		ingot_raw = new ItemAutogen(MaterialShapes.INGOT).setUnlocalizedName("ingot_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_raw");
+		ingot_raw = new ItemAutogen(MaterialShapes.INGOT)
+				.aot(Mats.MAT_SODIUM, "ingot_sodium")
+				.aot(Mats.MAT_STRONTIUM, "ingot_strontium")
+				.aot(Mats.MAT_NEODYMIUM, "ingot_neodymium")
+				.setUnlocalizedName("ingot_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_raw");
 		plate_cast = new ItemAutogen(MaterialShapes.CASTPLATE).aot(Mats.MAT_BISMUTH, "plate_cast_bismuth").setUnlocalizedName("plate_cast").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_cast");
 		plate_welded = new ItemAutogen(MaterialShapes.WELDEDPLATE).setUnlocalizedName("plate_welded").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_welded");
 		wire_fine = new ItemAutogen(MaterialShapes.WIRE)
@@ -5178,9 +5182,9 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_raw, ingot_raw.getUnlocalizedName());
 
 		//NTMC extra ingots
-		GameRegistry.registerItem(ingot_sodium, ingot_sodium.getUnlocalizedName());
-		GameRegistry.registerItem(ingot_strontium, ingot_strontium.getUnlocalizedName());
-		GameRegistry.registerItem(ingot_neodymium, ingot_neodymium.getUnlocalizedName());
+		/* GameRegistry.registerItem(ingot_sodium, ingot_sodium.getUnlocalizedName());
+		 * GameRegistry.registerItem(ingot_strontium, ingot_strontium.getUnlocalizedName());
+		 * GameRegistry.registerItem(ingot_neodymium, ingot_neodymium.getUnlocalizedName()); */
 
 		//Billets
 		GameRegistry.registerItem(billet_uranium, billet_uranium.getUnlocalizedName());

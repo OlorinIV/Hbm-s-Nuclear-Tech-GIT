@@ -109,9 +109,9 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.powder_cadmium, new ItemStack(ModItems.ingot_cadmium), 1.0F);
 		GameRegistry.addSmelting(ModItems.ball_resin, new ItemStack(ModItems.ingot_biorubber), 0.1F);
 
-		GameRegistry.addSmelting(ModItems.powder_sodium, new ItemStack(ModItems.ingot_sodium), 1.0F);
-		GameRegistry.addSmelting(ModItems.powder_strontium, new ItemStack(ModItems.ingot_strontium), 1.0F);
-		GameRegistry.addSmelting(ModItems.powder_neodymium, new ItemStack(ModItems.ingot_neodymium), 1.0F);
+		GameRegistry.addSmelting(ModItems.powder_sodium, new ItemStack(ModItems.ingot_raw, 1, 1100), 1.0F);  //Hardcoded metas, I've done my best since IDEA suddenly stopped working
+		GameRegistry.addSmelting(ModItems.powder_strontium,new ItemStack(ModItems.ingot_raw, 1, 3800), 1.0F);
+		GameRegistry.addSmelting(ModItems.powder_neodymium, new ItemStack(ModItems.ingot_raw, 1, 6000), 1.0F);
 
 		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.arc_electrode_burnt, EnumElectrodeType.GRAPHITE), new ItemStack(ModItems.ingot_graphite), 3.0F);
 		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.arc_electrode_burnt, EnumElectrodeType.LANTHANIUM), new ItemStack(ModItems.ingot_lanthanium), 3.0F);
