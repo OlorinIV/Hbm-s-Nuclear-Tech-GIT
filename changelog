@@ -7,6 +7,7 @@
   * This means that RBMK fuel rods can now be automatically disassembled without the depletion number having to be a 100% match
   * Due to the way the RBMK uncrafting handler works, a single autocrafter now correctly supports RBMK fuel of one type of any depletion level, yielding the correct recycling pellets
 
+
 ## Fixed
 * Fixed QMAW not working at all
 * Potentially fixed a bug where proxy tile entities would reference unloaded core tile entities which would cause bizarre item voiding/duping issues in rare cases

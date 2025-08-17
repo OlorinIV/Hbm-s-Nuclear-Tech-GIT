@@ -1017,6 +1017,10 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 				new OreDictStack(PB.plate528(), 6),
 				new OreDictStack(OreDictManager.getReflector(), 4),
 				new OreDictStack(CU.plate(), 2)));
+		this.register(new GenericRecipe("ass.drillcmb").setup(100, 100).outputItems(new ItemStack(ModItems.drillbit, 1, EnumDrillType.CMB.ordinal()))
+			.inputItems(new OreDictStack(CMB.ingot(), 32), new OreDictStack(FERRO.ingot(), 16), new OreDictStack(ANY_HARDPLASTIC.ingot(), 6)));
+		this.register(new GenericRecipe("ass.drillcmbdiamond").setup(100, 100).outputItems(new ItemStack(ModItems.drillbit, 1, EnumDrillType.CMB_DIAMOND.ordinal()))
+			.inputItems(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.CMB.ordinal()), new OreDictStack(DIAMOND.dust(), 64)));
 
 		FluidType[] order = Fluids.getInNiceOrder();
 		for(int i = 1; i < order.length; ++i) {

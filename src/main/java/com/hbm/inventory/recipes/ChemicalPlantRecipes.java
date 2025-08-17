@@ -411,7 +411,6 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.outputItems(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.SOOT, 1)));
 
 		this.register(new GenericRecipe("chem.ln2").setupNamed(400, 2_000)
-				.inputFluids(new FluidStack(Fluids.NONE, 0))
 				.outputFluids(new FluidStack(Fluids.NITROGEN, 5_000)));
 
 		this.register(new GenericRecipe("chem.cryolite").setupNamed(50, 100)

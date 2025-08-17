@@ -48,8 +48,8 @@ public class RotaryFurnaceRecipes extends SerializableRecipe {
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_WEAPONSTEEL, INGOT.q(1)), 200, 400, new FluidStack(Fluids.GAS_COKER, 100), new OreDictStack(STEEL.ingot(), 1), new ComparableStack(ModItems.powder_flux, 2)));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_SATURN, INGOT.q(2)), 200, 400, new FluidStack(Fluids.REFORMGAS, 250), new OreDictStack(DURA.dust(), 4), new OreDictStack(CU.dust())));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_SATURN, INGOT.q(4)), 200, 300, new FluidStack(Fluids.REFORMGAS, 250), new OreDictStack(DURA.dust(), 4), new OreDictStack(CU.dust()), new OreDictStack(BORAX.dust())));
-		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALUMINIUM, INGOT.q(2)), 100, 400, new FluidStack(Fluids.SODIUM_ALUMINATE, 150)));
-		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALUMINIUM, INGOT.q(3)), 40, 200, new FluidStack(Fluids.SODIUM_ALUMINATE, 150), new ComparableStack(ModItems.powder_flux, 2)));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALUMINIUM, INGOT.q(2)), 100, 400, new FluidStack(Fluids.SODIUM_ALUMINATE, 750)));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALUMINIUM, INGOT.q(3)), 40, 200, new FluidStack(Fluids.SODIUM_ALUMINATE, 750), new ComparableStack(ModItems.powder_flux, 2)));
 
 		//NTMC Addon
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_MINGRADE, INGOT.q(2)), 100, 50, new OreDictStack(CU.ingot()), new OreDictStack(REDSTONE.dust())));

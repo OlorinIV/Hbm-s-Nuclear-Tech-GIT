@@ -6354,3 +6354,5 @@ item.rbmk_pellet_rs3.name=Research RBMK Fuel Pellet Tier 3
 tile.block_neodymium.name=Block of Neodymium
 tile.block_sodium.name=Block of Sodium
 tile.block_strontium.name=Block of Strontium
+
+fluid.sulfuric_acid_fluid=Sulfuric Acid
