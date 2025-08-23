@@ -29,6 +29,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CrucibleUtil;
+import com.hbm.util.ItemStackUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -46,9 +47,12 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider {
 
+	private static final Log log = LogFactory.getLog(TileEntityMachineArcFurnaceLarge.class);
 	public long power;
 	public static final long maxPower = 2_500_000;
 	public boolean liquidMode = false;
@@ -73,10 +77,6 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public static final byte ELECTRODE_FRESH = 1;
 	public static final byte ELECTRODE_USED = 2;
 	public static final byte ELECTRODE_DEPLETED = 3;
-
-	public int getMaxInputSize() {
-		return (int)Math.pow(4, upgrade);
-	}
 
 	public static final int maxLiquid = MaterialShapes.BLOCK.q(128);
 	public List<MaterialStack> liquids = new ArrayList();
@@ -357,7 +357,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				if(recipe.solidOutput == null) return false;
 				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
 				sta += stack.stackSize;
-				return sta * recipe.solidOutput.stackSize <= recipe.solidOutput.getMaxStackSize() && sta <= getMaxInputSize();
+				return sta * recipe.solidOutput.stackSize <= recipe.solidOutput.getMaxStackSize();
 			}
 		}
 		return false;
@@ -395,6 +395,111 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		}
 
 		liquids.add(matStack.copy());
+	}
+
+	//Returns what is unused, or null if used up
+	public ItemStack distributeInput(ItemStack is, boolean modulate) {
+		if(is.stackSize == 0) return null;
+		ItemStack split;
+
+		//Slots 0,1,2
+		if(is.getItem() == ModItems.arc_electrode) {
+			for(int i = 0; i < 3; i++) {
+				if(slots[i] == null) {
+					split = is.splitStack(1);
+					if(modulate) this.setInventorySlotContents(i, split);
+				}
+				if (is.stackSize == 0) return null;
+			}
+			//Don't tell me you're gonna add an arc furnace recipe smelting electrodes
+			return is;
+		}
+
+		//Slots 5-24
+		ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(is, this.liquidMode);
+		if(recipe != null) {
+			int maxStackSize = this.liquidMode ? 64 : recipe.solidOutput.getMaxStackSize() / recipe.solidOutput.stackSize;
+			maxStackSize = Math.min(maxStackSize, is.getMaxStackSize());
+
+			//Scan
+			for(int i = 5; i < 25; i++){
+				if(slots[i] == null) {
+					if(is.stackSize > maxStackSize) {
+						split = is.splitStack(maxStackSize);
+						if(modulate) slots[i] = split;
+					} else {
+						if(modulate) slots[i] = is;
+						return null;
+					}
+				} else if(ItemStackUtil.areStacksCompatible(is, slots[i]) && slots[i].stackSize < maxStackSize) {
+					if(is.stackSize > maxStackSize - slots[i].stackSize) {
+						is.splitStack(maxStackSize - slots[i].stackSize);
+						if(modulate) slots[i].stackSize = maxStackSize;
+					} else {
+						if(modulate) slots[i].stackSize += is.stackSize;
+						return null;
+					}
+				}
+			}
+		}
+		return is;
+	}
+
+	//Returns requested ItemStack
+	public ItemStack collectRequested(ItemStack is, boolean modulate) {
+		int req = is.stackSize;
+		if(req == 0) return null;
+
+		//Slots 0,1,2
+		if(is.getItem() != ModItems.arc_electrode) {
+			for(int i = 0; i < 3; i++) {
+				if(slots[i] == null) continue;
+				if(ItemStackUtil.areStacksCompatible(is, slots[i])) {
+					if(req > slots[i].stackSize) {
+						req -= slots[i].stackSize;
+						if(modulate) slots[i] = null;
+					} else if(req < slots[i].stackSize) {
+						if(modulate) slots[i].stackSize -= req;
+						return is;
+					} else {
+						if(modulate) slots[i] = null;
+						return is;
+					}
+				}
+			}
+		}
+
+		//Slots 5-24
+		if(ArcFurnaceRecipes.getOutput(is, this.liquidMode) == null) {
+			for(int i = 5; i < 25; i++) {
+				if(slots[i] == null) continue;
+				if(ItemStackUtil.areStacksCompatible(is, slots[i])) {
+					if(req > slots[i].stackSize) {
+						req -= slots[i].stackSize;
+						if(modulate) slots[i] = null;
+					} else if(req < slots[i].stackSize) {
+						if(modulate) slots[i].stackSize -= req;
+						return is;
+					} else {
+						if(modulate) slots[i] = null;
+						return is;
+					}
+				}
+			}
+		}
+
+		is.stackSize -= req;
+		if(is.stackSize == 0) return null;
+		return is;
+	}
+
+	//Return ItemStack in slot, null if unavailable
+	public ItemStack getAvailableItemFromSlot(int slot) {
+		if(slots[slot] == null) return null;
+		if(slot < 3 && slots[slot].getItem() == ModItems.arc_electrode) return null;
+		else if(slot > 4 && ArcFurnaceRecipes.getOutput(slots[slot], this.liquidMode) != null) return null;
+		else if(slot == 3 || slot == 4) return null;
+		else return slots[slot];
 	}
 
 	public static int getStackAmount(List<MaterialStack> stack) {
