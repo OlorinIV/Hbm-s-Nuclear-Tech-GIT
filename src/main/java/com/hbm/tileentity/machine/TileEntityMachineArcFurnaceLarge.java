@@ -47,12 +47,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider {
 
-	private static final Log log = LogFactory.getLog(TileEntityMachineArcFurnaceLarge.class);
 	public long power;
 	public static final long maxPower = 2_500_000;
 	public boolean liquidMode = false;
