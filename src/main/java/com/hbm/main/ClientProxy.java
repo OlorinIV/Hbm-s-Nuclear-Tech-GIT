@@ -145,6 +145,8 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public void registerPreRenderInfo() {
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
+		
+		QMAWLoader.registerModFileURL(FMLCommonHandler.instance().findContainerFor(RefStrings.MODID).getSource());
 	}
 
 	/** Runs right after item and block init */
@@ -617,6 +619,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityArtilleryRocket.class, new RenderArtilleryRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntityCog.class, new RenderCog());
 		RenderingRegistry.registerEntityRenderingHandler(EntitySawblade.class, new RenderSawblade());
+		RenderingRegistry.registerEntityRenderingHandler(EntityCoin.class, new RenderCoin());
 		RenderingRegistry.registerEntityRenderingHandler(EntityChemical.class, new RenderChemical());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMist.class, new RenderMist());
 		RenderingRegistry.registerEntityRenderingHandler(EntityFireLingering.class, new RenderMist());
