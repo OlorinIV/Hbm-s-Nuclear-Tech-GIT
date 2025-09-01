@@ -1045,6 +1045,7 @@ public class ModItems {
 	public static Item pwr_fuel;
 	public static Item pwr_fuel_hot;
 	public static Item pwr_fuel_depleted;
+	public static Item pwr_printer;
 
 	public static Item rbmk_lid;
 	public static Item rbmk_lid_glass;
@@ -1499,7 +1500,6 @@ public class ModItems {
 	public static Item gun_double_barrel;
 	public static Item gun_double_barrel_sacred_dragon;
 	public static Item gun_n_i_4_n_i;
-
 	public static Item gun_charge_thrower;
 
 	public static Item ammo_standard;
@@ -3221,6 +3221,7 @@ public class ModItems {
 		pwr_fuel = new ItemPWRFuel().setUnlocalizedName("pwr_fuel").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel");
 		pwr_fuel_hot = new ItemEnumMulti(EnumPWRFuel.class, true, false).setUnlocalizedName("pwr_fuel_hot").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel_hot");
 		pwr_fuel_depleted = new ItemEnumMulti(EnumPWRFuel.class, true, false).setUnlocalizedName("pwr_fuel_depleted").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel_depleted");
+		pwr_printer = new ItemPWRPrinter().setUnlocalizedName("pwr_printer").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_printer");
 
 		rbmk_lid = new ItemRBMKLid().setUnlocalizedName("rbmk_lid").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_lid");
 		rbmk_lid_glass = new ItemRBMKLid().setUnlocalizedName("rbmk_lid_glass").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_lid_glass");
@@ -6087,6 +6088,7 @@ public class ModItems {
 		GameRegistry.registerItem(pwr_fuel, pwr_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(pwr_fuel_hot, pwr_fuel_hot.getUnlocalizedName());
 		GameRegistry.registerItem(pwr_fuel_depleted, pwr_fuel_depleted.getUnlocalizedName());
+		GameRegistry.registerItem(pwr_printer, pwr_printer.getUnlocalizedName());
 
 		//RBMK parts
 		GameRegistry.registerItem(rbmk_lid, rbmk_lid.getUnlocalizedName());
