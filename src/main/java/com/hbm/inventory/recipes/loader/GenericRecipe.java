@@ -118,23 +118,46 @@ public class GenericRecipe {
 	public List<String> print() {
 		List<String> list = new ArrayList();
 		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
+
+		// autoswitch group (two lines: label + "Enabled for")
 		if(this.autoSwitchGroup != null) {
 			String[] lines = I18nUtil.resolveKeyArray("autoswitch", I18nUtil.resolveKey(this.autoSwitchGroup));
 			for(String line : lines) list.add(EnumChatFormatting.GOLD + line);
 		}
-		if(duration > 0) list.add(EnumChatFormatting.RED + "Duration: " + this.duration / 20D + "s");
-		if(power > 0) list.add(EnumChatFormatting.RED + "Consumption: " + BobMathUtil.getShortNumber(power) + "HE/t");
-		list.add(EnumChatFormatting.BOLD + "Input:");
+
+		// duration (seconds)
+		if(duration > 0) {
+			double seconds = this.duration / 20D;
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.recipe.duration") + ": " + seconds + "s");
+		}
+
+		// power / consumption
+		if(power > 0) {
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.recipe.consumption") + ": " + BobMathUtil.getShortNumber(power) + "HE/t");
+		}
+
+		// input label + items
+		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("gui.recipe.input") + ":");
 		if(inputItem != null) for(AStack stack : inputItem) {
 			ItemStack display = stack.extractForCyclingDisplay(20);
 			list.add("  " + EnumChatFormatting.GRAY + display.stackSize + "x " + display.getDisplayName());
 		}
-		if(inputFluid != null) for(FluidStack fluid : inputFluid) list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + (fluid.pressure == 0 ? "" : " at " + EnumChatFormatting.RED + fluid.pressure + " PU"));
-		list.add(EnumChatFormatting.BOLD + "Output:");
-		if(outputItem != null) for(IOutput output : outputItem) for(String line : output.getLabel()) list.add("  " + line);
-		if(outputFluid != null) for(FluidStack fluid : outputFluid) list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + (fluid.pressure == 0 ? "" : " at " + EnumChatFormatting.RED + fluid.pressure + " PU"));
+		if (inputFluid != null) for (FluidStack fluid : inputFluid) list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + (fluid.pressure == 0 ? "" : " " + I18nUtil.resolveKey("gui.recipe.atPressure") + " " + EnumChatFormatting.RED + fluid.pressure + " PU"));
+
+		// output label + items
+		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("gui.recipe.output") + ":");
+		if(outputItem != null) for(IOutput output : outputItem)
+			for(String line : output.getLabel()) list.add("  " + line);
+		if(outputFluid != null) for(FluidStack fluid : outputFluid) {
+			String mB = I18nUtil.resolveKey("gui.recipe.mB");
+			String pressurePart = fluid.pressure == 0 ? "" :
+				" " + I18nUtil.resolveKey("gui.recipe.atPressure") + " " + EnumChatFormatting.RED + fluid.pressure + " PU";
+			list.add("  " + EnumChatFormatting.BLUE + fluid.fill + mB + " " + fluid.type.getLocalizedName() + pressurePart);
+		}
+
 		return list;
 	}
+
 
 	/** Default impl only matches localized name substring, can be extended to include ingredients as well */
 	public boolean matchesSearch(String substring) {

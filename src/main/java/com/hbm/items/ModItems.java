@@ -1498,7 +1498,7 @@ public class ModItems {
 	public static Item gun_aberrator_eott;
 	public static Item gun_double_barrel;
 	public static Item gun_double_barrel_sacred_dragon;
-	public static Item gun_n_i_4_n_i; // we GET THERE when we GET THERE
+	public static Item gun_n_i_4_n_i;
 
 	public static Item gun_charge_thrower;
 
@@ -2432,7 +2432,6 @@ public class ModItems {
 		billet_rs2 = new Item().setUnlocalizedName("billet_rs2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_rs2");
 		billet_rs3 = new Item().setUnlocalizedName("billet_rs3").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_rs3");
 
-
 		ball_resin = new ItemCustomLore().setUnlocalizedName("ball_resin").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ball_resin");
 		ingot_dura_steel = new ItemCustomLore().setUnlocalizedName("ingot_dura_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_dura_steel");
 		ingot_polymer = new ItemCustomLore().setUnlocalizedName("ingot_polymer").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_polymer");
@@ -3262,7 +3261,6 @@ public class ModItems {
 		rbmk_pellet_rs1 = (ItemRBMKPellet) new ItemRBMKPellet("Research Rod Mix - Ra226Be&Pu239").disableXenon().setUnlocalizedName("rbmk_pellet_rs1").setTextureName(RefStrings.MODID + ":rbmk_pellet_rs1");
 		rbmk_pellet_rs2 = (ItemRBMKPellet) new ItemRBMKPellet("Research Rod Mix - Po210Be&Pu241").disableXenon().setUnlocalizedName("rbmk_pellet_rs2").setTextureName(RefStrings.MODID + ":rbmk_pellet_rs2");
 		rbmk_pellet_rs3 = (ItemRBMKPellet) new ItemRBMKPellet("Research Rod Mix - DNT&Sa327").disableXenon().setUnlocalizedName("rbmk_pellet_rs3").setTextureName(RefStrings.MODID + ":rbmk_pellet_rs3");
-
 
 		rbmk_fuel_empty = new Item().setUnlocalizedName("rbmk_fuel_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_fuel_empty");
 		rbmk_fuel_ueu = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_ueu)
@@ -6503,6 +6501,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_aberrator_eott, gun_aberrator_eott.getUnlocalizedName());
 		GameRegistry.registerItem(gun_double_barrel, gun_double_barrel.getUnlocalizedName());
 		GameRegistry.registerItem(gun_double_barrel_sacred_dragon, gun_double_barrel_sacred_dragon.getUnlocalizedName());
+		GameRegistry.registerItem(gun_n_i_4_n_i, gun_n_i_4_n_i.getUnlocalizedName());
 
 		GameRegistry.registerItem(gun_fireext, gun_fireext.getUnlocalizedName());
 		GameRegistry.registerItem(gun_charge_thrower, gun_charge_thrower.getUnlocalizedName());
