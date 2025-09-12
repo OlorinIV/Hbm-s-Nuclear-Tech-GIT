@@ -6275,3 +6275,10 @@ item.rbmk_pellet_rs3.name=研究型RBMK燃料芯块 T3
 tile.block_neodymium.name=钕块
 tile.block_sodium.name=钠块
 tile.block_strontium.name=锶块
+
+fluid.sulfuric_acid_fluid=硫酸
+
+wiring.connection.type0=错误
+wiring.connection.type1=单线
+wiring.connection.type2=三线
+wiring.connection.type3=四线

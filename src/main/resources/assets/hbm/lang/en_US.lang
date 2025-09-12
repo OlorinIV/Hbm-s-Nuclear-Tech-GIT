@@ -6529,3 +6529,8 @@ tile.block_sodium.name=Block of Sodium
 tile.block_strontium.name=Block of Strontium
 
 fluid.sulfuric_acid_fluid=Sulfuric Acid
+
+wiring.connection.type0=Error
+wiring.connection.type1=Single
+wiring.connection.type2=Triple
+wiring.connection.type3=Quad

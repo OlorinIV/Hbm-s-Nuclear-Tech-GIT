@@ -19,10 +19,10 @@ public class TileEntityPylonMedium extends TileEntityPylonBase {
 
 	@Override
 	public Vec3[] getMountPos() {
-		
+
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		double height = 7.5D;
-		
+
 		return new Vec3[] {
 				Vec3.createVectorHelper(0.5, height, 0.5),
 				Vec3.createVectorHelper(0.5 + dir.offsetX, height, 0.5 + dir.offsetZ),
@@ -37,7 +37,7 @@ public class TileEntityPylonMedium extends TileEntityPylonBase {
 
 	@Override
 	public boolean canConnect(ForgeDirection dir) {
-		return this.hasTransformer() ? ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getOpposite() == dir : false;
+		return this.hasTransformer() ? ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getOpposite() == dir || dir == ForgeDirection.DOWN : false;
 	}
 
 	@Override
@@ -48,10 +48,11 @@ public class TileEntityPylonMedium extends TileEntityPylonBase {
 		if(this.hasTransformer()) {
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getOpposite();
 			node.addConnection(new DirPos(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir));
+			node.addConnection(new DirPos(xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN));
 		}
 		return node;
 	}
-	
+
 	public boolean hasTransformer() {
 		Block block = this.getBlockType();
 		return block == ModBlocks.red_pylon_medium_wood_transformer || block == ModBlocks.red_pylon_medium_steel_transformer;

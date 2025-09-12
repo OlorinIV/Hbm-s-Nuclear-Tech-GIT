@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.TileEntityPylonBase;
 
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -23,19 +25,19 @@ public class ItemWiring extends Item {
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_) {
 
 		if(!player.isSneaking()) {
-			
+
 			Block b = world.getBlock(x, y, z);
-			
+
 			if(b instanceof BlockDummyable) {
 				int[] core = ((BlockDummyable)b).findCore(world, x, y, z);
-				
+
 				if(core != null) {
 					x = core[0];
 					y = core[1];
 					z = core[2];
 				}
 			}
-			
+
 			TileEntity te = world.getTileEntity(x, y, z);
 
 			if(te != null && te instanceof TileEntityPylonBase) {
@@ -43,9 +45,13 @@ public class ItemWiring extends Item {
 				if(stack.stackTagCompound == null) {
 					stack.stackTagCompound = new NBTTagCompound();
 
+					TileEntityPylonBase p = (TileEntityPylonBase) world.getTileEntity(x, y, z);
+
 					stack.stackTagCompound.setInteger("x", x);
 					stack.stackTagCompound.setInteger("y", y);
 					stack.stackTagCompound.setInteger("z", z);
+					stack.stackTagCompound.setInteger("ctype", p.getConnectionType().ordinal() + 1);
+					stack.stackTagCompound.setDouble("lm", p.getMaxWireLength());
 
 					if(!world.isRemote) {
 						player.addChatMessage(new ChatComponentText("Wire start"));
@@ -60,7 +66,7 @@ public class ItemWiring extends Item {
 
 						TileEntityPylonBase first = (TileEntityPylonBase) world.getTileEntity(x1, y1, z1);
 						TileEntityPylonBase second = ((TileEntityPylonBase) te);
-						
+
 						switch (TileEntityPylonBase.canConnect(first, second)) {
 							case 0:
 								first.addConnection(x, y, z);
@@ -77,7 +83,7 @@ public class ItemWiring extends Item {
 								player.addChatMessage(new ChatComponentText("Wire error - Pylon is too far away"));
 								break;
 						}
-						
+
 						stack.stackTagCompound = null;
 
 					} else {
@@ -117,8 +123,9 @@ public class ItemWiring extends Item {
 						entity.posX - stack.stackTagCompound.getInteger("x"),
 						entity.posY - stack.stackTagCompound.getInteger("y"),
 						entity.posZ - stack.stackTagCompound.getInteger("z"));
-				
-				MainRegistry.proxy.displayTooltip(((int) vec.lengthVector()) + "m", MainRegistry.proxy.ID_CABLE);
+
+				double dis = vec.lengthVector();
+				MainRegistry.proxy.displayTooltip("" + (dis > stack.stackTagCompound.getDouble("lm") ? EnumChatFormatting.RED : EnumChatFormatting.WHITE) + ((int) dis) + "m " + EnumChatFormatting.YELLOW + I18nUtil.resolveKey("wiring.connection.type" + stack.stackTagCompound.getInteger("ctype")), MainRegistry.proxy.ID_CABLE);
 			}
 		}
 	}
