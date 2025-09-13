@@ -1764,6 +1764,9 @@ matshape.nuggets=%s Nuggets
 matshape.quantum=%s Quantum
 matshape.quanta=%s Quanta
 
+# Machine abbreviations used in Fluid Identifiers' on-click chat
+machine.fluid.changetype=Changed type to %s!
+
 icffuel.beryllium=Beryllium
 icffuel.boron=Boron
 icffuel.carbon=Carbon

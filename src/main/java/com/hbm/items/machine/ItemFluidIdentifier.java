@@ -14,6 +14,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -117,5 +118,10 @@ public class ItemFluidIdentifier extends Item implements IItemFluidIdentifier {
 
 			return j;
 		}
+	}
+
+	public static void chatOnChangeType(EntityPlayer player, String keyMachineName, FluidType type) {
+		String name = EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey(keyMachineName) + "] ";
+		player.addChatComponentMessage(new ChatComponentText( name + EnumChatFormatting.YELLOW + I18nUtil.resolveKey("machine.fluid.changetype", type.getLocalizedName())));
 	}
 }
