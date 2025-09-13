@@ -120,8 +120,9 @@ public class ItemFluidIdentifier extends Item implements IItemFluidIdentifier {
 		}
 	}
 
+	// R-click change type message
 	public static void chatOnChangeType(EntityPlayer player, String keyMachineName, FluidType type) {
 		String name = EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey(keyMachineName) + "] ";
-		player.addChatComponentMessage(new ChatComponentText( name + EnumChatFormatting.YELLOW + I18nUtil.resolveKey("machine.fluid.changetype", type.getLocalizedName())));
+		player.addChatComponentMessage(new ChatComponentText( name + EnumChatFormatting.YELLOW + I18nUtil.resolveKey("chat.machine.fluid.changetype", type.getLocalizedName())));
 	}
 }

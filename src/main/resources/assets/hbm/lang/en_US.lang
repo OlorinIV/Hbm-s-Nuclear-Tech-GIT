@@ -574,6 +574,18 @@ cannery.schottky.7=If any virtual particles encounter any malformed segments, al
 cannery.schottky.8=Note that virtual particles will never use the same Diode exit twice. Infinite loops will fail, but re-entering a Diode is otherwise fine
 cannery.schottky.9=Your Schottky Particle Diode should be properly enclosed, with free paths for each intersection exit
 
+# Machine abbreviations used in Fluid Identifiers' on-click chat
+chat.machine.fluid.changetype=Changed type to %s!
+
+chat.fluid_pump.abbr=Flow Pump
+chat.machine_autosaw.abbr=Auto Saw
+chat.machine_bat9000.abbr=BAT9000
+chat.machine_catalytic_cracker.abbr=Catalytic Cracker
+chat.machine_drain.abbr=Drain
+chat.machine_fraction_tower.abbr=Fraction Tower
+chat.machine_hephaestus.abbr=Geothermal Heater
+chat.refueler.abbr=Refueler
+
 chem.hydrogen=Hydrogen
 chem.hydrogencoke=Hydrogen from Coke
 chem.oxygen=Oxygen
@@ -1763,9 +1775,6 @@ matshape.nugget=%s Nugget
 matshape.nuggets=%s Nuggets
 matshape.quantum=%s Quantum
 matshape.quanta=%s Quanta
-
-# Machine abbreviations used in Fluid Identifiers' on-click chat
-machine.fluid.changetype=Changed type to %s!
 
 icffuel.beryllium=Beryllium
 icffuel.boron=Boron

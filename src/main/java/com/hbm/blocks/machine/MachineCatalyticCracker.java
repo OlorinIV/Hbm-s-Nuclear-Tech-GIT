@@ -5,6 +5,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticCracker;
 import com.hbm.util.i18n.I18nUtil;
@@ -12,9 +13,6 @@ import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
@@ -70,7 +68,7 @@ public class MachineCatalyticCracker extends BlockDummyable implements ILookOver
 				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
 				cracker.tanks[0].setTankType(type);
 				cracker.markDirty();
-				player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation(type.getConditionalName())).appendSibling(new ChatComponentText("!")));
+				ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_catalytic_cracker.abbr", type);
 
 				return true;
 			}

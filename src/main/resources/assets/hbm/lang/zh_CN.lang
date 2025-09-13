@@ -6283,4 +6283,4 @@ wiring.connection.type1=单线
 wiring.connection.type2=三线
 wiring.connection.type3=四线
 
-machine.fluid.changetype=流体类别更改为%s!
+chat.machine.fluid.changetype=流体类别更改为%s!
