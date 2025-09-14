@@ -77,7 +77,7 @@ public class MachineOrbus extends BlockDummyable implements IPersistentInfoProvi
 
 				kyleEntity.tank.setTankType(type);
 				kyleEntity.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "container.orbus", type);
+				ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_orbus.abbr", type);
 				}
 			}
 

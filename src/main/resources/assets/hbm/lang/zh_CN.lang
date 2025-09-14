@@ -6284,3 +6284,13 @@ wiring.connection.type2=三线
 wiring.connection.type3=四线
 
 chat.machine.fluid.changetype=流体类别更改为%s!
+
+chat.fluid_pump.abbr=流量泵
+chat.machine_autosaw.abbr=自动锯
+chat.machine_bat9000.abbr=BAT 9000
+chat.machine_catalytic_cracker.abbr=裂化塔
+chat.machine_drain.abbr=排水管
+chat.machine_fraction_tower.abbr=分馏器
+chat.machine_hephaestus.abbr=地热加热器
+chat.machine_orbus.abbr=磁约束储罐
+chat.refueler.abbr=加油站

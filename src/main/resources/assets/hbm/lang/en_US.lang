@@ -579,11 +579,12 @@ chat.machine.fluid.changetype=Changed type to %s!
 
 chat.fluid_pump.abbr=Flow Pump
 chat.machine_autosaw.abbr=Auto Saw
-chat.machine_bat9000.abbr=BAT9000
-chat.machine_catalytic_cracker.abbr=Catalytic Cracker
+chat.machine_bat9000.abbr=BAT 9000
+chat.machine_catalytic_cracker.abbr=Cracking Tower
 chat.machine_drain.abbr=Drain
 chat.machine_fraction_tower.abbr=Fraction Tower
 chat.machine_hephaestus.abbr=Geothermal Heater
+chat.machine_orbus.abbr=Magnetic Tank
 chat.refueler.abbr=Refueler
 
 chem.hydrogen=Hydrogen
