@@ -574,19 +574,6 @@ cannery.schottky.7=If any virtual particles encounter any malformed segments, al
 cannery.schottky.8=Note that virtual particles will never use the same Diode exit twice. Infinite loops will fail, but re-entering a Diode is otherwise fine
 cannery.schottky.9=Your Schottky Particle Diode should be properly enclosed, with free paths for each intersection exit
 
-# Machine abbreviations used in Fluid Identifiers' on-click chat
-chat.machine.fluid.changetype=Changed type to %s!
-
-chat.fluid_pump.abbr=Flow Pump
-chat.machine_autosaw.abbr=Auto Saw
-chat.machine_bat9000.abbr=BAT 9000
-chat.machine_catalytic_cracker.abbr=Cracking Tower
-chat.machine_drain.abbr=Drain
-chat.machine_fraction_tower.abbr=Fraction Tower
-chat.machine_hephaestus.abbr=Geothermal Heater
-chat.machine_orbus.abbr=Magnetic Tank
-chat.refueler.abbr=Refueler
-
 chem.hydrogen=Hydrogen
 chem.hydrogencoke=Hydrogen from Coke
 chem.oxygen=Oxygen
@@ -3325,7 +3312,7 @@ item.mechanism_rifle_2.name=Advanced Rifle Mechanism
 item.mechanism_special.name=High-Tech Weapon Mechanism
 item.med_bag.name=First Aid Kit
 item.med_ipecac.name=Ipecac Syrup
-item.med_ipecac.desс=Bitter juice that will cause your stomach$to forcefully eject its contents.
+item.med_ipecac.desc=Bitter juice that will cause your stomach$to forcefully eject its contents.
 item.med_ptsd.name=PTSD Medication
 item.med_ptsd.desc=This isn't even PTSD medication, it's just$Ipecac in a different bottle!
 item.med_schiziphrenia.name=Schizophrenia Medication
@@ -6550,3 +6537,16 @@ wiring.connection.type0=Error
 wiring.connection.type1=Single
 wiring.connection.type2=Triple
 wiring.connection.type3=Quad
+
+# Machine abbreviations used in Fluid Identifiers' on-click chat
+chat.machine.fluid.changetype=Changed type to %s!
+
+chat.fluid_pump.abbr=Flow Pump
+chat.machine_autosaw.abbr=Auto Saw
+chat.machine_bat9000.abbr=BAT 9000
+chat.machine_catalytic_cracker.abbr=Cracking Tower
+chat.machine_drain.abbr=Drain
+chat.machine_fraction_tower.abbr=Fraction Tower
+chat.machine_hephaestus.abbr=Geothermal Heater
+chat.machine_orbus.abbr=Magnetic Tank
+chat.refueler.abbr=Refueler
