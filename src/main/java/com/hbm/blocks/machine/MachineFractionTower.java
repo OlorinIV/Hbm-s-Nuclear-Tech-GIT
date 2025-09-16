@@ -72,7 +72,7 @@ public class MachineFractionTower extends BlockDummyable implements ILookOverlay
 					FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
 					frac.tanks[0].setTankType(type);
 					frac.markDirty();
-					ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_fraction_tower.abbr", type);
+					ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 				}
 
 				return true;

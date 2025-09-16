@@ -62,7 +62,7 @@ public class MachineHeatBoilerIndustrial extends BlockDummyable implements ILook
 				if(type.hasTrait(FT_Heatable.class) && type.getTrait(FT_Heatable.class).getEfficiency(HeatingType.BOILER) > 0) {
 					boiler.tanks[0].setTankType(type);
 					boiler.markDirty();
-					ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_boiler.name", type);
+					ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 				}
 				return true;
 			}

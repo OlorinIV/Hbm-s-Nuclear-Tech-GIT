@@ -60,7 +60,7 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 				if(saw.acceptedFuels.contains(type)) {
 					saw.tank.setTankType(type);
 					saw.markDirty();
-					ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_autosaw.abbr", type);
+					ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 					return true;
 				}
 			}

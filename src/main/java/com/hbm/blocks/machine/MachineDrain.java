@@ -57,7 +57,7 @@ public class MachineDrain extends BlockDummyable implements ILookOverlay {
 				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
 				drain.tank.setTankType(type);
 				drain.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_drain.abbr", type);
+				ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 
 				return true;
 			}

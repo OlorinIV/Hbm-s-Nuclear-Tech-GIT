@@ -68,7 +68,7 @@ public class MachineCatalyticCracker extends BlockDummyable implements ILookOver
 				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
 				cracker.tanks[0].setTankType(type);
 				cracker.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_catalytic_cracker.abbr", type);
+				ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 
 				return true;
 			}

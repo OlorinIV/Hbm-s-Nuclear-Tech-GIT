@@ -69,7 +69,7 @@ public class HeaterHeatex extends BlockDummyable implements ILookOverlay, IToolt
 	
 						trialEntity.tanks[0].setTankType(type);
 						trialEntity.markDirty();
-						ItemFluidIdentifier.chatOnChangeType(player, "container.heaterHeatex", type);
+						ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 						return true;
 					}
 				}

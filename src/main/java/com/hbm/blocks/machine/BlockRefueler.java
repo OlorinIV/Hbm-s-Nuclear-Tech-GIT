@@ -55,7 +55,7 @@ public class BlockRefueler extends BlockContainer {
 				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, x, y, z, player.getHeldItem());
 				refueler.tank.setTankType(type);
 				refueler.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "chat.refueler.abbr", type);
+				ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 
 				return true;
 			}

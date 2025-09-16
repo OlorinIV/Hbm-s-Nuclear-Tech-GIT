@@ -94,7 +94,7 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 
 				tank.tank.setTankType(type);
 				tank.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_fluidtank.name", type);
+				ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 				}
 			}
 			return true;

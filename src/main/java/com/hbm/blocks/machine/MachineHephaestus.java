@@ -83,7 +83,7 @@ public class MachineHephaestus extends BlockDummyable implements ILookOverlay {
 				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
 				heatex.input.setTankType(type);
 				heatex.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_hephaestus.abbr", type);
+				ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 
 				return true;
 			}

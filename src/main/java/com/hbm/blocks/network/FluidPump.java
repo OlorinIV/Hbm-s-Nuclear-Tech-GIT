@@ -46,9 +46,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -95,7 +92,7 @@ public class FluidPump extends BlockContainer implements INBTBlockTransformable,
 						TileEntityFluidPump pump = (TileEntityFluidPump) tile;
 						pump.tank[0].setTankType(type);
 						pump.markDirty();
-						ItemFluidIdentifier.chatOnChangeType(player, "chat.fluid_pump.abbr", type);
+						ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 					}
 					return true;
 				}

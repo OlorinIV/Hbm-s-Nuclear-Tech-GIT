@@ -82,7 +82,7 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 
 				mileEntity.tank.setTankType(type);
 				mileEntity.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "container.barrel", type);
+				ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 				}
 			return true;
 

@@ -103,7 +103,7 @@ public class MachineBigAssTank9000 extends BlockDummyable implements IPersistent
 
 					trialEntity.tank.setTankType(type);
 					trialEntity.markDirty();
-					ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_bat9000.abbr", type);
+					ItemFluidIdentifier.chatOnChangeType(player, getUnlocalizedName() + ".name", type);
 				}
 			}
 
