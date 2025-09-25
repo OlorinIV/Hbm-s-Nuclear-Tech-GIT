@@ -23,6 +23,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.machine.ItemRecipeIcon.EnumCustomRecipeIcon;
 
+import cpw.mods.fml.common.Mod;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -431,6 +432,11 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.HEAVYWATER, 1_000))
 				.outputFluids(new FluidStack(Fluids.DEUTERIUM, 1_600),
 						new FluidStack(Fluids.OXYGEN, 800)));
+        
+        this.register(new GenericRecipe("chem.powder_magic").setup(80, 500)
+                .inputItems(new ComparableStack(ModItems.powder_lapis))
+                .inputFluids(new FluidStack(Fluids.XPJUICE, 25))
+                .outputItems(new ItemStack(ModItems.powder_magic)));
 	}
 
 	public static HashMap getRecipes() {

@@ -135,7 +135,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 		if(!worldObj.isRemote) {
             
             upgradeManager.checkSlots(slots, 1, 3);
-            int overLevel = Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 6);
+            int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 			
 			long nextMaxPower = 0;
 			for(int i = 0; i < 4; i++) {
@@ -163,14 +163,15 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 
 			double speed = 1D;
 			double pow = 1D;
-			int speedLevel = Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 
 			speed /= (4 - speedLevel) / 4D;
-			speed *= overLevel > 3 ? 10 * ((overLevel - 3) * (overLevel - 3) + 1D) : overLevel * overLevel + 1D;
+			speed *= ItemMachineUpgrade.OverdriveSpeeds[overLevel];
 
-			pow -= Math.min(upgradeManager.getLevel(UpgradeType.POWER), 3) * 0.25D;
+			pow -= upgradeManager.getLevel(UpgradeType.POWER) * 0.25D;
 			pow *= speedLevel + 1D;
-			pow *= overLevel > 3 ? 100 * ((overLevel - 3) * (overLevel - 3) + 1D) : overLevel * overLevel + 1D;
+			pow *= ItemMachineUpgrade.OverdriveSpeeds[overLevel];
+            if(overLevel > 3) pow *= 10;
 			boolean markDirty = false;
 			
 			for(int i = 0; i < 4; i++) {

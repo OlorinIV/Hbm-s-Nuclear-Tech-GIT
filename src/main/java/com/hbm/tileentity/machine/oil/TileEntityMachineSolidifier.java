@@ -10,6 +10,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUISolidifier;
 import com.hbm.inventory.recipes.SolidificationRecipes;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IFluidCopiable;
@@ -74,10 +75,10 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 			upgradeManager.checkSlots(this, slots, 2, 3);
 			int speed = upgradeManager.getLevel(UpgradeType.SPEED);
 			int power = upgradeManager.getLevel(UpgradeType.POWER);
-			int over = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
-
-			this.processTime = processTimeBase * (4 - speed) / 4 / (over * over + 1);
-			this.usage = usageBase * (speed + 1) * (over * over + 1) / (power + 1);
+            int over = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
+            
+            this.processTime = processTimeBase * (4 - speed) / 4 / over;
+            this.usage = usageBase * (speed + 1) * over / (power + 1);
 
 			if(this.canProcess())
 				this.process();

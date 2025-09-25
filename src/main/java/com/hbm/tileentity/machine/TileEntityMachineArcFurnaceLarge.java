@@ -113,8 +113,9 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 				boolean ingredients = this.hasIngredients();
 				boolean electrodes = this.hasElectrodes();
-
-				int consumption = 1000 * (upgrade * upgrade + 1) * (upgrade * upgrade + 1);
+                
+                int speed = ItemMachineUpgrade.OverdriveSpeeds[upgrade];
+				int consumption = 1000 * speed * speed;
 
 				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
 					if(lid > 0) {
@@ -124,7 +125,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 					} else {
 
 						if(power >= consumption) {
-							int duration = 400 / (upgrade * upgrade + 1);
+							int duration = 400 / speed;
 							this.progress += 1F / duration;
 							this.isProgressing = true;
 							this.power -= consumption;

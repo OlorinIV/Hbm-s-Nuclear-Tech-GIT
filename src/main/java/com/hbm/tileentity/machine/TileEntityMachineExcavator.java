@@ -19,6 +19,7 @@ import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemDrillbit;
 import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.items.special.ItemBedrockOreBase;
 import com.hbm.lib.Library;
@@ -108,11 +109,11 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		upgradeManager.checkSlots(this, slots, 2, 3);
 		int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 		int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
-		int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+        int over = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];;
 
 		consumption = baseConsumption * (1 + speedLevel);
 		consumption /= (1 + powerLevel);
-		long intendedMaxPower = 1_000_000 * (1 + overLevel * overLevel);
+		long intendedMaxPower = 1_000_000L * over;
 
 		if(!worldObj.isRemote) {
 
@@ -140,7 +141,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 				this.power -= this.getPowerConsumption();
 
 				this.speed = type.speed;
-				this.speed *= (1 + speedLevel / 2D) * (1 + overLevel * overLevel);
+				this.speed *= (1 + speedLevel / 2D) * over;
 
 				int maxDepth = this.yCoord - 4;
 
@@ -179,7 +180,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 			this.prevCrusherRotation = this.crusherRotation;
 
 			if(this.operational) {
-				this.drillRotation += 10F * (overLevel + 1);
+				this.drillRotation += 10F * (speedLevel / 2F + 1);
 
 				if(this.enableCrusher) {
 					this.crusherRotation += 10F;

@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMixer;
 import com.hbm.inventory.recipes.MixerRecipes;
 import com.hbm.inventory.recipes.MixerRecipes.MixerRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.*;
@@ -74,13 +75,13 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 			upgradeManager.checkSlots(this, slots, 3, 4);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
-			int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+            int over = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
 
 			this.consumption = 50;
 
 			this.consumption += speedLevel * 150;
 			this.consumption -= this.consumption * powerLevel / 4;
-			this.consumption *= (overLevel * overLevel + 1);
+			this.consumption *= over;
 
 			for(DirPos pos : getConPos()) {
 				this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -95,7 +96,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 				this.power -= this.getConsumption();
 
 				this.processTime -= this.processTime * speedLevel / 4;
-				this.processTime /= (overLevel * overLevel + 1);
+				this.processTime /= over;
 
 				if(processTime <= 0) this.processTime = 1;
 

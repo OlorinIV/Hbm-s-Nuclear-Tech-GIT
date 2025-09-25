@@ -11,6 +11,7 @@ import com.hbm.inventory.gui.GUISILEX;
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFELCrystal;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -228,23 +229,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidStan
 			return false;
 
 		//due to obsessive-compulsive disorder
-		int progressSpeed = 1;
-		switch(this.mode.ordinal() - recipe.laserStrength.ordinal()){
-			case 0:
-				break;
-			case 1:
-				progressSpeed = 2;
-				break;
-			case 2:
-				progressSpeed = 5;
-				break;
-			case 3:
-				progressSpeed = 20;
-				break;
-			case 4:
-				progressSpeed = 100;
-				break;
-		}
+		int progressSpeed = ItemFELCrystal.SILEXSpeeds[this.mode.ordinal() - recipe.laserStrength.ordinal()];
 
 		progress += progressSpeed;
 

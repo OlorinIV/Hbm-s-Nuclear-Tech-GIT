@@ -133,5 +133,6 @@ public class ItemMachineUpgrade extends Item {
 			this.mutex = mutex;
 		}
 	}
-
+    
+    public static final int[] OverdriveSpeeds = {1, 2, 5, 10, 20, 50, 100};
 }

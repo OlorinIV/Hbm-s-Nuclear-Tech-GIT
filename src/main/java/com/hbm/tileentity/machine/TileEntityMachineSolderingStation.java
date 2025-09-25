@@ -99,15 +99,15 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 			upgradeManager.checkSlots(this, slots, 9, 10);
 			int redLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int blueLevel = upgradeManager.getLevel(UpgradeType.POWER);
-			int blackLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
-
+			int black = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
+            
 			if(recipe != null) {
-				this.processTime = recipe.duration * (4 - redLevel) / 4 / (blackLevel * blackLevel + 1);
-				this.consumption = recipe.consumption * (4 - blueLevel) / 4 * (redLevel + 1) * (blackLevel * blackLevel + 1);
-				intendedMaxPower = recipe.consumption * 20 * (blackLevel * blackLevel + 1);
-
+				this.processTime = recipe.duration * (4 - redLevel) / 4 / black;
+				this.consumption = recipe.consumption * (4 - blueLevel) / 4 * (redLevel + 1) * black;
+				intendedMaxPower = recipe.consumption * 20 * black;
+                
 				if(canProcess(recipe)) {
-					this.progress += (1 + blackLevel);
+					this.progress ++;
 					this.power -= this.consumption;
 
 					if(progress >= processTime) {

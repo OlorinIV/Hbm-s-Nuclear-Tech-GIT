@@ -231,8 +231,8 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	public int getSpeed() {
 		int red = upgradeManager.getLevel(UpgradeType.SPEED) + 1;
-		int black = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
-		return red * (black * black + 1);
+		int black = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
+		return red * black;
 	}
 
 	public int getConsumption() {

@@ -22,6 +22,7 @@ import com.hbm.inventory.recipes.ElectrolyserFluidRecipes;
 import com.hbm.inventory.recipes.ElectrolyserFluidRecipes.ElectrolysisRecipe;
 import com.hbm.inventory.recipes.ElectrolyserMetalRecipes;
 import com.hbm.inventory.recipes.ElectrolyserMetalRecipes.ElectrolysisMetalRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -141,40 +142,40 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 			usageOre = usageOreBase * (4 - powerLevel) / 4 * (speedLevel + 1);
 			usageFluid = usageFluidBase * (4 - powerLevel) / 4 * (speedLevel + 1);
-
-			//overdrive: 2/3/4 for metals and 2/5/10 for fluids
-			if (this.canProcessFluid()) {
-				this.progressFluid += overLevel * overLevel + 1;
-				this.power -= this.usageFluid;
-
-				if (this.progressFluid >= this.getDurationFluid()) {
-					this.processFluids();
-					this.progressFluid = 0;
-					this.markChanged();
-				}
-			}
-
-			if (this.canProcessMetal()) {
-				this.progressOre += overLevel * overLevel + 1;
-				this.power -= this.usageOre;
-
-				if (this.progressOre >= this.getDurationMetal()) {
-					this.processMetal();
-					this.progressOre = 0;
-					this.markChanged();
-				}
-			}
-
-
+            
+            for(int i = 0; i < ItemMachineUpgrade.OverdriveSpeeds[overLevel]; i++) {
+                if (this.canProcessFluid()) {
+                    this.progressFluid++;
+                    this.power -= this.usageFluid;
+                    
+                    if (this.progressFluid >= this.getDurationFluid() * (4 - speedLevel) / 4) {
+                        this.processFluids();
+                        this.progressFluid = 0;
+                        this.markChanged();
+                    }
+                }
+                
+                if (this.canProcessMetal()) {
+                    this.progressOre++;
+                    this.power -= this.usageOre;
+                    
+                    if (this.progressOre >= this.getDurationMetal() * (4 - speedLevel) / 4) {
+                        this.processMetal();
+                        this.progressOre = 0;
+                        this.markChanged();
+                    }
+                }
+            }    
+            
 			if(this.leftStack != null) {
-
+                
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 				List<MaterialStack> toCast = new ArrayList();
 				toCast.add(this.leftStack);
-
+                
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
 				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.INGOT.q(overLevel > 0 ? overLevel * 3 : 1), impact);
-
+                
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
 					data.setString("type", "foundry");
@@ -184,20 +185,20 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 					data.setFloat("base", 0.625F);
 					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875) + 2));
 					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2, zCoord + 0.5D + dir.offsetZ * 5.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
-
+                    
 					if(this.leftStack.amount <= 0) this.leftStack = null;
 				}
 			}
-
+            
 			if(this.rightStack != null) {
-
+                
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 				List<MaterialStack> toCast = new ArrayList();
 				toCast.add(this.rightStack);
-
+                
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.INGOT.q(1 + overLevel), impact);
-
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.INGOT.q(overLevel > 0 ? overLevel * 3 : 1), impact);
+                
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
 					data.setString("type", "foundry");
@@ -207,19 +208,19 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 					data.setFloat("base", 0.625F);
 					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875) + 2));
 					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2, zCoord + 0.5D + dir.offsetZ * 5.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
-
+                    
 					if(this.rightStack.amount <= 0) this.rightStack = null;
 				}
 			}
-
+            
 			this.networkPackNT(50);
 		}
 	}
-
+    
 	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
+        
 		return new DirPos[] {
 				new DirPos(xCoord - dir.offsetX * 6, yCoord, zCoord - dir.offsetZ * 6, dir.getOpposite()),
 				new DirPos(xCoord - dir.offsetX * 6 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 6 + rot.offsetZ, dir.getOpposite()),
@@ -229,7 +230,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				new DirPos(xCoord + dir.offsetX * 6 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 6 - rot.offsetZ, dir)
 		};
 	}
-
+    
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
@@ -253,7 +254,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		}
 		buf.writeInt(lastSelectedGUI);
 	}
-
+    
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
@@ -393,16 +394,11 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	public int getDurationMetal() {
 		ElectrolysisMetalRecipe result = ElectrolyserMetalRecipes.getRecipe(slots[14]);
-		int base = result != null ? result.duration : 400;
-		int speed = upgradeManager.getLevel(UpgradeType.SPEED);
-		return (int) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.2)));
+		return result != null ? result.duration : 400;
 	}
 	public int getDurationFluid() {
 		ElectrolysisRecipe result = ElectrolyserFluidRecipes.getRecipe(tanks[0].getTankType());
-		int base = result != null ? result.duration : 100;
-		int speed = upgradeManager.getLevel(UpgradeType.SPEED);
-		return (int) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.2)));
-
+		return result != null ? result.duration : 100;
 	}
 
 	@Override
