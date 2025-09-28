@@ -177,7 +177,7 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
     
     public boolean setCoolantRC(FluidType type) {
         FT_Heatable trait = type.getTrait(FT_Heatable.class);
-        if(trait.getEfficiency(HeatingType.ICF) > 0) {
+        if(trait != null && trait.getEfficiency(HeatingType.ICF) > 0) {
             tanks[0].setTankType(type);
             return true;
         }

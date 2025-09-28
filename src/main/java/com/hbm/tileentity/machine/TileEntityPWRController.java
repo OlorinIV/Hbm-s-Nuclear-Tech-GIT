@@ -378,7 +378,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
     
     public boolean setCoolantRC(FluidType type) {
         FT_Heatable trait = type.getTrait(FT_Heatable.class);
-        if(trait.getEfficiency(HeatingType.PWR) > 0) {
+        if(trait != null && trait.getEfficiency(HeatingType.PWR) > 0) {
             tanks[0].setTankType(type);
             return true;
         }

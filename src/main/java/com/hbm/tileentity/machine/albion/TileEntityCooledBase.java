@@ -78,7 +78,7 @@ public abstract class TileEntityCooledBase extends TileEntityMachineBase impleme
     
     public boolean setCoolantRC(FluidType type) {
         FT_Heatable trait = type.getTrait(FT_Heatable.class);
-        if(trait.getEfficiency(HeatingType.PA) > 0) {
+        if(trait != null && trait.getEfficiency(HeatingType.PA) > 0) {
             tanks[0].setTankType(type);
             return true;
         }
