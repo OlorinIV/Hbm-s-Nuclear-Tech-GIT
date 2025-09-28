@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerSolidifier;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUISolidifier;
@@ -172,6 +173,13 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 			this.markDirty();
 		}
 	}
+    
+    public boolean setFluidRC(FluidType type) {
+        Pair<Integer, ItemStack> recipe = SolidificationRecipes.getOutput(type);
+        if(recipe == null) return false;
+        tank.setTankType(type);
+        return true;
+    }
 
 	@Override
 	public void serialize(ByteBuf buf) {

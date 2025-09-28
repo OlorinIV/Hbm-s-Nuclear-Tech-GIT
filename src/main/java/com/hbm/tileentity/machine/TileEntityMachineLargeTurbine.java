@@ -186,6 +186,15 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			}
 		}
 	}
+    
+    public boolean setSteamRC(FluidType type) {
+        if(!type.hasTrait(FT_Coolable.class)) return false;
+        if(type.getTrait(FT_Coolable.class).getEfficiency(CoolingType.TURBINE) > 0) {
+            tanks[0].setTankType(type);
+            return true;
+        }
+        return false;
+    }
 
 	protected DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);

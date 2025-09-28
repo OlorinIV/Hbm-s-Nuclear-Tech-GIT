@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMixer;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMixer;
@@ -210,6 +211,13 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 		if(recipe.solidInput != null) this.decrStackSize(1, recipe.solidInput.stacksize);
 		tanks[2].setFill(tanks[2].getFill() + recipe.output);
 	}
+    
+    public boolean setTargetFluidRC(FluidType type) {
+        MixerRecipe[] recipes = MixerRecipes.getOutput(type);
+        if(recipes == null || recipes.length == 0) return false;
+        tanks[2].setTankType(type);
+        return true;
+    }
 
 	public int getConsumption() {
 		return consumption;

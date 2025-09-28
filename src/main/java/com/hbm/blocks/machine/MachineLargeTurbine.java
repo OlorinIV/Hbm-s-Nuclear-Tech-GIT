@@ -2,6 +2,9 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineLargeTurbine;
@@ -47,21 +50,31 @@ public class MachineLargeTurbine extends BlockDummyable implements ITooltipProvi
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
-			return true;
-		} else if(!player.isSneaking())
-		{
-			int[] pos = this.findCore(world, x, y, z);
-
-			if(pos == null)
-				return false;
-
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
-			return true;
-		} else {
-			return true;
-		}
+        
+        if (!world.isRemote) {
+            
+            int[] pos = this.findCore(world, x, y, z);
+            if (pos == null) return false;
+            
+            if (player.isSneaking()) {
+                TileEntityMachineLargeTurbine turbine = (TileEntityMachineLargeTurbine) world.getTileEntity(pos[0], pos[1], pos[2]);
+                
+                if (turbine!=null) {
+                    if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+                        FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
+                        
+                        if (turbine.setSteamRC(type)) {
+                            turbine.markDirty();
+                            ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_turbine.name", type);
+                            return true;
+                        }
+                    }
+                }
+            } else {
+                FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
+            }
+        }
+        return true;
 	}
 
 	@Override

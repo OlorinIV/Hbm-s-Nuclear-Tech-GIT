@@ -314,6 +314,13 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 5);
 		this.power -= 5;
 	}
+    
+    public boolean setOilRC(FluidType type) {
+        Quintet<FluidStack, FluidStack, FluidStack, FluidStack, ItemStack> recipe = RefineryRecipes.getRefinery(type);
+        if(recipe == null) return false;
+        tanks[0].setTankType(type);
+        return true;
+    }
 	
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {

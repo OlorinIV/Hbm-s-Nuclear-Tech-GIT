@@ -7,8 +7,11 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.entity.projectile.EntityBombletZeta;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.IRepairable;
@@ -48,24 +51,31 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		
-		if(world.isRemote) {
-			return true;
-		} else if(!player.isSneaking()) {
-			int[] pos = this.findCore(world, x, y, z);
-
-			if(pos == null)
-				return false;
-			
-			TileEntityMachineRefinery refinery = (TileEntityMachineRefinery) world.getTileEntity(pos[0], pos[1], pos[2]);
-			
-			if(refinery.hasExploded) return false;
-
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
-			return true;
-		} else {
-			return true;
-		}
+        
+        if (!world.isRemote) {
+            
+            int[] pos = this.findCore(world, x, y, z);
+            if (pos == null) return false;
+            
+            TileEntityMachineRefinery refinery = (TileEntityMachineRefinery) world.getTileEntity(pos[0], pos[1], pos[2]);
+            if(refinery == null || refinery.hasExploded) return false;
+            
+            if (player.isSneaking()) {
+                
+                if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+                    FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
+                    
+                    if (refinery.setOilRC(type)) {
+                        refinery.markDirty();
+                        ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_refinery.name", type);
+                        return true;
+                    }
+                }
+            } else {
+                FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
+            }
+        }
+        return true;
 	}
 
 	@Override

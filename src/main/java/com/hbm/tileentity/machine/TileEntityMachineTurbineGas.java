@@ -195,6 +195,14 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			}
 		}
 	}
+    
+    public boolean setFuelRC(FluidType type) {
+        if(type.hasTrait(FT_Combustible.class) && type.getTrait(FT_Combustible.class).getGrade() == FuelGrade.GAS) {
+            tanks[0].setTankType(type);
+            return true;
+        }
+        return false;
+    }
 
 	@Override
 	public void serialize(ByteBuf buf) {

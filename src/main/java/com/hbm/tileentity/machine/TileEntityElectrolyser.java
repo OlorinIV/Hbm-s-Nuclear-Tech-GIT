@@ -11,6 +11,7 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerElectrolyserFluid;
 import com.hbm.inventory.container.ContainerElectrolyserMetal;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIElectrolyserFluid;
@@ -400,6 +401,13 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		ElectrolysisRecipe result = ElectrolyserFluidRecipes.getRecipe(tanks[0].getTankType());
 		return result != null ? result.duration : 100;
 	}
+    
+    public boolean setFluidRC(FluidType type) {
+        ElectrolysisRecipe recipe = ElectrolyserFluidRecipes.recipes.get(type);
+        if(recipe == null) return false;
+        tanks[0].setTankType(type);
+        return true;
+    }
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {

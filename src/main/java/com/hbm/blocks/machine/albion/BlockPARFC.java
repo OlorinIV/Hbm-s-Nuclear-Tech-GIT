@@ -4,11 +4,15 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.albion.TileEntityPARFC;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -33,8 +37,33 @@ public class BlockPARFC extends BlockDummyable implements ITooltipProvider {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		return standardOpenBehavior(world, x, y, z, player, side);
-	}
+        
+        if (!world.isRemote) {
+            
+            int[] pos = this.findCore(world, x, y, z);
+            if (pos==null) return false;
+            
+            if (player.isSneaking()) {
+                TileEntityPARFC pa = (TileEntityPARFC) world.getTileEntity(pos[0], pos[1], pos[2]);
+                
+                if (pa != null) {
+                    if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+                        FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
+                        
+                        if (pa.setCoolantRC(type)) {
+                            pa.markDirty();
+                            ItemFluidIdentifier.chatOnChangeType(player, "tile.pa_rfc.name", type);
+                        }
+                        return true;
+                    }
+                }
+            } else {
+                FMLNetworkHandler.openGui(player, MainRegistry.instance, side, world, pos[0], pos[1], pos[2]);
+            }
+            
+        }
+        return true;
+    }
 
 	@Override public int[] getDimensions() { return new int[] {1, 1, 1, 1, 4, 4}; }
 	@Override public int getOffset() { return 0; }

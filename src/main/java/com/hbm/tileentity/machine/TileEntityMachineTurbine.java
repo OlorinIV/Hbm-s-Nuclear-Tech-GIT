@@ -313,6 +313,15 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			this.networkPackNT(25);
 		}
 	}
+    
+    public boolean setSteamRC(FluidType type) {
+        if(!type.hasTrait(FT_Coolable.class)) return false;
+        if(type.getTrait(FT_Coolable.class).getEfficiency(CoolingType.TURBINE) > 0) {
+            tanks[0].setTankType(type);
+            return true;
+        }
+        return false;
+    }
 
 	@Override public void serialize(ByteBuf buf) {
 		buf.writeLong(power);

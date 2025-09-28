@@ -76,24 +76,32 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			tank.loadTank(3, 4, slots);
 
 			upgradeManager.checkSlots(slots, 5, 6);
+            int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+            int effLevel = upgradeManager.getLevel(UpgradeType.EFFECT);
+            int over = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
+            
+            long powerReq = demand * (1 + speedLevel + 2L * effLevel);
+            CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
+            this.duration = (short) ((result != null ? result.duration : 480) * (4 - speedLevel) / 4);
+            float freeChance = result == null || effLevel == 0 ? 0 : Math.min(effLevel * result.productivity, 1.01F);
 
-			for(int i = 0; i < getCycleCount(); i++) {
+			for(int i = 0; i < over; i++) {
 
-				if(canProcess()) {
+				if(canProcess(powerReq)) {
 
-					progress++;
-					power -= getPowerRequired();
-					isOn = true;
+					this.progress++;
+                    this.power -= powerReq;
+                    this.isOn = true;
 
-					if(progress > getDuration()) {
-						progress = 0;
-						processItem();
+					if(this.progress >= this.duration) {
+                        this.progress = 0;
+						processItem(freeChance);
 
 						this.markDirty();
 					}
 
 				} else {
-					progress = 0;
+                    this.progress = 0;
 				}
 			}
 
@@ -151,24 +159,24 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
-		buf.writeShort(progress);
-		buf.writeShort(getDuration());
-		buf.writeLong(power);
-		buf.writeBoolean(isOn);
-		tank.serialize(buf);
+		buf.writeShort(this.progress);
+		buf.writeShort(this.duration);
+		buf.writeLong(this.power);
+		buf.writeBoolean(this.isOn);
+        this.tank.serialize(buf);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		progress = buf.readShort();
-		duration = buf.readShort();
-		power = buf.readLong();
-		isOn = buf.readBoolean();
-		tank.deserialize(buf);
+        this.progress = buf.readShort();
+        this.duration = buf.readShort();
+        this.power = buf.readLong();
+        this.isOn = buf.readBoolean();
+        this.tank.deserialize(buf);
 	}
 
-	private void processItem() {
+	private void processItem(float freeChance) {
 
 		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
 
@@ -184,19 +192,17 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 		tank.setFill(tank.getFill() - result.acidAmount);
 
-		float freeChance = this.getFreeChance(result);
-
 		if(freeChance == 0 || freeChance < worldObj.rand.nextFloat())
 			this.decrStackSize(0, result.itemAmount);
 	}
 
-	private boolean canProcess() {
+	private boolean canProcess(Long powerReq) {
 
 		//Is there no input?
 		if(slots[0] == null)
 			return false;
 
-		if(power < getPowerRequired())
+		if(power < powerReq)
 			return false;
 
 		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
@@ -224,32 +230,14 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		return true;
 	}
 
-	public float getFreeChance(CrystallizerRecipe recipe) {
-		int efficiency = upgradeManager.getLevel(UpgradeType.EFFECT);
-		if(efficiency > 0) {
-			return Math.min(efficiency * recipe.productivity, 1.01F);
-		}
-		return 0;
-	}
-
 	public short getDuration() {
 		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
 		int base = result != null ? result.duration : 480;
 		int speed = upgradeManager.getLevel(UpgradeType.SPEED);
 		if(speed > 0) {
-			return (short) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.25F)));
+			return (short) (base * (4 - speed) / 4);
 		}
 		return (short) base;
-	}
-
-	public int getPowerRequired() {
-		int speed = upgradeManager.getLevel(UpgradeType.SPEED);
-		int effect = upgradeManager.getLevel(UpgradeType.EFFECT);
-		return (int) (demand + speed * demand + effect * demand * 2);
-	}
-
-	public int getCycleCount() {
-		return ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
 	}
 
 	public long getPowerScaled(int i) {

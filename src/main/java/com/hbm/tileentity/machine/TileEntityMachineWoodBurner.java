@@ -139,6 +139,12 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 			}
 		}
 	}
+    
+    public boolean setFuelRC(FluidType type) {
+        if(!type.hasTrait(FT_Flammable.class)) return false;
+        tank.setTankType(type);
+        return true;
+    }
 	
 	@Override
 	public void serialize(ByteBuf buf) {

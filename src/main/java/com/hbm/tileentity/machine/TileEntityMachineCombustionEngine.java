@@ -155,6 +155,12 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 			}
 		}
 	}
+    
+    public boolean setFuelRC(FluidType type) {
+        if(!type.hasTrait(FT_Combustible.class)) return false;
+        tank.setTankType(type);
+        return true;
+    }
 
 	private DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);

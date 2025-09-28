@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerOilburner;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
@@ -98,6 +99,12 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 			this.networkPackNT(25);
 		}
 	}
+    
+    public boolean setFuelRC(FluidType type) {
+        if(!type.hasTrait(FT_Flammable.class)) return false;
+        tank.setTankType(type);
+        return true;
+    }
 	
 	@Override
 	public void serialize(ByteBuf buf) {

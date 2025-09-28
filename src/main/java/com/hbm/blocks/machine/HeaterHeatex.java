@@ -51,35 +51,31 @@ public class HeaterHeatex extends BlockDummyable implements ILookOverlay, IToolt
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-
-		if(world.isRemote) {
-			return true;
-		} else {
-			int[] pos = this.findCore(world, x, y, z);
-
-			if(pos == null)
-				return false;
-
-			if(player.isSneaking()) {
-				TileEntityHeaterHeatex trialEntity = (TileEntityHeaterHeatex) world.getTileEntity(pos[0], pos[1], pos[2]);
-
-				if(trialEntity != null) {
-					if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
-						FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
-
-						trialEntity.tanks[0].setTankType(type);
-						trialEntity.markDirty();
-						ItemFluidIdentifier.chatOnChangeType(player, "container.heaterHeatex", type);
-						return true;
-					}
-				}
-			} else {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
-			}
-
-			return true;
-		}
-	}
+        
+        if (!world.isRemote) {
+            
+            int[] pos = this.findCore(world, x, y, z);
+            if (pos == null) return false;
+            
+            if (player.isSneaking()) {
+                TileEntityHeaterHeatex trialEntity = (TileEntityHeaterHeatex) world.getTileEntity(pos[0], pos[1], pos[2]);
+                
+                if (trialEntity != null) {
+                    if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+                        FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
+                        
+                        trialEntity.tanks[0].setTankType(type);
+                        trialEntity.markDirty();
+                        ItemFluidIdentifier.chatOnChangeType(player, "container.heaterHeatex", type);
+                        return true;
+                    }
+                }
+            } else {
+                FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
+            }
+        }
+        return true;
+    }
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {

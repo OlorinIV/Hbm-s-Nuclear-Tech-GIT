@@ -4,9 +4,14 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -28,6 +33,34 @@ public class MachineDiesel extends BlockMachineBase implements ITooltipProvider 
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityMachineDiesel();
 	}
+    
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        
+        if (!world.isRemote) {
+            
+            TileEntity te = world.getTileEntity(x, y, z);
+            TileEntityMachineDiesel diesel = (TileEntityMachineDiesel) te;
+            
+            if (diesel== null) return false;
+            
+            if (player.isSneaking()) {
+                if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+                    FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, x, y, z, player.getHeldItem());
+                    
+                    if (diesel.setFuelRC(type)) {
+                        diesel.markDirty();
+                        ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_diesel.abbr", type);
+                        return true;
+                    }
+                }
+                return true;
+            } else {
+                FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+            }
+        }
+        return true;
+    }
 	
 	@Override public int getRenderType(){ return -1; }
 	@Override public boolean isOpaqueCube() { return false; }

@@ -122,6 +122,13 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 		
 		power -= 20_000;
 	}
+    
+    public boolean setOilRC(FluidType type) {
+        Triplet<FluidStack, FluidStack, FluidStack> recipe = ReformingRecipes.getOutput(type);
+        if(recipe == null) return false;
+        tanks[0].setTankType(type);
+        return true;
+    }
 	
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
