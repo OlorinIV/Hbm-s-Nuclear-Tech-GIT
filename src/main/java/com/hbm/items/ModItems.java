@@ -3541,7 +3541,7 @@ public class ModItems {
 				.setFunction(EnumBurnFunc.PASSIVE)
 				.setDepletionFunction(EnumDepleteFunc.LINEAR)
 				.setXenon(0.0D, 50D)
-				.setHeat(0.75D)
+				.setHeat(0.5D)
 				.setMeltingPoint(3350)
 				.setNeutronTypes(NType.NONE, NType.SLOW)
 				.setUnlocalizedName("rbmk_fuel_rs2").setTextureName(RefStrings.MODID + ":rbmk_fuel_rs2");
@@ -3551,7 +3551,7 @@ public class ModItems {
 				.setFunction(EnumBurnFunc.PASSIVE)
 				.setDepletionFunction(EnumDepleteFunc.LINEAR)
 				.setXenon(0.0D, 50D)
-				.setHeat(0.3D)
+				.setHeat(0.2D)
 				.setMeltingPoint(6500)
 				.setNeutronTypes(NType.NONE, NType.SLOW)
 				.setUnlocalizedName("rbmk_fuel_rs3").setTextureName(RefStrings.MODID + ":rbmk_fuel_rs3");

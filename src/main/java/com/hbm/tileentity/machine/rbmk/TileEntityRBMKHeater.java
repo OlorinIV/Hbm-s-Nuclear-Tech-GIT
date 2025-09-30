@@ -87,7 +87,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
     public boolean setCoolantRC(FluidType type) {
         FT_Heatable trait = type.getTrait(FT_Heatable.class);
         if(trait != null && trait.getEfficiency(HeatingType.HEATEXCHANGER) > 0) {
-            steam.setTankType(type);
+            feed.setTankType(type);
             return true;
         }
         return false;

@@ -6542,6 +6542,8 @@ tile.block_neodymium.name=Block of Neodymium
 tile.block_sodium.name=Block of Sodium
 tile.block_strontium.name=Block of Strontium
 
+tile.rbmk.dodd.fluxNeeded=Flux Needed
+
 fluid.sulfuric_acid_fluid=Sulfuric Acid
 
 wiring.connection.type0=Error
