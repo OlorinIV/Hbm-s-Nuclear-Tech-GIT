@@ -9,7 +9,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityHeaterHeatex;
@@ -66,7 +66,7 @@ public class HeaterHeatex extends BlockDummyable implements ILookOverlay, IToolt
                         
                         trialEntity.tanks[0].setTankType(type);
                         trialEntity.markDirty();
-                        ItemFluidIdentifier.chatOnChangeType(player, "container.heaterHeatex", type);
+                        ItemFluidIDMulti.chatOnChangeType(player, "container.heaterHeatex", type);
                         return true;
                     }
                 }

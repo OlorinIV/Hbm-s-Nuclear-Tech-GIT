@@ -12,7 +12,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.IRepairable;
@@ -94,7 +94,7 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 
 				tank.tank.setTankType(type);
 				tank.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_fluidtank.name", type);
+				ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_fluidtank.name", type);
 				}
 			}
 			return true;

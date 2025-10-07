@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.CompatHandler;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
@@ -92,7 +92,7 @@ public class FluidPump extends BlockContainer implements INBTBlockTransformable,
 						TileEntityFluidPump pump = (TileEntityFluidPump) tile;
 						pump.tank[0].setTankType(type);
 						pump.markDirty();
-						ItemFluidIdentifier.chatOnChangeType(player, "chat.fluid_pump.abbr", type);
+						ItemFluidIDMulti.chatOnChangeType(player, "chat.fluid_pump.abbr", type);
 					}
 					return true;
 				}

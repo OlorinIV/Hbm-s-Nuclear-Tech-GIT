@@ -7,7 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityHeatBoilerIndustrial;
 import com.hbm.util.i18n.I18nUtil;
@@ -62,7 +62,7 @@ public class MachineHeatBoilerIndustrial extends BlockDummyable implements ILook
 				if(type.hasTrait(FT_Heatable.class) && type.getTrait(FT_Heatable.class).getEfficiency(HeatingType.BOILER) > 0) {
 					boiler.tanks[0].setTankType(type);
 					boiler.markDirty();
-					ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_boiler.name", type);
+					ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_boiler.name", type);
 				}
 				return true;
 			}

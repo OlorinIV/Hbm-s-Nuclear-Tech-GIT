@@ -3,7 +3,7 @@ package com.hbm.blocks.machine;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineSolderingStation;
@@ -43,7 +43,7 @@ public class MachineSolderingStation extends BlockDummyable {
                         
                         te.tank.setTankType(type);
                         te.markDirty();
-                        ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_soldering_station.abbr", type);
+                        ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_soldering_station.abbr", type);
                         return true;
                     }
                 }

@@ -6,7 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -52,7 +52,7 @@ public class BlockPASource extends BlockDummyable implements ITooltipProvider {
                         
                         if (pa.setCoolantRC(type)) {
                             pa.markDirty();
-                            ItemFluidIdentifier.chatOnChangeType(player, "chat.pa_source.abbr", type);
+                            ItemFluidIDMulti.chatOnChangeType(player, "chat.pa_source.abbr", type);
                         }
                         return true;
                     }

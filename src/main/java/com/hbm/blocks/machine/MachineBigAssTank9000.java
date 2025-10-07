@@ -7,7 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -103,7 +103,7 @@ public class MachineBigAssTank9000 extends BlockDummyable implements IPersistent
 
 					trialEntity.tank.setTankType(type);
 					trialEntity.markDirty();
-					ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_bat9000.abbr", type);
+                    ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_bat9000.abbr", type);
 				}
 			}
 

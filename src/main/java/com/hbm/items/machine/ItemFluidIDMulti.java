@@ -22,6 +22,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -152,4 +154,10 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIScreenFluid(player);
 	}
+    
+    // R-click change type message
+    public static void chatOnChangeType(EntityPlayer player, String keyMachineName, FluidType type) {
+        String name = EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey(keyMachineName) + "] ";
+        player.addChatComponentMessage(new ChatComponentText( name + EnumChatFormatting.YELLOW + I18nUtil.resolveKey("chat.machine.fluid.changetype", type.getLocalizedName())));
+    }
 }

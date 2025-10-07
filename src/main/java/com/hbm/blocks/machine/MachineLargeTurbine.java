@@ -4,7 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineLargeTurbine;
@@ -65,7 +65,7 @@ public class MachineLargeTurbine extends BlockDummyable implements ITooltipProvi
                         
                         if (turbine.setSteamRC(type)) {
                             turbine.markDirty();
-                            ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_turbine.name", type);
+                            ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_turbine.name", type);
                             return true;
                         }
                     }

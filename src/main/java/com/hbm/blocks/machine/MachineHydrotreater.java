@@ -6,7 +6,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineHydrotreater;
@@ -53,7 +53,7 @@ public class MachineHydrotreater extends BlockDummyable implements IPersistentIn
                         
                         if (te.setOilRC(type)) {
                             te.markDirty();
-                            ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_hydrotreater.name", type);
+                            ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_hydrotreater.name", type);
                             return true;
                         }
                     }

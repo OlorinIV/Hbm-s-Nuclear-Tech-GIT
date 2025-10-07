@@ -9,7 +9,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -77,7 +77,7 @@ public class MachineOrbus extends BlockDummyable implements IPersistentInfoProvi
 
 				kyleEntity.tank.setTankType(type);
 				kyleEntity.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_orbus.abbr", type);
+				ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_orbus.abbr", type);
 				}
 			}
 

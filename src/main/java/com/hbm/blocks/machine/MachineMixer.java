@@ -3,7 +3,7 @@ package com.hbm.blocks.machine;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineMixer;
 
@@ -55,7 +55,7 @@ public class MachineMixer extends BlockDummyable {
                         
                         if (te.setTargetFluidRC(type)) {
                             te.markDirty();
-                            ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_mixer.abbr", type);
+                            ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_mixer.abbr", type);
                             return true;
                         }
                     }

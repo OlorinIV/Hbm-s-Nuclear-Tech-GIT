@@ -6,7 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
@@ -58,7 +58,7 @@ public class MachineGasFlare extends BlockDummyable implements ITooltipProvider 
                         
                         te.tank.setTankType(type);
                         te.markDirty();
-                        ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_flare.name", type);
+                        ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_flare.name", type);
                         return true;
                     }
                 }

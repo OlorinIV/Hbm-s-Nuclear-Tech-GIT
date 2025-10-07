@@ -7,7 +7,7 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -106,7 +106,7 @@ public class MachinePWRController extends BlockContainer implements ITooltipProv
                     
                     if (te.setCoolantRC(type)) {
                         te.markDirty();
-                        ItemFluidIdentifier.chatOnChangeType(player, "chat.pwr.abbr", type);
+                        ItemFluidIDMulti.chatOnChangeType(player, "chat.pwr.abbr", type);
                         return true;
                     }
                 }

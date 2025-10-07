@@ -11,7 +11,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.IRepairable;
@@ -67,7 +67,7 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
                     
                     if (refinery.setOilRC(type)) {
                         refinery.markDirty();
-                        ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_refinery.name", type);
+                        ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_refinery.name", type);
                         return true;
                     }
                 }

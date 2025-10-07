@@ -7,7 +7,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.tileentity.machine.TileEntityMachineAutosaw;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -60,7 +60,7 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 				if(saw.acceptedFuels.contains(type)) {
 					saw.tank.setTankType(type);
 					saw.markDirty();
-					ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_autosaw.abbr", type);
+                    ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_autosaw.abbr", type);
 					return true;
 				}
 			}

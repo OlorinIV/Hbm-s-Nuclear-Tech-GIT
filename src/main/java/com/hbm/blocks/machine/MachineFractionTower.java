@@ -4,7 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineFractionTower;
 import com.hbm.util.i18n.I18nUtil;
@@ -72,7 +72,7 @@ public class MachineFractionTower extends BlockDummyable implements ILookOverlay
 					FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
 					frac.tanks[0].setTankType(type);
 					frac.markDirty();
-					ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_fraction_tower.abbr", type);
+					ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_fraction_tower.abbr", type);
 				}
 
 				return true;

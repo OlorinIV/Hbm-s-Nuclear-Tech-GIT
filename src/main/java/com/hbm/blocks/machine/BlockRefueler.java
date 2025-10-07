@@ -2,7 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.tileentity.machine.TileEntityRefueler;
 
 import net.minecraft.block.BlockContainer;
@@ -55,7 +55,7 @@ public class BlockRefueler extends BlockContainer {
 				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, x, y, z, player.getHeldItem());
 				refueler.tank.setTankType(type);
 				refueler.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "chat.refueler.abbr", type);
+                ItemFluidIDMulti.chatOnChangeType(player, "chat.refueler.abbr", type);
 
 				return true;
 			}

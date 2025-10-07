@@ -9,7 +9,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineHephaestus;
 import com.hbm.util.i18n.I18nUtil;
@@ -83,7 +83,7 @@ public class MachineHephaestus extends BlockDummyable implements ILookOverlay {
 				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
 				heatex.input.setTankType(type);
 				heatex.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_hephaestus.abbr", type);
+				ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_hephaestus.abbr", type);
 
 				return true;
 			}

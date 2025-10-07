@@ -2,7 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineTurbineGas;
@@ -62,7 +62,7 @@ public class MachineTurbineGas extends BlockDummyable implements ILookOverlay {
                         
                         if (te.setFuelRC(type)) {
                             te.markDirty();
-                            ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_turbinegas.abbr", type);
+                            ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_turbinegas.abbr", type);
                             return true;
                         }
                     }

@@ -4,7 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineCompressor;
@@ -57,7 +57,7 @@ public class MachineCompressor extends BlockDummyable {
                         
                         te.tanks[0].setTankType(type);
                         te.markDirty();
-                        ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_compressor.name", type);
+                        ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_compressor.name", type);
                         return true;
                     }
                 }

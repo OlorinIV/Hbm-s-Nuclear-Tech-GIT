@@ -7,7 +7,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 
@@ -50,7 +50,7 @@ public class MachineDiesel extends BlockMachineBase implements ITooltipProvider 
                     
                     if (diesel.setFuelRC(type)) {
                         diesel.markDirty();
-                        ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_diesel.abbr", type);
+                        ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_diesel.abbr", type);
                         return true;
                     }
                 }

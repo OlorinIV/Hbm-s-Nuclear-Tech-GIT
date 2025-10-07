@@ -10,7 +10,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityHeaterOilburner;
@@ -65,7 +65,7 @@ public class HeaterOilburner extends BlockDummyable implements ILookOverlay, ITo
                         
                         if (te.setFuelRC(type)) {
                             te.markDirty();
-                            ItemFluidIdentifier.chatOnChangeType(player, "container.heaterOilburner", type);
+                            ItemFluidIDMulti.chatOnChangeType(player, "container.heaterOilburner", type);
                             return true;
                         }
                     }

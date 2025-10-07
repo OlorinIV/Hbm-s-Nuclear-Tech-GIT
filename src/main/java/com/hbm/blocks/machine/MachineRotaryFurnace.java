@@ -4,7 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineRotaryFurnace;
@@ -52,7 +52,7 @@ public class MachineRotaryFurnace extends BlockDummyable  implements ILookOverla
                         
                         te.tanks[0].setTankType(type);
                         te.markDirty();
-                        ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_rotary_furnace.name", type);
+                        ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_rotary_furnace.name", type);
                         return true;
                     }
                 }

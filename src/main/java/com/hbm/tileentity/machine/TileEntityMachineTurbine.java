@@ -62,7 +62,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	public static int inputTankSize = 64_000;
 	public static int outputTankSize = 128_000;
 	public static int maxSteamPerTick = 6_000;
-	public static double efficiency = 0.85D;
+	public static double efficiency = 0.9D;
 
 	public TileEntityMachineTurbine() {
 		slots = new ItemStack[7];

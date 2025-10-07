@@ -6,7 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineWoodBurner;
@@ -59,7 +59,7 @@ public class MachineWoodBurner extends BlockDummyable implements ITooltipProvide
                         
                         if (te.setFuelRC(type)) {
                             te.markDirty();
-                            ItemFluidIdentifier.chatOnChangeType(player, "container.machineWoodBurner", type);
+                            ItemFluidIDMulti.chatOnChangeType(player, "container.machineWoodBurner", type);
                             return true;
                         }
                     }

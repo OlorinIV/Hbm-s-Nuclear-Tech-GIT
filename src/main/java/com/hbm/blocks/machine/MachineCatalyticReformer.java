@@ -7,7 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticReformer;
@@ -54,7 +54,7 @@ public class MachineCatalyticReformer extends BlockDummyable implements IPersist
                         
                         if (te.setOilRC(type)) {
                             te.markDirty();
-                            ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_catalytic_reformer.abbr", type);
+                            ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_catalytic_reformer.abbr", type);
                             return true;
                         }
                     }

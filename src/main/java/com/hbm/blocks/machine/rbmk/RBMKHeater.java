@@ -2,7 +2,7 @@ package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.items.machine.ItemRBMKLid;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -47,7 +47,7 @@ public class RBMKHeater extends RBMKBase {
                     
                     if (te.setCoolantRC(type)) {
                         te.markDirty();
-                        ItemFluidIdentifier.chatOnChangeType(player, "chat.rbmk_heater.abbr", type);
+                        ItemFluidIDMulti.chatOnChangeType(player, "chat.rbmk_heater.abbr", type);
                         return true;
                     }
                 }

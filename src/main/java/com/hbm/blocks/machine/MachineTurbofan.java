@@ -7,7 +7,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
@@ -61,7 +61,7 @@ public class MachineTurbofan extends BlockDummyable implements ITooltipProvider 
                         
                         if (turbofan.setFuelRC(type)) {
                             turbofan.markDirty();
-                            ItemFluidIdentifier.chatOnChangeType(player, "tile.machine_turbofan.name", type);
+                            ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_turbofan.name", type);
                             return true;
                         }
                     }

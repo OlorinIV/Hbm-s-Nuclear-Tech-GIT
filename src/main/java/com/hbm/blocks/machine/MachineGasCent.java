@@ -4,7 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent;
@@ -54,7 +54,7 @@ public class MachineGasCent extends BlockDummyable implements IMultiblock {
                         
                         if (te.setFluidRC(type)) {
                             te.markDirty();
-                            ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_gascent.abbr", type);
+                            ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_gascent.abbr", type);
                             return true;
                         }
                     }

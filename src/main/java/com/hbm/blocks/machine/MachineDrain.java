@@ -7,7 +7,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.tileentity.machine.TileEntityMachineDrain;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -57,7 +57,7 @@ public class MachineDrain extends BlockDummyable implements ILookOverlay {
 				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
 				drain.tank.setTankType(type);
 				drain.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "chat.machine_drain.abbr", type);
+				ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_drain.abbr", type);
 
 				return true;
 			}

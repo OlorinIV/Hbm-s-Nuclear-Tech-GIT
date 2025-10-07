@@ -11,7 +11,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.machine.storage.TileEntityBarrel;
@@ -82,7 +82,7 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 
 				mileEntity.tank.setTankType(type);
 				mileEntity.markDirty();
-				ItemFluidIdentifier.chatOnChangeType(player, "container.barrel", type);
+                ItemFluidIDMulti.chatOnChangeType(player, "container.barrel", type);
 				}
 			return true;
 
