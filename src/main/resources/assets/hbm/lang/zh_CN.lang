@@ -468,7 +468,7 @@ book_lore.beacon.page.9=一旦所需对等端做出响应， 则给出“接受�
 book_lore.beacon.page.10=最常用的是FAR-5M标准。 如果没有协商标准，通信将 立即结束，起到“ping” 的作用。如果通信继续， 可以使用另一个长单音 “结束连接”来结束连接。
 book_lore.beacon.page.11=第5章：保修 $ [页面故意留空]
 
-cannery.f1=[按F1键获取帮助]
+cannery.f1=[按%s键获取帮助]
 
 cannery.centrifuge=气体离心机
 cannery.centrifuge.0=气体离心机可以使用通用流体管道传输流体。
@@ -6502,11 +6502,11 @@ chem.fp_egg=蛋溶解液分馏
 chem.fp_chlorocalcite_mix=混合氯方解石溶液分馏
 chem.fp_bauxite_solution=铝土矿溶液分馏
 
-chem.cryolite=Cryolite Production
-chem.btx2soot=Raw Fullerene Production
-chem.ln2=Liquid Nitrogen Separation
-chem.electrolysis_h2o=Water Cryo-Electrolysis
-chem.electrolysis_d2o=Heavy Water Cryo-Electrolysis
+chem.cryolite=冰晶石生产
+chem.btx2soot=粗制富勒烯生产
+chem.ln2=液氮分离
+chem.electrolysis_h2o=电解水
+chem.electrolysis_d2o=电解重水
 
 hbmfluid.colloid_hot=热胶体
 hbmfluid.cryogel_mod=改性冷凝胶
