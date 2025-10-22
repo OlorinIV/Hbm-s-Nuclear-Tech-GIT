@@ -128,7 +128,6 @@ public class FluidPump extends BlockContainer implements INBTBlockTransformable,
 		return INBTBlockTransformable.transformMetaDeco(meta, coordBaseMode);
 	}
 
-	@SideOnly(Side.CLIENT)
 	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 	public static class TileEntityFluidPump extends TileEntityLoadedBase implements IFluidStandardTransceiverMK2, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
 
@@ -346,6 +345,7 @@ public class FluidPump extends BlockContainer implements INBTBlockTransformable,
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	public static class GUIPump extends GuiScreen {
 
 		protected final TileEntityFluidPump pump;

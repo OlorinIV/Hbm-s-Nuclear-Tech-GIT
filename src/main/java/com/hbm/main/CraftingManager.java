@@ -22,7 +22,6 @@ import com.hbm.inventory.material.NTMMaterial;
 import static com.hbm.inventory.OreDictManager.*;
 
 import com.hbm.items.ModItems;
-import com.hbm.items.ItemEnums.EnumExpensiveType;
 import com.hbm.items.ItemEnums.EnumLegendaryType;
 import com.hbm.items.ItemEnums.EnumPages;
 import com.hbm.items.ItemEnums.EnumPlantType;
@@ -614,6 +613,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.pneumatic_tube, 8), new Object[] { "CRC", 'C', CU.plateCast(), 'R', ANY_RUBBER.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.pneumatic_tube, 24), new Object[] { "CRC", 'C', CU.plateWelded(), 'R', ANY_RUBBER.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.pneumatic_tube_paintable, 4), new Object[] { "SAS", "A A", "SAS", 'S', STEEL.plate(), 'A', ModBlocks.pneumatic_tube});
+		addRecipeAuto(new ItemStack(ModBlocks.pipe_anchor, 2), new Object[] { "P", "P", "S", 'P', STEEL.pipe(), 'S', STEEL.ingot() });
 
 		addRecipeAuto(new ItemStack(ModItems.template_folder, 1), new Object[] { "LPL", "BPB", "LPL", 'P', Items.paper, 'L', "dye", 'B', "dye" });
 		addRecipeAuto(new ItemStack(ModItems.pellet_antimatter, 1), new Object[] { "###", "###", "###", '#', ModItems.cell_antimatter });
@@ -623,7 +623,7 @@ public class CraftingManager {
 
 		if(!GeneralConfig.enable528) {
 			addRecipeAuto(new ItemStack(ModItems.inf_water, 1), new Object[] { "222", "131", "222", '1', Items.water_bucket, '2', AL.plate(), '3', DIAMOND.gem() });
-			addRecipeAuto(new ItemStack(ModItems.inf_water_mk2, 1), new Object[] { "BPB", "PTP", "BPB", 'B', ModItems.inf_water, 'P', ModBlocks.fluid_duct_neo, 'T', ModItems.tank_steel });
+			addRecipeAuto(new ItemStack(ModItems.inf_water_mk2, 1), new Object[] { "BPB", "PTP", "BPB", 'B', ModItems.inf_water, 'P', STEEL.pipe(), 'T', STEEL.shell() });
 		}
 
 		//not so Temporary Crappy Recipes
@@ -852,17 +852,6 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.rbmk_steam_inlet, 1), new Object[] { "SCS", "CBC", "SCS", 'S', STEEL.ingot(), 'C', IRON.plate(), 'B', ModItems.tank_steel });
 		addRecipeAuto(new ItemStack(ModBlocks.rbmk_steam_outlet, 1), new Object[] { "SCS", "CBC", "SCS", 'S', STEEL.ingot(), 'C', CU.plate(), 'B', ModItems.tank_steel });
 		//addRecipeAuto(new ItemStack(ModBlocks.rbmk_heatex, 1), new Object[] { "SCS", "CBC", "SCS", 'S', STEEL.ingot(), 'C', CU.plate(), 'B', ModItems.pipes_steel });
-
-		addRecipeAuto(new ItemStack(ModBlocks.pwr_fuel, 4), new Object[] { "LZL", "L L", "LZL", 'L', PB.plate528(), 'Z', ZR.plateWelded() });
-		addRecipeAuto(new ItemStack(ModBlocks.pwr_control, 4), new Object[] { "SBS", "MBM", "SBS", 'S', STEEL.plate528(), 'B', B.ingot(), 'M', ModItems.motor });
-		addRecipeAuto(new ItemStack(ModBlocks.pwr_channel, 4), new Object[] { "CPC", "BPB", "CPC", 'C', CU.ingot(), 'P', STEEL.pipe(), 'B', ANY_PLASTIC.ingot() });
-		addRecipeAuto(new ItemStack(ModBlocks.pwr_heatex, 4), new Object[] { "CSC", "SMS", "CSC", 'C', CU.plateCast(), 'S', STEEL.plate528(), 'M', ModItems.motor });
-		addRecipeAuto(new ItemStack(ModBlocks.pwr_heatsink, 4), new Object[] { "SCS", "CRC", "SCS", 'S', BIGMT.plateCast(), 'C', CU.plate(), 'R', RUBBER.ingot() });
-		addRecipeAuto(new ItemStack(ModBlocks.pwr_reflector, 4), new Object[] { "RLR", "LSL", "RLR", 'R', OreDictManager.getReflector(), 'L', PB.plate528(), 'S', STEEL.plateCast() });
-		addRecipeAuto(new ItemStack(ModBlocks.pwr_casing, 4), new Object[] { "LCL", "CSC", "LCL", 'L', PB.plate528(), 'C', ANY_CONCRETE.any(), 'S', STEEL.plateCast() });
-		addRecipeAuto(new ItemStack(ModBlocks.pwr_controller, 1), new Object[] { "CPC", "PSP", "CPC", 'C', ModBlocks.pwr_casing, 'P', ANY_PLASTIC.ingot(), 'S', !GeneralConfig.enableExpensiveMode ? DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC) : DictFrame.fromOne(ModItems.item_expensive, EnumExpensiveType.CIRCUIT) });
-		addRecipeAuto(new ItemStack(ModBlocks.pwr_port, 1), new Object[] { "S", "C", "S", 'S', STEEL.plate(), 'C', ModBlocks.pwr_casing });
-		addRecipeAuto(new ItemStack(ModBlocks.pwr_neutron_source, 1), new Object[] { "LRL", "ZRZ", "LRL", 'L', PB.plate528(), 'R', ModItems.billet_ra226be, 'Z', ZR.plateCast() });
 
 		addRecipeAuto(new ItemStack(ModBlocks.deco_rbmk, 8), new Object[] { "R", 'R', ModBlocks.rbmk_blank });
 		addRecipeAuto(new ItemStack(ModBlocks.deco_rbmk_smooth, 1), new Object[] { "R", 'R', ModBlocks.deco_rbmk });

@@ -598,6 +598,8 @@ public class ModItems {
 	public static Item casing;
 
 	public static Item wiring_red_copper;
+	public static Item wrench;
+	
 	public static Item shell;
 	public static Item pipe;
 	public static Item fins_flat;
@@ -1500,6 +1502,7 @@ public class ModItems {
 	public static Item gun_double_barrel_sacred_dragon;
 	public static Item gun_n_i_4_n_i;
 	public static Item gun_charge_thrower;
+	public static Item gun_drill;
 
 	public static Item ammo_standard;
 	public static Item ammo_secret;
@@ -1980,7 +1983,6 @@ public class ModItems {
 
 	public static Item crowbar;
 
-	public static Item wrench;
 	public static Item wrench_flipped;
 	public static Item memespoon;
 
@@ -2832,7 +2834,8 @@ public class ModItems {
 		casing = new ItemEnumMulti(ItemEnums.EnumCasingType.class, true, true).setUnlocalizedName("casing").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing");
 
 		wiring_red_copper = new ItemWiring().setUnlocalizedName("wiring_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wiring_red_copper");
-
+		wrench = new ItemWrench(MainRegistry.tMatSteel).setUnlocalizedName("wrench").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wrench");
+		
 		pellet_rtg_depleted = new ItemRTGPelletDepleted().setContainerItem(plate_iron).setUnlocalizedName("pellet_rtg_depleted").setCreativeTab(MainRegistry.controlTab);
 
 		pellet_rtg_radium = new ItemRTGPellet(3).setDecays(DepletedRTGMaterial.LEAD, (long) (RTGUtil.getLifespan(16.0F, HalfLifeType.LONG, false) * 1.5)).setUnlocalizedName("pellet_rtg_radium").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_radium");
@@ -4626,15 +4629,15 @@ public class ModItems {
 				.addAbility(IWeaponAbility.STUN, 2).setUnlocalizedName("elec_sword").setTextureName(RefStrings.MODID + ":elec_sword_anim");
 
 		elec_pickaxe = new ItemToolAbilityPower(6F, 0, MainRegistry.tMatElec, EnumToolType.PICKAXE, 500000, 1000, 100)
-				.addAbility(IToolAreaAbility.HAMMER, 1)
-				.addAbility(IToolAreaAbility.HAMMER_FLAT, 1)
+				.addAbility(IToolAreaAbility.HAMMER, 0)
+				.addAbility(IToolAreaAbility.HAMMER_FLAT, 0)
 				.addAbility(IToolAreaAbility.RECURSION, 2)
 				.addAbility(IToolHarvestAbility.SILK, 0)
 				.addAbility(IToolHarvestAbility.LUCK, 1).setUnlocalizedName("elec_pickaxe").setTextureName(RefStrings.MODID + ":elec_drill_anim");
 
 		elec_axe = new ItemToolAbilityPower(10F, 0, MainRegistry.tMatElec, EnumToolType.AXE, 500000, 1000, 100)
-				.addAbility(IToolAreaAbility.HAMMER, 1)
-				.addAbility(IToolAreaAbility.HAMMER_FLAT, 1)
+				.addAbility(IToolAreaAbility.HAMMER, 0)
+				.addAbility(IToolAreaAbility.HAMMER_FLAT, 0)
 				.addAbility(IToolAreaAbility.RECURSION, 2)
 				.addAbility(IToolHarvestAbility.SILK, 0)
 				.addAbility(IToolHarvestAbility.LUCK, 1)
@@ -4642,8 +4645,8 @@ public class ModItems {
 				.addAbility(IWeaponAbility.BEHEADER, 0).setShears().setUnlocalizedName("elec_axe").setTextureName(RefStrings.MODID + ":elec_chainsaw_anim");
 
 		elec_shovel = new ItemToolAbilityPower(5F, 0, MainRegistry.tMatElec, EnumToolType.SHOVEL, 500000, 1000, 100)
-				.addAbility(IToolAreaAbility.HAMMER, 1)
-				.addAbility(IToolAreaAbility.HAMMER_FLAT, 1)
+				.addAbility(IToolAreaAbility.HAMMER, 0)
+				.addAbility(IToolAreaAbility.HAMMER_FLAT, 0)
 				.addAbility(IToolAreaAbility.RECURSION, 2)
 				.addAbility(IToolHarvestAbility.SILK, 0)
 				.addAbility(IToolHarvestAbility.LUCK, 1).setUnlocalizedName("elec_shovel").setTextureName(RefStrings.MODID + ":elec_shovel_anim");
@@ -4754,7 +4757,7 @@ public class ModItems {
 				.addAbility(IToolHarvestAbility.LUCK, 1)
 				.addAbility(IToolAreaAbility.HAMMER, 1)
 				.addAbility(IToolAreaAbility.HAMMER_FLAT, 1)
-				.addAbility(IToolAreaAbility.RECURSION, 2).setUnlocalizedName("drax").setTextureName(RefStrings.MODID + ":drax");
+				.addAbility(IToolAreaAbility.RECURSION, 2).setUnlocalizedName("drax").setCreativeTab(null).setTextureName(RefStrings.MODID + ":drax");
 		drax_mk2 = new ItemToolAbilityPower(15F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 1000000000, 250000, 7500)
 				.addAbility(IToolHarvestAbility.SMELTER, 0)
 				.addAbility(IToolHarvestAbility.SHREDDER, 0)
@@ -4762,7 +4765,7 @@ public class ModItems {
 				.addAbility(IToolHarvestAbility.LUCK, 2)
 				.addAbility(IToolAreaAbility.HAMMER, 2)
 				.addAbility(IToolAreaAbility.HAMMER_FLAT, 2)
-				.addAbility(IToolAreaAbility.RECURSION, 4).setUnlocalizedName("drax_mk2").setTextureName(RefStrings.MODID + ":drax_mk2");
+				.addAbility(IToolAreaAbility.RECURSION, 4).setUnlocalizedName("drax_mk2").setCreativeTab(null).setTextureName(RefStrings.MODID + ":drax_mk2");
 		drax_mk3 = new ItemToolAbilityPower(20F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 2500000000L, 500000, 10000)
 				.addAbility(IToolHarvestAbility.SMELTER, 0)
 				.addAbility(IToolHarvestAbility.SHREDDER, 0)
@@ -4772,7 +4775,7 @@ public class ModItems {
 				.addAbility(IToolHarvestAbility.LUCK, 4)
 				.addAbility(IToolAreaAbility.HAMMER, 3)
 				.addAbility(IToolAreaAbility.HAMMER_FLAT, 3)
-				.addAbility(IToolAreaAbility.RECURSION, 6).setUnlocalizedName("drax_mk3").setTextureName(RefStrings.MODID + ":drax_mk3");
+				.addAbility(IToolAreaAbility.RECURSION, 6).setUnlocalizedName("drax_mk3").setCreativeTab(null).setTextureName(RefStrings.MODID + ":drax_mk3");
 
 		ToolMaterial matBismuth = EnumHelper.addToolMaterial("HBM_BISMUTH", 4, 0, 50F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.ingot_bismuth));
 		bismuth_pickaxe = new ItemToolAbility(15F, 0, matBismuth, EnumToolType.MINER)
@@ -4946,7 +4949,6 @@ public class ModItems {
 		matchstick = new ItemMatch().setUnlocalizedName("matchstick").setCreativeTab(CreativeTabs.tabTools).setFull3D().setTextureName(RefStrings.MODID + ":matchstick");
 		balefire_and_steel = new ItemBalefireMatch().setUnlocalizedName("balefire_and_steel").setCreativeTab(CreativeTabs.tabTools).setFull3D().setTextureName(RefStrings.MODID + ":balefire_and_steel");
 		crowbar = new ModSword(MainRegistry.tMatSteel).setUnlocalizedName("crowbar").setFull3D().setTextureName(RefStrings.MODID + ":crowbar");
-		wrench = new WeaponSpecial(MainRegistry.tMatSteel).setUnlocalizedName("wrench").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wrench");
 		wrench_flipped = new WeaponSpecial(MainRegistry.tMatElec).setUnlocalizedName("wrench_flipped").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wrench_flipped");
 		memespoon = new WeaponSpecial(MainRegistry.tMatSteel).setUnlocalizedName("memespoon").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":memespoon");
 		wood_gavel = new WeaponSpecial(ToolMaterial.WOOD).setUnlocalizedName("wood_gavel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wood_gavel");
@@ -6525,6 +6527,7 @@ public class ModItems {
 
 		GameRegistry.registerItem(gun_fireext, gun_fireext.getUnlocalizedName());
 		GameRegistry.registerItem(gun_charge_thrower, gun_charge_thrower.getUnlocalizedName());
+		GameRegistry.registerItem(gun_drill, gun_drill.getUnlocalizedName());
 
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_secret, ammo_secret.getUnlocalizedName());

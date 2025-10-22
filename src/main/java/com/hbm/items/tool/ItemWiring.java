@@ -25,19 +25,19 @@ public class ItemWiring extends Item {
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_) {
 
 		if(!player.isSneaking()) {
-
+			
 			Block b = world.getBlock(x, y, z);
-
+			
 			if(b instanceof BlockDummyable) {
 				int[] core = ((BlockDummyable)b).findCore(world, x, y, z);
-
+				
 				if(core != null) {
 					x = core[0];
 					y = core[1];
 					z = core[2];
 				}
 			}
-
+			
 			TileEntity te = world.getTileEntity(x, y, z);
 
 			if(te != null && te instanceof TileEntityPylonBase) {
@@ -66,7 +66,7 @@ public class ItemWiring extends Item {
 
 						TileEntityPylonBase first = (TileEntityPylonBase) world.getTileEntity(x1, y1, z1);
 						TileEntityPylonBase second = ((TileEntityPylonBase) te);
-
+						
 						switch (TileEntityPylonBase.canConnect(first, second)) {
 							case 0:
 								first.addConnection(x, y, z);
@@ -83,7 +83,7 @@ public class ItemWiring extends Item {
 								player.addChatMessage(new ChatComponentText("Wire error - Pylon is too far away"));
 								break;
 						}
-
+						
 						stack.stackTagCompound = null;
 
 					} else {
@@ -125,7 +125,7 @@ public class ItemWiring extends Item {
 						entity.posZ - stack.stackTagCompound.getInteger("z"));
 
 				double dis = vec.lengthVector();
-				MainRegistry.proxy.displayTooltip("" + (dis > stack.stackTagCompound.getDouble("lm") ? EnumChatFormatting.RED : EnumChatFormatting.WHITE) + ((int) dis) + "m " + EnumChatFormatting.YELLOW + I18nUtil.resolveKey("wiring.connection.type" + stack.stackTagCompound.getInteger("ctype")), MainRegistry.proxy.ID_CABLE);
+				MainRegistry.proxy.displayTooltip(stack.getDisplayName() + ": " + (dis > stack.stackTagCompound.getDouble("lm") ? EnumChatFormatting.RED : EnumChatFormatting.WHITE) + ((int) dis) + "m " + EnumChatFormatting.YELLOW + I18nUtil.resolveKey("wiring.connection.type" + stack.stackTagCompound.getInteger("ctype")), MainRegistry.proxy.ID_CABLE);
 			}
 		}
 	}
