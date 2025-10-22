@@ -165,7 +165,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidStan
 
 			if(current != null && current.equals(conv)) {
 
-				int toFill = Math.min(50, Math.min(maxFill - currentFill, tank.getFill()));
+				int toFill = Math.min(100, Math.min(maxFill - currentFill, tank.getFill()));
 				currentFill += toFill;
 				tank.setFill(tank.getFill() - toFill);
 			}

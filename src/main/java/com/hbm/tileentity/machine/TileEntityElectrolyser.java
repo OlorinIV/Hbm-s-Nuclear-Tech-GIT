@@ -135,6 +135,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 					if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
+            
+            this.updateDuration();
 
 			upgradeManager.checkSlots(this, slots, 1, 2);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
@@ -143,13 +145,15 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 			usageOre = usageOreBase * (4 - powerLevel) / 4 * (speedLevel + 1);
 			usageFluid = usageFluidBase * (4 - powerLevel) / 4 * (speedLevel + 1);
+            this.processOreTime = this.processOreTime * ((4 - speedLevel) / 4);
+            this.processFluidTime = this.processFluidTime * ((4 - speedLevel) / 4);
             
             for(int i = 0; i < ItemMachineUpgrade.OverdriveSpeeds[overLevel]; i++) {
                 if (this.canProcessFluid()) {
                     this.progressFluid++;
                     this.power -= this.usageFluid;
                     
-                    if (this.progressFluid >= this.getDurationFluid() * (4 - speedLevel) / 4) {
+                    if (this.progressFluid >= this.processFluidTime) {
                         this.processFluids();
                         this.progressFluid = 0;
                         this.markChanged();
@@ -160,7 +164,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
                     this.progressOre++;
                     this.power -= this.usageOre;
                     
-                    if (this.progressOre >= this.getDurationMetal() * (4 - speedLevel) / 4) {
+                    if (this.progressOre >= this.processOreTime) {
                         this.processMetal();
                         this.progressOre = 0;
                         this.markChanged();
@@ -240,8 +244,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		buf.writeInt(this.progressOre);
 		buf.writeInt(this.usageOre);
 		buf.writeInt(this.usageFluid);
-		buf.writeInt(this.getDurationFluid());
-		buf.writeInt(this.getDurationMetal());
+		buf.writeInt(this.processFluidTime);
+		buf.writeInt(this.processOreTime);
 		for(int i = 0; i < 4; i++) tanks[i].serialize(buf);
 		buf.writeBoolean(this.leftStack != null);
 		buf.writeBoolean(this.rightStack != null);
@@ -392,15 +396,13 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		this.tanks[3].setFill(this.tanks[3].getFill() - 100);
 		this.decrStackSize(14, 1);
 	}
-
-	public int getDurationMetal() {
-		ElectrolysisMetalRecipe result = ElectrolyserMetalRecipes.getRecipe(slots[14]);
-		return result != null ? result.duration : 400;
-	}
-	public int getDurationFluid() {
-		ElectrolysisRecipe result = ElectrolyserFluidRecipes.getRecipe(tanks[0].getTankType());
-		return result != null ? result.duration : 100;
-	}
+    
+    public void updateDuration() {
+        ElectrolysisMetalRecipe metal = ElectrolyserMetalRecipes.getRecipe(slots[14]);
+        ElectrolysisRecipe fluid = ElectrolyserFluidRecipes.getRecipe(tanks[0].getTankType());
+        this.processOreTime = metal != null ? metal.duration : 400;
+        this.processFluidTime = fluid != null ? fluid.duration : 100;
+    }
     
     public boolean setFluidRC(FluidType type) {
         ElectrolysisRecipe recipe = ElectrolyserFluidRecipes.recipes.get(type);
@@ -433,8 +435,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		nbt.setLong("power", this.power);
 		nbt.setInteger("progressFluid", this.progressFluid);
 		nbt.setInteger("progressOre", this.progressOre);
-		nbt.setInteger("processFluidTime", getDurationFluid());
-		nbt.setInteger("processOreTime", getDurationMetal());
+		nbt.setInteger("processFluidTime", this.processFluidTime);
+		nbt.setInteger("processOreTime", this.processOreTime);
 		if(this.leftStack != null) {
 			nbt.setInteger("leftType", leftStack.material.id);
 			nbt.setInteger("leftAmount", leftStack.amount);
