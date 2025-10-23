@@ -78,10 +78,6 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
     
     public int getMaxInputSize() {return 64;}
 
-	public int getMaxInputSize() {
-		return upgrade == 0 ? 1 : upgrade == 1 ? 4 : upgrade == 2 ? 8 : 16;
-	}
-
 	public static final int maxLiquid = MaterialShapes.BLOCK.q(128);
 	public List<MaterialStack> liquids = new ArrayList();
 
@@ -118,13 +114,11 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			
 			if(lid == 1) loadIngredients();
 
-			if(lid == 1) loadIngredients();
-
 			if(power > 0) {
 
 				boolean ingredients = this.hasIngredients();
 				boolean electrodes = this.hasElectrodes();
-
+                
                 int speed = ItemMachineUpgrade.OverdriveSpeeds[upgrade];
 				int consumption = 1000 * speed * speed;
 
@@ -315,46 +309,6 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		if(markDirty) this.markDirty();
 	}
 
-	/** Moves items from the input queue to the main grid */
-	public void loadIngredients() {
-
-		boolean markDirty = false;
-
-		for(int q /* queue */ = 25; q < 30; q++) {
-			if(slots[q] == null) continue;
-			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(slots[q], this.liquidMode);
-			if(recipe == null) continue;
-
-			// add to existing stacks
-			for(int i /* ingredient */ = 5; i < 25; i++) {
-				if(slots[i] == null) continue;
-				int max = this.getMaxInputSize();
-				if(!slots[q].isItemEqual(slots[i])) continue;
-				int toMove = BobMathUtil.min(slots[i].getMaxStackSize() - slots[i].stackSize, slots[q].stackSize, max - slots[i].stackSize);
-				if(toMove > 0) {
-					this.decrStackSize(q, toMove);
-					slots[i].stackSize += toMove;
-					markDirty = true;
-				}
-				if(slots[q] == null) break;
-			}
-
-			// add to empty slot
-			if(slots[q] != null) for(int i /* ingredient */ = 5; i < 25; i++) {
-				if(slots[i] != null) continue;
-				int max = this.getMaxInputSize();
-				int toMove = Math.min(max, slots[q].stackSize);
-				slots[i] = slots[q].copy();
-				slots[i].stackSize = toMove;
-				this.decrStackSize(q, toMove);
-				markDirty = true;
-				if(slots[q] == null) break;
-			}
-		}
-
-		if(markDirty) this.markDirty();
-	}
-
 	public void decideElectrodeState() {
 		for(int i = 0; i < 3; i++) {
 
@@ -504,7 +458,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(is, this.liquidMode);
 		if(recipe != null) {
 			int maxStackSize = this.liquidMode ? 64 : recipe.solidOutput.getMaxStackSize() / recipe.solidOutput.stackSize;
-			maxStackSize = Math.min(maxStackSize, Math.min(is.getMaxStackSize(), getMaxInputSize()));
+			maxStackSize = Math.min(maxStackSize, is.getMaxStackSize());
 
 			//Scan
 			for(int i = 5; i < 25; i++){
