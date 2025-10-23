@@ -114,14 +114,16 @@ dependencies {
 }
 
 processResources {
+	//Gradle 7.x might throw an exception if duplicatesStrategy is not set
+	//Although in fact no files will be copied twice, the code will still be kept to prevent weird exceptions
+	duplicatesStrategy = DuplicatesStrategy.WARN
+
 	// this will ensure that this task is redone when the versions change.
 	inputs.property "version", project.version
 	inputs.property "mcversion", project.minecraft.version
 
-	// replace stuff in mcmod.info, nothing else
+	// Copy everything and replace stuff in mcmod.info at the same time
 	from(sourceSets.main.resources.srcDirs) {
-		include 'mcmod.info'
-
 		// replace version and mcversion
 		filesMatching('mcmod.info') {
 			// replace version, mcversion and credits
@@ -130,11 +132,6 @@ processResources {
 					credits: project.credits
 			])
 		}
-	}
-
-	// copy everything else, thats not the mcmod.info
-	from(sourceSets.main.resources.srcDirs) {
-		exclude 'mcmod.info'
 	}
 }
 
