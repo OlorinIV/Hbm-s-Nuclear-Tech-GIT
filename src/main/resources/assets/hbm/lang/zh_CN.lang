@@ -4596,7 +4596,7 @@ item.taurun_plate.name="陶跑"胸甲
 item.telepad.name=传送部件
 item.tem_flakes.name=Tem薄片
 item.template_folder.name=机器模板文件夹
-item.template_folder.desc=机器模板：纸张+染料$锻模：空白锻模 $警报声轨:绝缘体+钢板 
+item.template_folder.desc=机器模板：纸张+染料$锻模：空白锻模 $警报声轨：绝缘体+钢板
 item.test_nuke_igniter.name=点火器
 item.test_nuke_propellant.name=推进剂
 item.test_nuke_tier1_bullet.name=铀235弹头[1级]
@@ -6452,7 +6452,6 @@ desc.gui.upgrade.effectiveness=*§a效率§r：堆叠至3级
 desc.gui.upgrade.overdrive=*§7超速§r：堆叠至3级
 desc.gui.upgrade.power=*§1节能§r：堆叠至3级
 desc.gui.upgrade.speed=*§4速度§r：堆叠至3级
-
 
 # NTMC Addon Strings
 

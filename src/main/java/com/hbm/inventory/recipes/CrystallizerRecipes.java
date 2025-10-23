@@ -245,7 +245,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		if(dustCinnabar != null && !dustCinnabar.isEmpty()) {
 			registerRecipe(CINNABAR.dust(), new CrystallizerRecipe(new ItemStack(ModItems.cinnebar), utilityTime), new FluidStack(Fluids.PEROXIDE, 50));
 		}
-		
+
 		registerRecipe(new ComparableStack(ModBlocks.moon_turf), new CrystallizerRecipe(new ItemStack(ModItems.chunk_ore, 1, EnumChunkType.MOONSTONE.ordinal()), 1200).setReq(16));
 
 		if(!IMCCrystallizer.buffer.isEmpty()) {

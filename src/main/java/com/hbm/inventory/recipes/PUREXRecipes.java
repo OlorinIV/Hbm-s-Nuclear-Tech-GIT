@@ -20,7 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
-	
+
 	public static final PUREXRecipes INSTANCE = new PUREXRecipes();
 
 	@Override public int inputItemLimit() { return 3; }
@@ -469,8 +469,8 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new ComparableStack(ModBlocks.sand_mix, 1, EnumSandType.LEAD))
 				.inputFluids(new FluidStack(Fluids.WASTEGAS, 1_000))
 				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
-		
-		this.register(new GenericRecipe("purex.vitsolid").setup(240, vitrification)
+
+		this.register(new GenericRecipe("purex.vitsolid").setup(80, vitrification)
 				.inputItems(new ComparableStack(ModBlocks.sand_mix, 1, EnumSandType.LEAD), new ComparableStack(ModItems.nuclear_waste, 4))
 				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified, 4)));
 

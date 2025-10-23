@@ -2753,7 +2753,7 @@ public class ModBlocks {
 		register(lightstone_bricks_stairs);
 		register(stones_slab, ItemModSlab.class);
 		register(stones_double_slab, ItemModSlab.class);
-		
+
 		register(brick_forgotten);
 
 		GameRegistry.registerBlock(concrete_slab, ItemModSlab.class, concrete_slab.getUnlocalizedName());
@@ -3232,7 +3232,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(cable_detector, cable_detector.getUnlocalizedName());
 		GameRegistry.registerBlock(cable_diode, ItemBlockBase.class, cable_diode.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_detector, machine_detector.getUnlocalizedName());
-		
+
 		register(fluid_duct_neo);
 		register(fluid_duct_box);
 		register(fluid_duct_exhaust);
