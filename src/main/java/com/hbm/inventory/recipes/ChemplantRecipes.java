@@ -230,11 +230,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ItemStack(ModItems.gem_tantalium),
 						new ItemStack(ModItems.dust, 3))
 				.outputFluids(new FluidStack(Fluids.WATER, 250)));
-		recipes.add(new ChemRecipe(88, "LUBRICANT", 20)
-				.inputFluids(
-						new FluidStack(Fluids.HEATINGOIL, 500),
-						new FluidStack(Fluids.UNSATURATEDS, 500))
-				.outputFluids(new FluidStack(Fluids.LUBRICANT, 1000)));
 		recipes.add(new ChemRecipe(70, "TEL", 40)
 			.inputItems(
 				new OreDictStack(ANY_TAR.any()),
