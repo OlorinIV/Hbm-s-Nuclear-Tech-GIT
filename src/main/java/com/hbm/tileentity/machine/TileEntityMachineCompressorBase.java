@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICompressor;
 import com.hbm.inventory.recipes.CompressorRecipes;
 import com.hbm.inventory.recipes.CompressorRecipes.CompressorRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IFluidCopiable;
@@ -75,9 +76,9 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 
 			upgradeManager.checkSlots(this, slots, 1, 3);
 
-			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+			int speed = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.SPEED)];
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
-			int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+			int over = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
 
 			CompressorRecipe rec = CompressorRecipes.recipes.get(new Pair(tanks[0].getTankType(), tanks[0].getPressure()));
 			int timeBase = this.processTimeBase;
@@ -85,10 +86,9 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 
 			//there is a reason to do this but i'm not telling you
 			// ^ a few months later i have to wonder what the fuck this guy was on about, and if i ever see him i will punch him in the nuts
-			this.processTime = timeBase / (speedLevel * speedLevel + 1);
+			this.processTime = timeBase / speed / over;
 			this.powerRequirement = this.powerRequirementBase / (powerLevel + 1);
-			this.processTime = this.processTime / (overLevel * overLevel + 1);
-			this.powerRequirement = this.powerRequirement * (speedLevel * speedLevel + 1) * (overLevel * overLevel + 1);
+			this.powerRequirement = this.powerRequirement * speed * over;
 
 			if(processTime <= 0) processTime = 1;
 

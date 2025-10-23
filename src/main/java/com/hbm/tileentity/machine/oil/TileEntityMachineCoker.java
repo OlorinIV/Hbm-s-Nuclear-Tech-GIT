@@ -5,6 +5,7 @@ import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerMachineCoker;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineCoker;
@@ -176,6 +177,13 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements Sim
 
 		return true;
 	}
+    
+    public boolean setOilRC(FluidType type) {
+        Triplet<Integer, ItemStack, FluidStack> recipe = CokerRecipes.getOutput(type);
+        if(recipe == null) return false;
+        tanks[0].setTankType(type);
+        return true;
+    }
 
 	@Override
 	public void serialize(ByteBuf buf) {

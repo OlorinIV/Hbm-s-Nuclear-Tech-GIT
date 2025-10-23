@@ -181,6 +181,13 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			}
 		}
 	}
+    
+    public boolean setOilRC(FluidType type) {
+        Pair<FluidStack, FluidStack> recipe = RadiolysisRecipes.getRadiolysis(type);
+        if(recipe == null) return false;
+        tanks[0].setTankType(type);
+        return true;
+    }
 
 	private boolean hasSpace(int left, int right) {
 		return tanks[1].getFill() + left <= tanks[1].getMaxFill() && tanks[2].getFill() + right <= tanks[2].getMaxFill();

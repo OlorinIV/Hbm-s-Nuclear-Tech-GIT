@@ -157,6 +157,7 @@ public class GenericRecipe {
 		return list;
 	}
 
+
 	/** Default impl only matches localized name substring, can be extended to include ingredients as well */
 	public boolean matchesSearch(String substring) {
 		return getLocalizedName().toLowerCase(Locale.US).contains(substring.toLowerCase(Locale.US));

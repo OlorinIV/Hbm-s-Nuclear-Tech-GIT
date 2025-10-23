@@ -211,7 +211,8 @@ public abstract class ModuleMachineBase {
 
 		return false;
 	}
-/** Returns true if the supplied slot is occupied with an item that does not match the recipe */
+
+	/** Returns true if the supplied slot is occupied with an item that does not match the recipe */
 	public boolean isSlotClogged(int slot) {
 		boolean isSlotValid = false;
 		for(int i : inputSlots) if(i == slot) isSlotValid = true;

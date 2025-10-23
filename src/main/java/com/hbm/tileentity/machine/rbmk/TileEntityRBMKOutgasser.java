@@ -47,10 +47,10 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public String getName() {
 		return "container.rbmkOutgasser";
 	}
-
+	
 	@Override
 	public void updateEntity() {
-
+		
 		if(!worldObj.isRemote) {
 			if(slots[0] != null){
 				Triplet<ItemStack, FluidStack, Long> output = OutgasserRecipes.getOutput(slots[0]);
@@ -63,19 +63,19 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			if(!canProcess()) {
 				this.progress = 0;
 			}
-
+			
 			for(DirPos pos : getOutputPos()) {
 				if(this.gas.getFill() > 0) this.sendFluid(gas, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-
+            
 			this.idct = false;
 		}
-
+		
 		super.updateEntity();
 	}
-
+	
 	protected DirPos[] getOutputPos() {
-
+		
 		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
 			return new DirPos[] {
 					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
@@ -299,6 +299,15 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		return new Object[] {progress};
 	}
 
+	@Callback(direct = true, doc = "Returns the unlocalized name and size of the stack that the outgasser is crafting (the input), or nil, nil if there is no stack")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCrafting(Context context, Arguments args) {
+		if (slots[0] == null)
+			return new Object[] { "", 0 };
+		else
+			return new Object[]{slots[0].getUnlocalizedName(), slots[0].stackSize };
+	}
+
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoordinates(Context context, Arguments args) {
@@ -308,7 +317,11 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {gas.getFill(), gas.getMaxFill(), progress, gas.getTankType().getID(), xCoord, yCoord, zCoord};
+		ItemStack input = slots[0];
+		if (input != null)
+			return new Object[] {gas.getFill(), gas.getMaxFill(), progress, gas.getTankType().getID(), xCoord, yCoord, zCoord, input.getUnlocalizedName(), input.stackSize };
+		else
+			return new Object[] {gas.getFill(), gas.getMaxFill(), progress, gas.getTankType().getID(), xCoord, yCoord, zCoord, "", 0 };
 	}
 
 	@Override

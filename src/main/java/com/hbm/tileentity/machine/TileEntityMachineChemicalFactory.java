@@ -133,7 +133,8 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 
 		if(!worldObj.isRemote) {
 
-			int overLevel = Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 6);
+            upgradeManager.checkSlots(slots, 1, 3);
+            int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 
 			long nextMaxPower = 0;
 			for(int i = 0; i < 4; i++) {
@@ -144,9 +145,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			}
 			this.maxPower = overLevel > 3 ? 10 * nextMaxPower : nextMaxPower;
 			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 10_000_000);
-
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			upgradeManager.checkSlots(slots, 1, 3);
 
 			inputTanks[0].loadTank(10, 13, slots);
 			inputTanks[1].loadTank(11, 14, slots);
@@ -161,7 +160,6 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 				for(FluidTank tank : inputTanks) if(tank.getTankType() != Fluids.NONE) this.trySubscribe(tank.getTankType(), worldObj, pos);
 				for(FluidTank tank : outputTanks) if(tank.getFill() > 0) this.tryProvide(tank, worldObj, pos);
 			}
-
 			for(DirPos pos : getCoolPos()) {
 				delegate.trySubscribe(worldObj, pos);
 				delegate.trySubscribe(water.getTankType(), worldObj, pos);
@@ -170,16 +168,16 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 
 			double speed = 1D;
 			double pow = 1D;
-			int speedLevel = Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 
 			speed /= (4 - speedLevel) / 4D;
-			speed *= overLevel > 3 ? 10 * ((overLevel - 3) * (overLevel - 3) + 1D) : overLevel * overLevel + 1D;
+			speed *= ItemMachineUpgrade.OverdriveSpeeds[overLevel];
 
-			pow -= Math.min(upgradeManager.getLevel(UpgradeType.POWER), 3) * 0.25D;
+			pow -= upgradeManager.getLevel(UpgradeType.POWER) * 0.25D;
 			pow *= speedLevel + 1D;
-			pow *= overLevel > 3 ? 100 * ((overLevel - 3) * (overLevel - 3) + 1D) : overLevel * overLevel + 1D;
+            pow *= ItemMachineUpgrade.OverdriveSpeeds[overLevel];
+            if(overLevel > 3) pow *= 10;
 			boolean markDirty = false;
-
 			for(int i = 0; i < 4; i++) {
 				this.chemplantModule[i].update(speed * 2D, pow * 2D, canCool(), slots[4 + i * 7]);
 				this.didProcess[i] =  this.chemplantModule[i].didProcess;
@@ -190,7 +188,6 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 					this.lps.setFill(this.lps.getFill() + 100);
 				}
 			}
-
 			// internal fluid sharing logic
 			for(FluidTank in : inputTanks) if(in.getTankType() != Fluids.NONE) for(FluidTank out : outputTanks) { // up to 144 iterations, but most of them are NOP anyway
 				if(out.getTankType() == Fluids.NONE) continue;
@@ -201,21 +198,16 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 					out.setFill(out.getFill() - toMove);
 				}
 			}
-
 			if(markDirty) this.markDirty();
-
 			this.networkPackNT(100);
 
 		} else {
-
 			this.prevAnim = this.anim;
 			boolean didSomething = didProcess[0] || didProcess[1] || didProcess[2] || didProcess[3];
 			if(didSomething) this.anim++;
-
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				frame = !worldObj.getBlock(xCoord, yCoord + 3, zCoord).isAir(worldObj, xCoord, yCoord + 3, zCoord);
 			}
-
 			if(didSomething && MainRegistry.proxy.me().getDistance(xCoord , yCoord, zCoord) < 50) {
 				if(audio == null) {
 					audio = createAudioLoop();
@@ -225,7 +217,6 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 				}
 				audio.keepAlive();
 				audio.updateVolume(this.getVolume(1F));
-
 			} else {
 				if(audio != null) {
 					audio.stopSound();
@@ -247,11 +238,9 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		super.invalidate();
 		if(audio != null) { audio.stopSound(); audio = null; }
 	}
-
 	public boolean canCool() {
 		return water.getFill() >= 100 && lps.getFill() <= lps.getMaxFill() - 100;
 	}
-
 	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
@@ -287,11 +276,9 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		};
 	}
 
-
 	public DirPos[] getCoolPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
 		return new DirPos[] {
 				new DirPos(xCoord + rot.offsetX + dir.offsetX * 3, yCoord, zCoord + rot.offsetZ + dir.offsetZ * 3, dir),
 				new DirPos(xCoord - rot.offsetX + dir.offsetX * 3, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 3, dir),
@@ -325,7 +312,6 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		for(int i = 0; i < 4; i++) this.didProcess[i] = buf.readBoolean();
 		for(int i = 0; i < 4; i++) this.chemplantModule[i].deserialize(buf);
 	}
-
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -340,7 +326,6 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		this.maxPower = nbt.getLong("maxPower");
 		for(int i = 0; i < 4; i++) this.chemplantModule[i].readFromNBT(nbt);
 	}
-
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -380,21 +365,17 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			}
 		}
 	}
-
 	AxisAlignedBB bb = null;
-
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		if(bb == null) bb = AxisAlignedBB.getBoundingBox(xCoord - 2, yCoord, zCoord - 2, xCoord + 3, yCoord + 3, zCoord + 3);
 		return bb;
 	}
-
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
-
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
 		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
@@ -425,7 +406,6 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 	}
 
 	public DirPos[] coolantLine; // we could make the same fucking array 50,000 times per tick, or we just make it once
-
 	@Override // all the delegating shit so the proxies on the coolant lines only access coolant (and power and inventory) but not the recipe fluids
 	public Object getDelegateForPosition(int x, int y, int z) {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
@@ -437,12 +417,9 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 				new DirPos(xCoord + rot.offsetX - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ - dir.offsetZ * 2, dir.getOpposite()),
 				new DirPos(xCoord - rot.offsetX - dir.offsetX * 2, yCoord, zCoord - rot.offsetZ - dir.offsetZ * 2, dir.getOpposite()),
 		};
-
 		for(DirPos pos : coolantLine) if(pos.compare(x, y, z)) return this.delegate; // this actually fucking works
-
 		return null;
 	}
-
 	public class DelegateChemicalFactoy implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2 {
 
 		@Override public long getPower() { return TileEntityMachineChemicalFactory.this.getPower(); }

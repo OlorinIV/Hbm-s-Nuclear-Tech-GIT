@@ -205,13 +205,13 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			int over = getOverdrive();
 
 			this.progressNeeded = processingTime * (4 - speedLevel) / 4;
-			int speed = (int)Math.pow(2, over);
-			int consumption = 200 * (int)Math.pow(2, over) * (speedLevel + 1);
+			int overSpeed = (int)Math.pow(2, over);
+			int consumption = 200 * overSpeed * (speedLevel + 1);
 
 			if(canEnrich()) {
 
 				isProgressing = true;
-				this.progress += speed;
+				this.progress += overSpeed;
 				this.power -= consumption;
 
 				if(this.power < 0) {
@@ -277,10 +277,24 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			}
 		}
 	}
+    
+    public boolean setFluidRC(FluidType type) {
+        if(tank.getTankType() != type) {
+            PseudoFluidType pseudo = GasCentrifugeRecipes.fluidConversions.get(type);
+            
+            if(pseudo != null) {
+                inputTank.setTankType(pseudo);
+                outputTank.setTankType(pseudo.getOutputType());
+                tank.setTankType(type);
+                return true;
+            }
+        }
+        return false;
+    }
 
 	public int getOverdrive() {
 		int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
-		overLevel += overLevel > 0 ? 1 : 0;
+		if(overLevel > 0) overLevel++;
 		if(slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed) overLevel = 1;
 		return overLevel;
 	}

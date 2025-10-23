@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineTurbine;
@@ -59,24 +62,31 @@ public class MachineTurbine extends BlockContainer implements ITooltipProvider {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
-			return true;
-		} else if(!player.isSneaking())
-		{
-			TileEntity te = world.getTileEntity(x, y, z);
-				
-			TileEntityMachineTurbine entity = (TileEntityMachineTurbine) te;
-			if(entity != null)
-			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
-			}
-			
-			return true;
-		} else {
-			return false;
-		}
-	}
+       
+        if (!world.isRemote) {
+            
+            TileEntity te = world.getTileEntity(x, y, z);
+            TileEntityMachineTurbine turbine = (TileEntityMachineTurbine) te;
+            
+            if (turbine == null) return false;
+            
+            if (player.isSneaking()) {
+                if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+                    FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, x, y, z, player.getHeldItem());
+                    
+                    if (turbine.setSteamRC(type)) {
+                        turbine.markDirty();
+                        ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_turbine.name", type);
+                        return true;
+                    }
+                }
+                return true;
+            } else {
+                FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+            }
+        }
+        return true;
+    }
 
 	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_,

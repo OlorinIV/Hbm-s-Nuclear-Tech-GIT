@@ -5,6 +5,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.container.ContainerRBMKHeater;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
@@ -82,6 +83,15 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 		
 		super.updateEntity();
 	}
+    
+    public boolean setCoolantRC(FluidType type) {
+        FT_Heatable trait = type.getTrait(FT_Heatable.class);
+        if(trait != null && trait.getEfficiency(HeatingType.HEATEXCHANGER) > 0) {
+            feed.setTankType(type);
+            return true;
+        }
+        return false;
+    }
 
 	protected DirPos[] getOutputPos() {
 		

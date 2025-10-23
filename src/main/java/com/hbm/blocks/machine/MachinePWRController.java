@@ -4,12 +4,16 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.machine.TileEntityPWRController;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -87,8 +91,35 @@ public class MachinePWRController extends BlockContainer implements ITooltipProv
 
 			return true;
 		} else {
-			return false;
+//			return false;
 		}
+        
+        
+        if (!world.isRemote) {
+            
+            TileEntityPWRController te = (TileEntityPWRController) world.getTileEntity(x, y, z);
+            if (te == null) return false;
+            
+            if (player.isSneaking()) {
+                if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+                    FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, x, y, z, player.getHeldItem());
+                    
+                    if (te.setCoolantRC(type)) {
+                        te.markDirty();
+                        ItemFluidIDMulti.chatOnChangeType(player, "chat.pwr.abbr", type);
+                        return true;
+                    }
+                }
+            } else {
+                if(!te.assembled) {
+                    assemble(world, x, y, z, player);
+                } else {
+                    if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.pwr_printer) return false;
+                    FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+                }
+            }
+        }
+        return true;
 	}
 
 	private static HashMap<BlockPos, Block> assembly = new HashMap();

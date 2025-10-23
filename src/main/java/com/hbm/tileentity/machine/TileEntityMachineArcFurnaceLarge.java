@@ -75,10 +75,6 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public static final byte ELECTRODE_USED = 2;
 	public static final byte ELECTRODE_DEPLETED = 3;
 
-	public int getMaxInputSize() {
-		return (int)Math.pow(4, upgrade);
-	}
-
 	public static final int maxLiquid = MaterialShapes.BLOCK.q(128);
 	public List<MaterialStack> liquids = new ArrayList();
 
@@ -117,8 +113,9 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 				boolean ingredients = this.hasIngredients();
 				boolean electrodes = this.hasElectrodes();
-
-				int consumption = 1000 * (upgrade * upgrade + 1) * (upgrade * upgrade + 1);
+                
+                int speed = ItemMachineUpgrade.OverdriveSpeeds[upgrade];
+				int consumption = 1000 * speed * speed;
 
 				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
 					if(lid > 0) {
@@ -128,7 +125,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 					} else {
 
 						if(power >= consumption) {
-							int duration = 400 / (upgrade * upgrade + 1);
+							int duration = 400 / speed;
 							this.progress += 1F / duration;
 							this.isProgressing = true;
 							this.power -= consumption;
@@ -358,7 +355,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				if(recipe.solidOutput == null) return false;
 				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
 				sta += stack.stackSize;
-				return sta * recipe.solidOutput.stackSize <= recipe.solidOutput.getMaxStackSize() && sta <= getMaxInputSize();
+				return sta * recipe.solidOutput.stackSize <= recipe.solidOutput.getMaxStackSize();
 			}
 		}
 		return false;
@@ -420,7 +417,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(is, this.liquidMode);
 		if(recipe != null) {
 			int maxStackSize = this.liquidMode ? 64 : recipe.solidOutput.getMaxStackSize() / recipe.solidOutput.stackSize;
-			maxStackSize = Math.min(maxStackSize, Math.min(is.getMaxStackSize(), getMaxInputSize()));
+			maxStackSize = Math.min(maxStackSize, is.getMaxStackSize());
 
 			//Scan
 			for(int i = 5; i < 25; i++){

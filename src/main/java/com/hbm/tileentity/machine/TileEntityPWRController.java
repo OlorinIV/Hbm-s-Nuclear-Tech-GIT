@@ -9,6 +9,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerPWR;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
@@ -374,6 +375,15 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	protected int getRodCountForCoolant() {
 		return this.rodCount + (int) Math.ceil(this.heatsinkCount / 4D);
 	}
+    
+    public boolean setCoolantRC(FluidType type) {
+        FT_Heatable trait = type.getTrait(FT_Heatable.class);
+        if(trait != null && trait.getEfficiency(HeatingType.PWR) > 0) {
+            tanks[0].setTankType(type);
+            return true;
+        }
+        return false;
+    }
 
 	public boolean isPrinting;
 

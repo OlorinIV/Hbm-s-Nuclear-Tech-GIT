@@ -4,6 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineFractionTower;
 import com.hbm.util.i18n.I18nUtil;
@@ -12,8 +13,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
@@ -73,7 +72,7 @@ public class MachineFractionTower extends BlockDummyable implements ILookOverlay
 					FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
 					frac.tanks[0].setTankType(type);
 					frac.markDirty();
-					player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation(type.getConditionalName())).appendSibling(new ChatComponentText("!")));
+					ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_fraction_tower.abbr", type);
 				}
 
 				return true;

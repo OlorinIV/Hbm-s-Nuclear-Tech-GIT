@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityHeatBoilerIndustrial;
 import com.hbm.util.i18n.I18nUtil;
@@ -15,9 +16,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
@@ -64,7 +62,7 @@ public class MachineHeatBoilerIndustrial extends BlockDummyable implements ILook
 				if(type.hasTrait(FT_Heatable.class) && type.getTrait(FT_Heatable.class).getEfficiency(HeatingType.BOILER) > 0) {
 					boiler.tanks[0].setTankType(type);
 					boiler.markDirty();
-					player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation(type.getConditionalName())).appendSibling(new ChatComponentText("!")));
+					ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_boiler.name", type);
 				}
 				return true;
 			}

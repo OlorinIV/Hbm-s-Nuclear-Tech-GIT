@@ -29,7 +29,7 @@ import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumAchievementType;
 import com.hbm.items.ModItems;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
@@ -246,6 +246,7 @@ public class MainRegistry {
 		configHbmDir = new File(configDir.getAbsolutePath() + File.separatorChar + "hbmConfig");
 
 		if(!configHbmDir.exists()) configHbmDir.mkdir();
+		Identity.init(configDir);
 
 		logger.info("Let us celebrate the fact that the logger finally works again!");
 
@@ -280,7 +281,7 @@ public class MainRegistry {
 		SiegeTier.registerTiers();
 		HazardRegistry.registerItems();
 		HazardRegistry.registerTrafos();
-		WeaponModManager.init();
+		XWeaponModManager.init();
 
 		OreDictManager oreMan = new OreDictManager();
 		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
@@ -1428,6 +1429,9 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.mp_f_20");
 		ignoreMappings.add("hbm:item.mp_thruster_10_kerosene_tec");
 		ignoreMappings.add("hbm:item.mp_thruster_15_kerosene_tec");
+		ignoreMappings.add("hbm:item.t45_kit");
+		ignoreMappings.add("hbm:item.fusion_core_infinite");
+		ignoreMappings.add("hbm:item.fluid_identifier");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
