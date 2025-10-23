@@ -1,7 +1,10 @@
 ## Changed
-* Added more QMAW manual pages
-* WIAJ presentations now use a configurable keybind, like QMAW
-  * The default keybind is now F5, in order to not collide with QMAW's F1
+* Added a (LEGACY) tag to the schrabidium transmutator
+* Existing schrabidium transmutators are now way slower
+  * get souped
+* Removed the schraranium tooltip mentioning the transmutator
+* Changed the last remaining recipes that use the old steel pipes item, as well as the recipe for the steel pipes
+  * Any remaining steel pipes can be either smelted in a crucible or shredded
 
 ## Fixed
-* Fixed fusion reactor item IO being broken
+* Fixed various issues with the localization

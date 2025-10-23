@@ -191,6 +191,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 				}
 			}
 
+			// internal fluid sharing logic
 			for(FluidTank in : inputTanks) if(in.getTankType() != Fluids.NONE) for(FluidTank out : outputTanks) { // up to 144 iterations, but most of them are NOP anyway
 				if(out.getTankType() == Fluids.NONE) continue;
 				if(out.getTankType() != in.getTankType()) continue;
