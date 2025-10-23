@@ -76,13 +76,13 @@ repositories {
 		name = "gt"
 		url = "https://gregtech.mechaenetia.com/"
 	}
-	//maven {
-	//	name = "CurseForge"
-	//	url = "https://minecraft.curseforge.com/api/maven/"
-	//}
+	maven {
+		name = "CurseForge"
+		url = "https://minecraft.curseforge.com/api/maven/"
+	}
 	maven {
 		name = "Jitpack"
-		url = "https://jitpack.io"
+		url = "https://www.jitpack.io"
 	}
 	maven {
 		name = "CurseMaven"
@@ -91,7 +91,7 @@ repositories {
 	maven {
         name = "OpenComputers"
         url = "https://maven.cil.li/"
-    }
+	}
 }
 
 dependencies {
@@ -109,7 +109,8 @@ dependencies {
 	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
 	implementation 'org.apache.logging.log4j:log4j:2.17.2'
 
-	compileOnly "com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta.56-GTNH:dev"
+	//compileOnly "com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta.56-GTNH:dev"
+	compileOnly "appeng:appliedenergistics2:rv3-beta-6:dev"
 }
 
 processResources {
