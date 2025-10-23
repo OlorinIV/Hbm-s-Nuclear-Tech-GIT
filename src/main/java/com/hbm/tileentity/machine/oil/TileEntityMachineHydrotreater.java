@@ -121,6 +121,14 @@ public class TileEntityMachineHydrotreater extends TileEntityMachineBase impleme
 		
 		power -= 20_000;
 	}
+    
+    public boolean setOilRC(FluidType type) {
+        Triplet<FluidStack, FluidStack, FluidStack> recipe = HydrotreatingRecipes.getOutput(type);
+        if(recipe == null) return false;
+        tanks[0].setTankType(type);
+        tanks[1].conform(recipe.getX());
+        return true;
+    }
 	
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {

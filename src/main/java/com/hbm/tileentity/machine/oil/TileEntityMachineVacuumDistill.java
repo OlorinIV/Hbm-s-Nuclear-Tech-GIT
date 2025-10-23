@@ -174,6 +174,14 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 		
 		for(int i = 0; i < stacks.length; i++) tanks[i + 1].setFill(tanks[i + 1].getFill() + stacks[i].fill);
 	}
+    
+    public boolean setOilRC(FluidType type) {
+        Quartet<FluidStack, FluidStack, FluidStack, FluidStack> recipe = RefineryRecipes.getVacuum(type);
+        if(recipe == null) return false;
+        tanks[0].setTankType(type);
+        tanks[0].withPressure(2);
+        return true;
+    }
 	
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {

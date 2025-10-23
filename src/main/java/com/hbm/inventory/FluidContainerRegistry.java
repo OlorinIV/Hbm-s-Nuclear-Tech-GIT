@@ -123,9 +123,8 @@ public class FluidContainerRegistry {
 			return null;
 
 		for(FluidContainer container : getContainers(type)) {
-			if(ItemStack.areItemStacksEqual(container.emptyContainer, sta) && ItemStack.areItemStackTagsEqual(container.emptyContainer, sta)) {
+			if(container.emptyContainer != null && container.emptyContainer.isItemEqual(sta))
 				return container;
-			}
 		}
 
 		return null;
@@ -143,7 +142,7 @@ public class FluidContainerRegistry {
 			return 0;
 
 		for(FluidContainer container : containerMap.get(type)) {
-			if(ItemStack.areItemStacksEqual(container.fullContainer, sta) && ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
+			if(container.fullContainer.isItemEqual(sta))
 				return container.content;
 		}
 
@@ -157,7 +156,7 @@ public class FluidContainerRegistry {
 		sta.stackSize = 1;
 
 		for(FluidContainer container : allContainers) {
-			if(ItemStack.areItemStacksEqual(container.fullContainer, sta) && ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
+			if(container.fullContainer.isItemEqual(sta))
 				return container.type;
 		}
 
@@ -173,7 +172,7 @@ public class FluidContainerRegistry {
 		if(!containerMap.containsKey(type)) return null;
 
 		for(FluidContainer container : containerMap.get(type)) {
-			if(ItemStack.areItemStacksEqual(container.emptyContainer, sta) && ItemStack.areItemStackTagsEqual(container.emptyContainer, sta))
+			if(container.emptyContainer != null && container.emptyContainer.isItemEqual(sta))
 				return container.fullContainer.copy();
 		}
 
@@ -187,7 +186,7 @@ public class FluidContainerRegistry {
 		sta.stackSize = 1;
 
 		for(FluidContainer container : allContainers) {
-			if(ItemStack.areItemStacksEqual(container.fullContainer, sta) && ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
+			if(container.fullContainer.isItemEqual(sta))
 				return container.emptyContainer == null ? null : container.emptyContainer.copy();
 		}
 

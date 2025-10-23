@@ -110,15 +110,15 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 
 			double speed = 1D;
 			double pow = 1D;
-			int speedLevel = Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3);
-			int overLevel = Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+			int over = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
 
 			speed /= (4 - speedLevel) / 4D;
-			speed *= overLevel * overLevel + 1D;
+			speed *= over;
 
-			pow -= Math.min(upgradeManager.getLevel(UpgradeType.POWER), 3) * 0.25D;
+			pow -= upgradeManager.getLevel(UpgradeType.POWER) * 0.25D;
 			pow *= speedLevel + 1D;
-			pow *= overLevel * overLevel + 1D;
+			pow *= over;
 
 			this.chemplantModule.update(speed, pow, true, slots[1]);
 			this.didProcess = this.chemplantModule.didProcess;

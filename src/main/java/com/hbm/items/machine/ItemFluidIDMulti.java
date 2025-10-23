@@ -16,18 +16,34 @@ import com.hbm.util.i18n.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IItemControlReceiver, IGUIProvider {
 
 	IIcon overlayIcon;
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item item, CreativeTabs tabs, List list) {
+		FluidType[] order = Fluids.getInNiceOrder();
+		for(int i = 1; i < order.length; ++i) {
+			if(!order[i].hasNoID()) {
+				ItemStack id = new ItemStack(item, 1, order[i].getID());
+				setType(id, Fluids.fromID(i), true);
+				list.add(id);
+			}
+		}
+	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
@@ -37,6 +53,7 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 			FluidType secondary = getType(stack, false);
 			setType(stack, secondary, true);
 			setType(stack, primary, false);
+			updateMeta(stack);
 			world.playSoundAtEntity(player, "random.orb", 0.25F, 1.25F);
 			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.startTranslation(secondary.getConditionalName()).flush(), /*MainRegistry.proxy.ID_DETONATOR*/ 7, 3000), (EntityPlayerMP) player);
 		}
@@ -56,6 +73,12 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 		if(data.hasKey("secondary")) {
 			setType(stack, Fluids.fromID(data.getInteger("secondary")), false);
 		}
+		
+		updateMeta(stack);
+	}
+	
+	public static void updateMeta(ItemStack stack) {
+		if(stack.hasTagCompound()) stack.setItemDamage(stack.stackTagCompound.getInteger("fluid1"));
 	}
 
 	@Override
@@ -152,4 +175,10 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIScreenFluid(player);
 	}
+    
+    // R-click change type message
+    public static void chatOnChangeType(EntityPlayer player, String keyMachineName, FluidType type) {
+        String name = EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey(keyMachineName) + "] ";
+        player.addChatComponentMessage(new ChatComponentText( name + EnumChatFormatting.YELLOW + I18nUtil.resolveKey("chat.machine.fluid.changetype", type.getLocalizedName())));
+    }
 }

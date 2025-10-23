@@ -53,4 +53,6 @@ public class ItemFELCrystal extends Item {
 			this.textColor = textColor;
 		}
 	}
+    
+    public static final int[] SILEXSpeeds = {1, 2, 5, 20, 100};
 }
