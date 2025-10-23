@@ -74,6 +74,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public static final byte ELECTRODE_FRESH = 1;
 	public static final byte ELECTRODE_USED = 2;
 	public static final byte ELECTRODE_DEPLETED = 3;
+    
+    public int getMaxInputSize() {return 64;}
 
 	public static final int maxLiquid = MaterialShapes.BLOCK.q(128);
 	public List<MaterialStack> liquids = new ArrayList();
