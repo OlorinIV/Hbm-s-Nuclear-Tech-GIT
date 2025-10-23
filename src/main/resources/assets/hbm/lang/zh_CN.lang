@@ -2719,9 +2719,9 @@ item.door_metal.name=金属门
 item.door_office.name=办公室门
 item.door_red.name=红门
 item.dosimeter.name=剂量计
-item.drax.name=采掘钻
-item.drax_mk2.name=强化型采掘钻
-item.drax_mk3.name=Sa326采掘钻
+item.drax.name=采掘钻（遗留）
+item.drax_mk2.name=强化型采掘钻（遗留）
+item.drax_mk3.name=Sa326采掘钻（遗留）
 item.drillbit_desh.name=Desh钻头
 item.drillbit_desh_diamond.name=Desh钻头(镶钻)
 item.drillbit_ferro.name=铀铁合金钻头
@@ -4596,7 +4596,7 @@ item.taurun_plate.name="陶跑"胸甲
 item.telepad.name=传送部件
 item.tem_flakes.name=Tem薄片
 item.template_folder.name=机器模板文件夹
-item.template_folder.desc=机器模板：纸张+染料$流体识别码：铁板+染料$锻模：空白锻模 $警报声轨:绝缘体+钢板
+item.template_folder.desc=机器模板：纸张+染料$锻模：空白锻模 $警报声轨:绝缘体+钢板
 item.test_nuke_igniter.name=点火器
 item.test_nuke_propellant.name=推进剂
 item.test_nuke_tier1_bullet.name=铀235弹头[1级]
@@ -5812,7 +5812,7 @@ tile.machine_vacuum_distill.name=真空炼油厂
 tile.machine_waste_drum.name=乏燃料池
 tile.machine_weapon_table.name=武器改装台
 tile.machine_wood_burner.name=火力发电机
-tile.machine_wood_burner.desc=燃烧物品时100HE/t，同时$收集灰烬$可以以40mB/s的速度燃烧流体，效率为50%%
+tile.machine_wood_burner.desc=燃烧物品时产生100HE/t，$同时收集灰烬$可以以40mB/s的速度燃烧流体，效率为50%%
 tile.machine_well.name=钻油塔
 tile.machine_zirnox.name=锆诺克斯核反应堆
 tile.marker_structure.name=多方块结构信标
@@ -6452,7 +6452,6 @@ desc.gui.upgrade.effectiveness=*§a效率§r：堆叠至3级
 desc.gui.upgrade.overdrive=*§7超速§r：堆叠至3级
 desc.gui.upgrade.power=*§1节能§r：堆叠至3级
 desc.gui.upgrade.speed=*§4速度§r：堆叠至3级
-
 
 # NTMC Addon Strings
 
