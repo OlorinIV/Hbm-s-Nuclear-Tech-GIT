@@ -223,13 +223,21 @@ public class ChemplantRecipes extends SerializableRecipe {
 				new FluidStack(Fluids.OXYGEN, 500))
 			.outputFluids(new FluidStack(Fluids.PAIN, 1000)));
 		recipes.add(new ChemRecipe(67, "COLTAN_CRYSTAL", 80)
-				.inputFluids(
-						new FluidStack(Fluids.PAIN, 1000),
-						new FluidStack(Fluids.PEROXIDE, 500))
-				.outputItems(
-						new ItemStack(ModItems.gem_tantalium),
-						new ItemStack(ModItems.dust, 3))
-				.outputFluids(new FluidStack(Fluids.WATER, 250)));
+			.inputFluids(
+				new FluidStack(Fluids.PAIN, 1000),
+				new FluidStack(Fluids.PEROXIDE, 500))
+			.outputItems(
+				new ItemStack(ModItems.gem_tantalium),
+				new ItemStack(ModItems.dust, 3))
+			.outputFluids(new FluidStack(Fluids.WATER, 250)));
+            /*recipes.add(new ChemRecipe(68, "VIT_LIQUID", 100)
+                .inputItems(new ComparableStack(ModBlocks.sand_lead))
+                .inputFluids(new FluidStack(Fluids.WASTEFLUID, 1000))
+                .outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
+            recipes.add(new ChemRecipe(69, "VIT_GAS", 100)
+                .inputItems(new ComparableStack(ModBlocks.sand_lead))
+                .inputFluids(new FluidStack(Fluids.WASTEGAS, 1000))
+                .outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));*/
 		recipes.add(new ChemRecipe(70, "TEL", 40)
 			.inputItems(
 				new OreDictStack(ANY_TAR.any()),
