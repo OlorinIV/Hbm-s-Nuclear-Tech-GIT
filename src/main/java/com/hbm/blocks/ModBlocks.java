@@ -3174,6 +3174,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(hadron_coil_chlorophyte, ItemBlockBase.class, hadron_coil_chlorophyte.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_coil_mese, ItemBlockBase.class, hadron_coil_mese.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_power, hadron_power.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_power_10m, hadron_power_10m.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_power_100m, hadron_power_100m.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_power_1g, hadron_power_1g.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_power_10g, hadron_power_10g.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_diode, hadron_diode.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_analysis, hadron_analysis.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_analysis_glass, hadron_analysis_glass.getUnlocalizedName());
