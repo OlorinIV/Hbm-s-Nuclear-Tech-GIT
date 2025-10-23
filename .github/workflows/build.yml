@@ -10,9 +10,8 @@
 name: Java CI with Gradle
 
 on:
-  # push:
-  #  branches: [ "master", "ntmc" ]  # What a pity, I love auto builds right after commits
-
+  push:
+    branches: [ "master", "ntmc" ]
   schedule:
     - cron: "0 0 * * *" #This means auto-triggering the action at 00:00 every day
   workflow_dispatch:
