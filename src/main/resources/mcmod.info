@@ -3,11 +3,11 @@
   "modid": "hbm",
   "name": "Hbm's Nuclear Tech",
   "description": "A mod that adds weapons, nuclear themed stuff and machines",
-  "version":"${version}",
+  "version":"${modVersion}",
   "mcversion": "1.7.10",
   "url": "",
   "updateUrl": "",
-  "credits": "${credits}",
+  "credits": "Temporarily Deleted",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

@@ -116,7 +116,7 @@ public class ModelGun extends ModelBase {
 		this.Shape14.setRotationPoint(7F, -7F, 0F);
 		this.Shape14.setTextureSize(64, 64);
 		this.Shape14.mirror = true;
-		setRotation(this.Shape14, 0F, 0F, 0.7853982F);
+		setRotation(this.Shape14, 0F, 0F, ((float)Math.PI / 4F));
 		//Shape15.mirror = true;
 		this.Shape15 = new ModelRenderer(this, 0, 38);
 		this.Shape15.addBox(0F, 0F, 0F, 3, 1, 3);

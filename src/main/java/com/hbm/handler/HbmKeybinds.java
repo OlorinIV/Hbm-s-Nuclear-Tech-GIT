@@ -130,7 +130,7 @@ public class HbmKeybinds {
 		// in practice, this shit doesn't fucking work. detection fails when the click is sub one tick long
 		if(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode() == abilityCycle.getKeyCode()) {
 			boolean last = props.getKeyPressed(EnumKeybind.ABILITY_CYCLE);
-			boolean current = abilityCycle.pressed;
+			boolean current = abilityCycle.getIsKeyPressed();
 			
 			if(last != current) {
 				PacketDispatcher.wrapper.sendToServer(new KeybindPacket(EnumKeybind.ABILITY_CYCLE, current));

@@ -54,14 +54,14 @@ public class ModelGasMask extends ModelBiped {
 		this.Shape4.setRotationPoint(3F - 4, 5F - 8 + 0.075F / 2, 0F - 4);
 		this.Shape4.setTextureSize(64, 32);
 		this.Shape4.mirror = true;
-		setRotation(this.Shape4, -0.7853982F, 0F, 0F);
+		setRotation(this.Shape4, -((float)Math.PI / 4F), 0F, 0F);
 		convertToChild(this.mask, this.Shape4);
 		this.Shape5 = new ModelRenderer(this, 0, 15);
 		this.Shape5.addBox(0F, 2F, -0.5F, 3, 4, 3);
 		this.Shape5.setRotationPoint(2.5F - 4, 5F - 8 + 0.075F / 2, 0F - 4);
 		this.Shape5.setTextureSize(64, 32);
 		this.Shape5.mirror = true;
-		setRotation(this.Shape5, -0.7853982F, 0F, 0F);
+		setRotation(this.Shape5, -((float)Math.PI / 4F), 0F, 0F);
 		convertToChild(this.mask, this.Shape5);
 		this.Shape6 = new ModelRenderer(this, 0, 22);
 		this.Shape6.addBox(0F, 0F, 0F, 8, 1, 5);

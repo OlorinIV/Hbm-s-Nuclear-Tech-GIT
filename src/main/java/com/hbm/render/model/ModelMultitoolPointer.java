@@ -221,13 +221,13 @@ public class ModelMultitoolPointer extends ModelBase {
 		this.Gauge1.setRotationPoint(-1F, -4F, 4F);
 		this.Gauge1.setTextureSize(64, 64);
 		this.Gauge1.mirror = true;
-		setRotation(this.Gauge1, -0.7853982F, 0F, 0F);
+		setRotation(this.Gauge1, -((float)Math.PI / 4F), 0F, 0F);
 		this.Gauge2 = new ModelRenderer(this, 34, 48);
 		this.Gauge2.addBox(-2F, -1F, -1.5F, 4, 1, 3);
 		this.Gauge2.setRotationPoint(-1F, -4F, 4F);
 		this.Gauge2.setTextureSize(64, 64);
 		this.Gauge2.mirror = true;
-		setRotation(this.Gauge2, -0.7853982F, 0F, 0F);
+		setRotation(this.Gauge2, -((float)Math.PI / 4F), 0F, 0F);
 		this.WireB = new ModelRenderer(this, 48, 49);
 		this.WireB.addBox(0F, 0F, 0F, 4, 2, 1);
 		this.WireB.setRotationPoint(0F, -1F, -5.5F);

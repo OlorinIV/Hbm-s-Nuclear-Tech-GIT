@@ -28,7 +28,7 @@ public class ModelBigSword extends ModelBase {
 		this.HandleBottom.setRotationPoint(0F, 0F, 0F);
 		this.HandleBottom.setTextureSize(64, 32);
 		this.HandleBottom.mirror = true;
-		setRotation(this.HandleBottom, -0.7853982F, 0F, 0F);
+		setRotation(this.HandleBottom, -((float)Math.PI / 4F), 0F, 0F);
 		this.HandleGrip = new ModelRenderer(this, 17, 1);
 		this.HandleGrip.addBox(0F, 0F, 0F, 1, 5, 2);
 		this.HandleGrip.setRotationPoint(0F, -4F, -1F);
@@ -52,13 +52,13 @@ public class ModelBigSword extends ModelBase {
 		this.Blade.setRotationPoint(0F, -22F, 1.5F);
 		this.Blade.setTextureSize(64, 32);
 		this.Blade.mirror = true;
-		setRotation(this.Blade, 0F, 1.570796F, 0F);
+		setRotation(this.Blade, 0F, ((float)Math.PI / 2F), 0F);
 		this.SBladeTip = new ModelRenderer(this, 2, 10);
 		this.SBladeTip.addBox(0F, 0F, 0F, 1, 2, 2);
 		this.SBladeTip.setRotationPoint(0F, -23.5F, 0F);
 		this.SBladeTip.setTextureSize(64, 32);
 		this.SBladeTip.mirror = true;
-		setRotation(this.SBladeTip, -0.7853982F, 0F, 0F);
+		setRotation(this.SBladeTip, -((float)Math.PI / 4F), 0F, 0F);
 	}
 
 	@Override

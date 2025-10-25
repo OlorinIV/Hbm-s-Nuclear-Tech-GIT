@@ -55,14 +55,14 @@ public class ModelT45Helmet extends ModelBiped {
 		this.Shape4.setRotationPoint(-2F, 5F - 8 + 0.0625F / 2, -4F);
 		this.Shape4.setTextureSize(64, 32);
 		this.Shape4.mirror = true;
-		setRotation(this.Shape4, -0.7853982F, 0F, 0F);
+		setRotation(this.Shape4, -((float)Math.PI / 4F), 0F, 0F);
 		convertToChild(this.helmet, this.Shape4);
 		this.Shape5 = new ModelRenderer(this, 54, 0);
 		this.Shape5.addBox(0F, 2F, 0F, 2, 1, 2);
 		this.Shape5.setRotationPoint(-1F, 5F - 8 + 0.0625F / 2, -4F);
 		this.Shape5.setTextureSize(64, 32);
 		this.Shape5.mirror = true;
-		setRotation(this.Shape5, -0.7853982F, 0F, 0F);
+		setRotation(this.Shape5, -((float)Math.PI / 4F), 0F, 0F);
 		convertToChild(this.helmet, this.Shape5);
 		this.Shape6 = new ModelRenderer(this, 0, 16);
 		this.Shape6.addBox(0F, 0F, 0F, 10, 1, 9);
@@ -76,14 +76,14 @@ public class ModelT45Helmet extends ModelBiped {
 		this.Shape7.setRotationPoint(-1.5F, 5F - 8 + 0.0625F / 2, -4.5F);
 		this.Shape7.setTextureSize(64, 32);
 		this.Shape7.mirror = true;
-		setRotation(this.Shape7, -0.7853982F, 0F, 0F);
+		setRotation(this.Shape7, -((float)Math.PI / 4F), 0F, 0F);
 		convertToChild(this.helmet, this.Shape7);
 		this.Shape8 = new ModelRenderer(this, 32, 5);
 		this.Shape8.addBox(0F, 0F, 0F, 1, 1, 1);
 		this.Shape8.setRotationPoint(0.5F, 5F - 8 + 0.0625F / 2, -4.5F);
 		this.Shape8.setTextureSize(64, 32);
 		this.Shape8.mirror = true;
-		setRotation(this.Shape8, -0.7853982F, 0F, 0F);
+		setRotation(this.Shape8, -((float)Math.PI / 4F), 0F, 0F);
 		convertToChild(this.helmet, this.Shape8);
 	}
 
