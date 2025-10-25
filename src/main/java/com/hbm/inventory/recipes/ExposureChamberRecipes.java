@@ -24,7 +24,7 @@ public class ExposureChamberRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 		recipes.add(new ExposureChamberRecipe(new ComparableStack(ModItems.particle_higgs), new OreDictStack(U.ingot()), new ItemStack(ModItems.ingot_schrabidium)));
-		recipes.add(new ExposureChamberRecipe(new ComparableStack(ModItems.particle_muon), new OreDictStack(BI.ingot()), new ItemStack(ModItems.ingot_pb209)));
+		recipes.add(new ExposureChamberRecipe(new ComparableStack(ModItems.particle_strange), new OreDictStack(BI.ingot()), new ItemStack(ModItems.ingot_pb209)));
 		recipes.add(new ExposureChamberRecipe(new ComparableStack(ModItems.particle_dark), new OreDictStack(PU.ingot()), new ItemStack(ModItems.ingot_euphemium)));
 		recipes.add(new ExposureChamberRecipe(new ComparableStack(ModItems.particle_sparkticle), new OreDictStack(SBD.ingot()), new ItemStack(ModItems.ingot_dineutronium)));
 	}
