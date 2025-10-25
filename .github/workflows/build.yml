@@ -11,7 +11,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "master", "ntmc" ] # I still like instant build after commits
+    branches: [ "ntmc-rfg" ] # I still like instant builds after commits
   workflow_dispatch:
 
 jobs:
