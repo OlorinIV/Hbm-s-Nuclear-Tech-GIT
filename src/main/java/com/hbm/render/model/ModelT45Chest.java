@@ -155,7 +155,7 @@ public class ModelT45Chest extends ModelBiped {
 		this.Shape15.setRotationPoint(0F, 2F - 0.0625F / 2, 3F);
 		this.Shape15.setTextureSize(128, 64);
 		this.Shape15.mirror = true;
-		setRotation(this.Shape15, 0F, 0F, 0.7853982F);
+		setRotation(this.Shape15, 0F, 0F, ((float)Math.PI / 4F));
 		convertToChild(this.chest, this.Shape15);
 		this.Shape16 = new ModelRenderer(this, 0, 48);
 		this.Shape16.addBox(0F, -1F, 0F, 3, 1, 4);
