@@ -16,4 +16,16 @@ repositories {
             includeGroup("codechicken")
         }
     }
+
+    maven {
+        name = "GTNH Maven"
+        url = uri("https://nexus.gtnewhorizons.com/repository/public/")
+        mavenContent {}
+    }
+
+    maven {
+        name = "OvermindDL1 Forge repo mirror"
+        url = uri("https://gregtech.overminddl1.com/")
+        mavenContent {}
+    }
 }
