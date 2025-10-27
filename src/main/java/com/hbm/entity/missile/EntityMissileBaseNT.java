@@ -100,7 +100,7 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	protected void entityInit() {
 		super.entityInit();
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
-		this.dataWatcher.addObject(3, new Byte((byte) 5));
+		this.dataWatcher.addObject(3, (byte) 5);
 	}
 
 	@Override

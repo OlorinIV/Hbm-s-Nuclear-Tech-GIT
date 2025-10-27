@@ -19,3 +19,10 @@ tasks.processResources.configure {
 tasks.jar.configure {
     archiveFileName = "NTMC_$version.jar"
 }
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+tasks.withType<JavaExec> {
+    systemProperty("file.encoding", "utf-8")
+}
