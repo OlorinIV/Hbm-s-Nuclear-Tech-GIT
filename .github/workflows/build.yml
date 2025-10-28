@@ -26,8 +26,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '25'
-          distribution: 'zulu' # Temurin because it's default :P
+          java-version: '21'
+          distribution: 'temurin' # Temurin because it's default :P
 
       # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
       # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
