@@ -1,3 +1,5 @@
+import kotlinx.coroutines.newSingleThreadContext
+import org.gradle.api.internal.ConventionTask
 
 plugins {
     id("com.gtnewhorizons.gtnhconvention")
@@ -28,17 +30,26 @@ tasks.jar.configure {
 }
 
 tasks.reobfJar.configure {
-    enabled = false
     archiveFileName = "$customArchiveBaseName-$modVersionInFileName.jar"
-    //finalizedBy("removeOutput")
 }
 
 tasks.sourcesJar.configure {
-    enabled = false
     archiveFileName = "$customArchiveBaseName-$modVersionInFileName-sources.jar"
+    finalizedBy("moveOutput")
 }
 
-//If you do not like the dev jar I think I could remove this... maybe
-//tasks.register<Delete>("removeOutput") {
-//    delete(layout.buildDirectory.file("libs/$customArchiveBaseName-$modVersionInFileName-dev.jar"))
-//}
+//If you do not like the dev jar I think I could move this to somewhere else...
+//Proven to be useless as when called after builds this won't run properly, but call this task separately it works almost fine
+
+tasks.register<Copy>("moveOutput") {
+    copy {
+        from(layout.buildDirectory.dir("/libs")) {
+            include("$customArchiveBaseName-$modVersionInFileName-dev.jar", "$customArchiveBaseName-$modVersionInFileName-sources.jar")
+        }
+
+        into(layout.buildDirectory.dir("/otherBuildArtifacts"))
+    }
+
+    delete(layout.buildDirectory.file("libs/$customArchiveBaseName-$modVersionInFileName-dev.jar"))
+    delete(layout.buildDirectory.file("libs/$customArchiveBaseName-$modVersionInFileName-sources.jar"))
+}
