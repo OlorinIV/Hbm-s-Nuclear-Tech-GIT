@@ -34,8 +34,15 @@ tasks.jar.configure {
 
 tasks.reobfJar.configure {
     archiveFileName = "$customArchiveBaseName-$modVersionInFileName.jar"
+    //finalizedBy("removeOutput")
 }
 
 tasks.sourcesJar.configure {
+    enabled = false
     archiveFileName = "$customArchiveBaseName-$modVersionInFileName-sources.jar"
 }
+
+//If you do not like the dev jar I think I could delete this elsewhere
+//tasks.register<Delete>("removeOutput") {
+//    delete(layout.buildDirectory.file("libs/$customArchiveBaseName-$modVersionInFileName-dev.jar"))
+//}
