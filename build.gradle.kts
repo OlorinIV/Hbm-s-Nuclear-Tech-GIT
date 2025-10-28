@@ -20,7 +20,7 @@ tasks.processResources.configure {
 
     filesMatching("mcmod.info") {
         expand(mapOf(
-            "modVersion" to modVersion,
+            "version" to modVersion,
             "minecraftVersion" to minecraftVersion,
             "modId" to modId,
             "modName" to modName,
@@ -34,8 +34,14 @@ tasks.jar.configure {
 
 tasks.reobfJar.configure {
     archiveFileName = "$customArchiveBaseName-$modVersionInFileName.jar"
+    finalizedBy("removeOutput")
 }
 
 tasks.sourcesJar.configure {
+    enabled = false
     archiveFileName = "$customArchiveBaseName-$modVersionInFileName-sources.jar"
+}
+
+tasks.register<Delete>("removeOutput") {
+    delete(layout.buildDirectory.file("libs/$customArchiveBaseName-$modVersionInFileName-dev.jar"))
 }
