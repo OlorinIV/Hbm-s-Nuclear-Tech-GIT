@@ -1,10 +1,10 @@
 [
 {
-  "modid": "${modId}",
-  "name": "${modName}",
+  "modid": "hbm",
+  "name": "Hbm's Nuclear Tech",
   "description": "A mod that adds weapons, nuclear themed stuff and machines",
-  "version":"${modVersion}",
-  "mcversion": "${minecraftVersion}",
+  "version":"${version}",
+  "mcversion": "1.7.10",
   "url": "",
   "updateUrl": "",
   "credits": "${credits}",
