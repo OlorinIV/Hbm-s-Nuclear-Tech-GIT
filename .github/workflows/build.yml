@@ -11,7 +11,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "ntmc-rfg" ] # I still like instant builds after commits
+    branches: [ "ntmc-rfg", "rfg" ] # I still like instant builds after commits
   workflow_dispatch:
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: 'temurin' # Temurin because it's default :P
 
       # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
