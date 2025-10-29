@@ -33,21 +33,35 @@ tasks.reobfJar.configure {
 
 tasks.sourcesJar.configure {
     archiveFileName = "$customArchiveBaseName-$modVersionInFileName-sources.jar"
-    //finalizedBy("moveOutput")
 }
 
 //If you do not like the dev jar I think I could move this to somewhere else...
-//Proven to be useless as when called after builds this won't copy and delete properly, but call this task separately it works almost fine
+//Thanks to GitHub Copilot it works
 
-//tasks.register<Copy>("moveOutput") {
-//    copy {
-//        from(layout.buildDirectory.dir("/libs")) {
-//            include("$customArchiveBaseName-$modVersionInFileName-dev.jar", "$customArchiveBaseName-$modVersionInFileName-sources.jar")
-//        }
-//
-//        into(layout.buildDirectory.dir("/otherBuildArtifacts"))
-//    }
-//
-//    delete(layout.buildDirectory.file("libs/$customArchiveBaseName-$modVersionInFileName-dev.jar"))
-//    delete(layout.buildDirectory.file("libs/$customArchiveBaseName-$modVersionInFileName-sources.jar"))
-//}
+tasks.register("moveOutput") {
+    dependsOn(tasks.named("sourcesJar"))
+
+    doLast {
+        copy {
+            from(layout.buildDirectory.dir("/libs")) {
+                include(
+                    "$customArchiveBaseName-$modVersionInFileName-dev.jar",
+                    "$customArchiveBaseName-$modVersionInFileName-sources.jar"
+                )
+            }
+
+            into(layout.buildDirectory.dir("/otherBuildArtifacts"))
+        }
+
+        delete(fileTree(layout.buildDirectory.dir("libs").get().asFile) {
+            include(
+                "${customArchiveBaseName}-${modVersionInFileName}-dev.jar",
+                "${customArchiveBaseName}-${modVersionInFileName}-sources.jar"
+            )
+        })
+    }
+}
+
+tasks.named("build") {
+    finalizedBy(tasks.named("moveOutput"))
+}
