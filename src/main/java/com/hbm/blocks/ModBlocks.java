@@ -777,6 +777,7 @@ public class ModBlocks {
 	public static Block red_cable_classic;
 	public static Block red_cable_paintable;
 	public static Block red_cable_gauge;
+	public static Block red_cable_box;
 	public static Block red_connector;
 	public static Block red_pylon;
 	public static Block red_pylon_medium_wood;
@@ -1925,6 +1926,7 @@ public class ModBlocks {
 		red_cable_classic = new BlockCable(Material.iron).setBlockName("red_cable_classic").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_cable_classic");
 		red_cable_paintable = new BlockCablePaintable().setBlockName("red_cable_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		red_cable_gauge = new BlockCableGauge().setBlockName("red_cable_gauge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		red_cable_box = new PowerCableBox(Material.iron).setBlockName("red_cable_box").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_box");
 		red_connector = new ConnectorRedWire(Material.iron).setBlockName("red_connector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_connector");
 		red_pylon = new PylonRedWire(Material.iron).setBlockName("red_pylon").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_pylon");
 		red_pylon_medium_wood = new PylonMedium(Material.wood).setBlockName("red_pylon_medium_wood").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_pylon");
@@ -3223,6 +3225,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(red_cable_classic, red_cable_classic.getUnlocalizedName());
 		GameRegistry.registerBlock(red_cable_paintable, red_cable_paintable.getUnlocalizedName());
 		register(red_cable_gauge);
+		register(red_cable_box);
 		GameRegistry.registerBlock(red_wire_coated, red_wire_coated.getUnlocalizedName());
 		GameRegistry.registerBlock(red_connector, ItemBlockBase.class, red_connector.getUnlocalizedName());
 		GameRegistry.registerBlock(red_pylon, ItemBlockBase.class, red_pylon.getUnlocalizedName());
