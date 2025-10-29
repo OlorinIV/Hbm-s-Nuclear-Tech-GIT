@@ -3,15 +3,16 @@ plugins {
     id("com.gtnewhorizons.gtnhconvention")
 }
 
-val mod_version: String by project
-val mod_build_number: String by project
-val modBuildNumberSub: String by project
+val modMainVersion = properties["mod_version"]
+val modBuildNumber = properties["mod_build_number"]
+val modBuildNumberSub = properties["mod_build_number_sub"]
 
-val modVersion = "${mod_version}_X$mod_build_number.$modBuildNumberSub"
+
+val modVersion = "${modMainVersion}_X$modBuildNumber.$modBuildNumberSub"
 val credits: String by project
 
 val customArchiveBaseName: String by project
-val modVersionInFileName = "X$mod_build_number.$modBuildNumberSub"
+val modVersionInFileName = "X$modBuildNumber.$modBuildNumberSub"
 
 tasks.processResources.configure {
 
@@ -28,14 +29,13 @@ tasks.jar.configure {
 
 tasks.reobfJar.configure {
     archiveFileName = "$customArchiveBaseName-$modVersionInFileName.jar"
-    finalizedBy("removeOutput")
 }
 
 tasks.sourcesJar.configure {
-    enabled = false
     archiveFileName = "$customArchiveBaseName-$modVersionInFileName-sources.jar"
 }
 
-tasks.register<Delete>("removeOutput") {
+tasks.register<Delete>("delDevJar") { 
     delete(layout.buildDirectory.file("libs/$customArchiveBaseName-$modVersionInFileName-dev.jar"))
+    delete(layout.buildDirectory.file("libs/$customArchiveBaseName-$modVersionInFileName-sources.jar"))
 }
