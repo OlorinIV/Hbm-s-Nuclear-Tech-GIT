@@ -306,6 +306,7 @@ public class MainRegistry {
 		aMatSecurity.customCraftingMaterial = ModItems.plate_kevlar;
 		aMatCobalt.customCraftingMaterial = ModItems.ingot_cobalt;
 		aMatStarmetal.customCraftingMaterial = ModItems.ingot_starmetal;
+		aMatBismuth.customCraftingMaterial = ModItems.plate_bismuth;
 		tMatSchrab.setRepairItem(new ItemStack(ModItems.ingot_schrabidium));
 		tMatHammmer.setRepairItem(new ItemStack(Item.getItemFromBlock(ModBlocks.block_schrabidium)));
 		tMatChainsaw.setRepairItem(new ItemStack(ModItems.ingot_steel));
@@ -372,7 +373,7 @@ public class MainRegistry {
 		statLegendary = new StatBasic("stat.ntmLegendary", new ChatComponentTranslation("stat.ntmLegendary")).registerStat();
 		statMines = new StatBasic("stat.ntmMines", new ChatComponentTranslation("stat.ntmMines")).registerStat();
 		statBullets = new StatBasic("stat.ntmBullets", new ChatComponentTranslation("stat.ntmBullets")).registerStat();
-        
+
         achSacrifice = init(new Achievement("achievement.sacrifice", "sacrifice", -3, 1, ModItems.burnt_bark, null), true, true);
         achImpossible = init(new Achievement("achievement.impossible", "impossible", 18, 10, ModItems.nothing, null), true, true);
         achTOB = init(new Achievement("achievement.tasteofblood", "tasteofblood", 3, 10, new ItemStack(ModItems.fluid_icon, 1, Fluids.ASCHRAB.getID()), null), true, true);
@@ -383,30 +384,30 @@ public class MainRegistry {
         achFiend2 = init(new Achievement("achievement.fiend2", "fiend2", -4, 9, ModItems.shimmer_axe, null), true, true);
         achStratum = init(new Achievement("achievement.stratum", "stratum", -4, -2, new ItemStack(ModBlocks.stone_gneiss), null), true, true);
         achOmega12 = init(new Achievement("achievement.omega12", "omega12", 17, -1, ModItems.particle_digamma, null), true, true);
-        
+
         achNo9 = init(new Achievement("achievement.no9", "no9", -8, 12, ModItems.no9, null), true, false);
         achSlimeball = init(new Achievement("achievement.slimeball", "slimeball", -10, 6, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.ACID), null), true, false);
         achSulfuric = init(new Achievement("achievement.sulfuric", "sulfuric", -10, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.BALLS), achSlimeball), true, true);
         achInferno = init(new Achievement("achievement.inferno", "inferno", -8, 10, ModItems.canister_napalm, null), true, true);
         achRedRoom = init(new Achievement("achievement.redRoom", "redRoom", -10, 10, ModItems.key_red, null), true, true);
-        
+
         bobHidden = init(new Achievement("achievement.hidden", "hidden", 15, -4, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.QUESTIONMARK), null), true, false);
-        
+
         horizonsStart = init(new Achievement("achievement.horizonsStart", "horizonsStart", -5, 4, ModItems.sat_gerald, null), true, false);
         horizonsEnd = init(new Achievement("achievement.horizonsEnd", "horizonsEnd", -3, 4, ModItems.sat_gerald, horizonsStart), true, false);
         horizonsBonus = init(new Achievement("achievement.horizonsBonus", "horizonsBonus", -1, 4, ModItems.sat_gerald, horizonsEnd), true, true);
-        
+
         bossCreeper = init(new Achievement("achievement.bossCreeper", "bossCreeper", -7, 1, ModItems.coin_creeper, null), true, false);
         bossMeltdown = init(new Achievement("achievement.bossMeltdown", "bossMeltdown", -8, 3, ModItems.coin_radiation, bossCreeper), true, false);
         bossMaskman = init(new Achievement("achievement.bossMaskman", "bossMaskman", -8, -1, ModItems.coin_maskman, bossCreeper), true, false);
         bossWorm = init(new Achievement("achievement.bossWorm", "bossWorm", -8, -3, ModItems.coin_worm, bossMaskman), true, true);
         bossUFO = init(new Achievement("achievement.bossUFO", "bossUFO", -6, -3, ModItems.coin_ufo, bossWorm), true, true);
-        
+
         achRadPoison = init(new Achievement("achievement.radPoison", "radPoison", -2, 6, ModItems.geiger_counter, null), true, false);
         achRadDeath = init(new Achievement("achievement.radDeath", "radDeath", 0, 6, Items.skull, achRadPoison), true, true);
-        
+
         achSomeWounds = init(new Achievement("achievement.someWounds", "someWounds", -2, 10, ModItems.injector_knife, null), true, false);
-        
+
         digammaSee = init(new Achievement("achievement.digammaSee", "digammaSee", -1, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.DIGAMMASEE), null), true, false);
         digammaFeel = init(new Achievement("achievement.digammaFeel", "digammaFeel", 1, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.DIGAMMAFEEL), digammaSee), true, false);
         digammaKnow = init(new Achievement("achievement.digammaKnow", "digammaKnow", 3, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.DIGAMMAKNOW), digammaFeel), true, true);
@@ -1467,7 +1468,7 @@ public class MainRegistry {
 			}
 		}
 	}
-    
+
     public static Achievement init(Achievement a, boolean isIndependent, boolean isSpecial) {
         ((StatBase) a).registerStat();
         AchievementList.achievementList.add(a);
