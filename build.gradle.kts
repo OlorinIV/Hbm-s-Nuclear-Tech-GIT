@@ -15,11 +15,11 @@ val customArchiveBaseName: String by project
 val modVersionInFileName = "X$modBuildNumber.$modBuildNumberSub"
 
 tasks.processResources.configure {
-
     filesMatching("mcmod.info") {
         expand(mapOf(
             "version" to modVersion,
-            "credits" to credits))
+            "credits" to credits)
+        )
     }
 }
 
