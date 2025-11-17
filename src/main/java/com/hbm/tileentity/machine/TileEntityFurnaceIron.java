@@ -41,7 +41,7 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 
 	public ModuleBurnTime burnModule;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityFurnaceIron() {
 		super(5);
@@ -65,7 +65,7 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 
 		if(!worldObj.isRemote) {
 
-			upgradeManager.checkSlots(this, slots, 4, 4);
+			upgradeManager.checkSlots(slots, 4, 4);
 			this.processingTime = baseTime - ((baseTime / 2) * upgradeManager.getLevel(UpgradeType.SPEED) / 3);
 
 			wasOn = false;

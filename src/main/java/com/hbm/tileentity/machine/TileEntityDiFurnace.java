@@ -13,7 +13,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.CompatEnergyControl;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,7 +28,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDiFurnace extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider, IInfoProviderEC {
+public class TileEntityDiFurnace extends TileEntityMachinePolluting implements IFluidStandardSenderMK2, IGUIProvider, IInfoProviderEC {
 
 	public int progress;
 	public int fuel;

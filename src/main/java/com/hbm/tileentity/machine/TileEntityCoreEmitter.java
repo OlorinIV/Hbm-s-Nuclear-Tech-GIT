@@ -2,7 +2,7 @@ package com.hbm.tileentity.machine;
 
 import api.hbm.block.ILaserable;
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.tile.IInfoProviderEC;
 
@@ -11,10 +11,12 @@ import com.hbm.inventory.container.ContainerCoreEmitter;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICoreEmitter;
+import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -39,7 +41,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyReceiverMK2, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent, IRORInteractive {
+public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyReceiverMK2, ILaserable, IFluidStandardReceiverMK2, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent, IRORInteractive {
 	
 	public long power;
 	public static final long maxPower = 1000000000L;
@@ -66,8 +68,11 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-			this.subscribeToAllAround(tank.getTankType(), this);
+            
+            for(DirPos pos : getConPos()) {
+                trySubscribe(worldObj, pos);
+                trySubscribe(tank.getTankType(), worldObj, pos);
+            }
 			
 			watts = MathHelper.clamp_int(watts, 1, 100);
 			long demand = maxPower * watts / 2000;
@@ -186,6 +191,17 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 		this.isOn = buf.readBoolean();
 		tank.deserialize(buf);
 	}
+    
+    private DirPos[] getConPos() {
+        return new DirPos[] {
+                new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+                new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+                new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+                new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+                new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+                new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
+        };
+    }
 	
 	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;

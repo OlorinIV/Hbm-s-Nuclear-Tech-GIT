@@ -80,10 +80,10 @@ public class TileEntityTowerSmall extends TileEntityCondenser {
 
 	@Override
 	public void sendFluidToAll(FluidTank tank, TileEntity te) {
-		this.sendFluid(this.tanks[1], worldObj, xCoord + 3, yCoord, zCoord, Library.POS_X);
-		this.sendFluid(this.tanks[1], worldObj, xCoord - 3, yCoord, zCoord, Library.NEG_X);
-		this.sendFluid(this.tanks[1], worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
-		this.sendFluid(this.tanks[1], worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
+		this.tryProvide(this.tanks[1], worldObj, xCoord + 3, yCoord, zCoord, Library.POS_X);
+		this.tryProvide(this.tanks[1], worldObj, xCoord - 3, yCoord, zCoord, Library.NEG_X);
+		this.tryProvide(this.tanks[1], worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
+		this.tryProvide(this.tanks[1], worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
 	}
 	
 	AxisAlignedBB bb = null;

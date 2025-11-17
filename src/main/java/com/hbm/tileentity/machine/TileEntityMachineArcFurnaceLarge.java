@@ -68,7 +68,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	private AudioWrapper audioLid;
 	private AudioWrapper audioProgress;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public byte[] electrodes = new byte[3];
 	public static final byte ELECTRODE_NONE = 0;
@@ -102,7 +102,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	@Override
 	public void updateEntity() {
 
-		upgradeManager.checkSlots(this, slots, 4, 4);
+		upgradeManager.checkSlots(slots, 4, 4);
 		this.upgrade = upgradeManager.getLevel(UpgradeType.SPEED);
 
 		if(!worldObj.isRemote) {

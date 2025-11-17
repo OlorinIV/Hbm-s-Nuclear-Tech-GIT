@@ -114,7 +114,7 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements Sim
 			}
 
 			for(DirPos pos : getConPos()) {
-				if(this.tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			this.networkPackNT(25);

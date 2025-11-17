@@ -36,7 +36,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 
 	public FluidTank[] tanks;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityOilDrillBase() {
 		super(8);
@@ -98,7 +98,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 			this.tanks[0].unloadTank(1, 2, slots);
 			this.tanks[1].unloadTank(3, 4, slots);
 
-			upgradeManager.checkSlots(this, slots, 5, 7);
+			upgradeManager.checkSlots(slots, 5, 7);
 			this.speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			this.energyLevel = upgradeManager.getLevel(UpgradeType.POWER);
 			this.overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE) + 1;
@@ -118,9 +118,9 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 
 			for (DirPos pos : getConPos()) {
 				if (tanks[0].getFill() > 0)
-					this.sendFluid(tanks[0], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.tryProvide(tanks[0], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				if (tanks[1].getFill() > 0)
-					this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			if (this.power >= this.getPowerReqEff() && this.tanks[0].getFill() < this.tanks[0].getMaxFill() && this.tanks[1].getFill() < this.tanks[1].getMaxFill()) {

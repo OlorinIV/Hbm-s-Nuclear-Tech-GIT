@@ -143,7 +143,7 @@ public class TileEntityCondenserPowered extends TileEntityCondenser implements I
 	@Override
 	public void sendFluidToAll(FluidTank tank, TileEntity te) {
 		for(DirPos pos : getConPos()) {
-			this.sendFluid(this.tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.tryProvide(this.tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 	

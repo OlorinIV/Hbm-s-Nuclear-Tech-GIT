@@ -127,8 +127,8 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			for(DirPos pos : getConPos()) {
 				this.tryProvide(worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
-				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+				if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 			}
 
 			this.networkPackNT(50);

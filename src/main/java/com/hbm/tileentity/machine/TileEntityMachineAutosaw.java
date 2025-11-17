@@ -10,13 +10,15 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardReceiver, IFluidCopiable {
+public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardReceiverMK2, IFluidCopiable {
 
 	public static final HashSet<FluidType> acceptedFuels = new HashSet();
 
@@ -84,8 +86,8 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 				} else {
 					this.isOn = false;
 				}
-
-				this.subscribeToAllAround(tank.getTankType(), this);
+                
+                for(DirPos pos : getConPos()) trySubscribe(tank.getTankType(), worldObj, pos);
 			}
 
 			if(isOn && !isSuspended) {
@@ -394,6 +396,17 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 		nbt.setInteger("state", this.state);
 		tank.writeToNBT(nbt, "t");
 	}
+    
+    private DirPos[] getConPos() {
+        return new DirPos[] {
+                new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+                new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+                new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+                new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+                new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+                new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
+        };
+    }
 
 	@Override
 	public FluidTank[] getAllTanks() {

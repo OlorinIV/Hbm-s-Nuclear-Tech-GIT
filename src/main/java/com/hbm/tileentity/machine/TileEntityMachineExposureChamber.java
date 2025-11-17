@@ -48,7 +48,7 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 	public float rotation;
 	public float prevRotation;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -96,7 +96,7 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 				for(DirPos pos : getConPos()) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
-			upgradeManager.checkSlots(this, slots, 6, 7);
+			upgradeManager.checkSlots(slots, 6, 7);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
 			int overdrive = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];

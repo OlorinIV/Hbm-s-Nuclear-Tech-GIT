@@ -73,7 +73,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	public FluidTank[] tanks;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityElectrolyser() {
 		//0: Battery
@@ -131,14 +131,14 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 					this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 					this.trySubscribe(tanks[3].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 
-					if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					if(tanks[2].getFill() > 0) this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
             
             this.updateDuration();
 
-			upgradeManager.checkSlots(this, slots, 1, 2);
+			upgradeManager.checkSlots(slots, 1, 2);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
 			int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);

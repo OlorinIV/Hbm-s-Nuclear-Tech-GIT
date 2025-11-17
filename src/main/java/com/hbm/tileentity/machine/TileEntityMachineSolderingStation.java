@@ -27,7 +27,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,7 +42,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineSolderingStation extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
+public class TileEntityMachineSolderingStation extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 
 	public long power;
 	public long maxPower = 2_000;
@@ -55,7 +55,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 	public FluidTank tank;
 	public ItemStack display;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineSolderingStation() {
 		super(11);
@@ -96,7 +96,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 			recipe = SolderingRecipes.getRecipe(new ItemStack[] {slots[0], slots[1], slots[2], slots[3], slots[4], slots[5]});
 			long intendedMaxPower;
 
-			upgradeManager.checkSlots(this, slots, 9, 10);
+			upgradeManager.checkSlots(slots, 9, 10);
 			int redLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int blueLevel = upgradeManager.getLevel(UpgradeType.POWER);
 			int black = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];

@@ -213,7 +213,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 			}
 
 			for(DirPos pos : getConPos()) {
-				this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.tryProvide(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			checkIfMeltdown();

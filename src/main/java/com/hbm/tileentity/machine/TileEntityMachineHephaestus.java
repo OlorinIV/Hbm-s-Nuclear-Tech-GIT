@@ -84,7 +84,7 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 
 			if(output.getFill() > 0) {
 				for(DirPos pos : getConPos()) {
-					this.sendFluid(output, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.tryProvide(output, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
 			buf.writeInt(this.getTotalHeat());

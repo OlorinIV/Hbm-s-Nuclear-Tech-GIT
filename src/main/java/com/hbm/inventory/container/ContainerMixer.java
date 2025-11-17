@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineMixer;
@@ -54,7 +55,7 @@ public class ContainerMixer extends Container {
 				}
 			} else {
 				
-				if(var3.getItem() instanceof IBatteryItem) {
+				if(var3.getItem() instanceof IBatteryItem || var3.getItem() == ModItems.battery_creative) {
 					if(!this.mergeItemStack(var5, 0, 1, false)) {
 						return null;
 					}
@@ -63,7 +64,7 @@ public class ContainerMixer extends Container {
 						return null;
 					}
 				} else if(var3.getItem() instanceof ItemMachineUpgrade) {
-					if(!this.mergeItemStack(var5, 3, 4, false)) {
+					if(!this.mergeItemStack(var5, 3, 5, false)) {
 						return null;
 					}
 				} else {

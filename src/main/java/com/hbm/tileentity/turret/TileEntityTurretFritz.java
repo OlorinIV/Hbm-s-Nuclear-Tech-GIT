@@ -16,7 +16,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.XFactoryFlamer;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import com.hbm.tileentity.IFluidCopiable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,7 +28,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFluidStandardReceiver, IFluidCopiable {
+public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFluidStandardReceiverMK2, IFluidCopiable {
 
 	public FluidTank tank;
 

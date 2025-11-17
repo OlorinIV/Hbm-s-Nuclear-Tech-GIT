@@ -15,7 +15,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.Tuple.Pair;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,7 +30,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFurnaceCombination extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider, IFluidCopiable {
+public class TileEntityFurnaceCombination extends TileEntityMachinePolluting implements IFluidStandardSenderMK2, IGUIProvider, IFluidCopiable {
 
 	public boolean wasOn;
 	public int progress;
@@ -65,7 +65,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachinePolluting imp
 					
 					for(int y = yCoord; y <= yCoord + 1; y++) {
 						for(int j = -1; j <= 1; j++) {
-							if(tank.getFill() > 0) this.sendFluid(tank, worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * j, y, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
+							if(tank.getFill() > 0) this.tryProvide(tank, worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * j, y, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
 							this.sendSmoke(xCoord + dir.offsetX * 2 + rot.offsetX * j, y, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
 						}
 					}
@@ -73,7 +73,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachinePolluting imp
 	
 				for(int x = xCoord - 1; x <= xCoord + 1; x++) {
 					for(int z = zCoord - 1; z <= zCoord + 1; z++) {
-						if(tank.getFill() > 0) this.sendFluid(tank, worldObj, x, yCoord + 2, z, ForgeDirection.UP);
+						if(tank.getFill() > 0) this.tryProvide(tank, worldObj, x, yCoord + 2, z, ForgeDirection.UP);
 						this.sendSmoke(x, yCoord + 2, z, ForgeDirection.UP);
 					}
 				}

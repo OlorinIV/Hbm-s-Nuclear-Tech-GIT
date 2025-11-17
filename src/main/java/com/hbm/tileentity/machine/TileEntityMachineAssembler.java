@@ -36,7 +36,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase i
 
 	public int recipe = -1;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	Random rand = new Random();
 
@@ -93,7 +93,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase i
 			this.consumption = 100;
 			this.speed = 100;
 
-			upgradeManager.checkSlots(this, slots, 1, 3);
+			upgradeManager.checkSlots(slots, 1, 3);
 
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);

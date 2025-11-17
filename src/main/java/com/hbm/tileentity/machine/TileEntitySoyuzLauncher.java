@@ -20,7 +20,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,7 +37,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IFluidCopiable {
+public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 1000000;

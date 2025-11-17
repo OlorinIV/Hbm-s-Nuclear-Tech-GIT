@@ -89,7 +89,7 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase imp
 			this.speed = 100;
 			this.consumption = 100;
 
-			upgradeManager.checkSlots(this, slots, 1, 4);
+			upgradeManager.checkSlots(slots, 1, 4);
 
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);

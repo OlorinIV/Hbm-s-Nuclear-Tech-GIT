@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -20,7 +20,7 @@ import net.minecraft.util.DamageSource;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidStandardReceiver, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidStandardReceiverMK2, SimpleComponent, CompatHandler.OCComponent {
 
 	private FluidTank tank;
 	private int lastCooled;

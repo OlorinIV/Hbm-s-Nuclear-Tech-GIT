@@ -80,7 +80,7 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 			this.speed = 100;
 			this.consumption = 100;
 
-			upgradeManager.checkSlots(this, slots, 1, 4);
+			upgradeManager.checkSlots(slots, 1, 4);
 
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
@@ -94,7 +94,7 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 			this.consumption *= (overLevel + 1);
 
 			for(DirPos pos : getConPos()) {
-				this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.tryProvide(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			this.networkPackNT(150);

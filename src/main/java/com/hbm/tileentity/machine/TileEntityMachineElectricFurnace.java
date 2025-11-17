@@ -45,7 +45,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 	private static final int[] slots_io = new int[] { 0, 1, 2 };
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineElectricFurnace() {
 		super(4);
@@ -182,7 +182,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			this.consumption = 50;
 			this.maxProgress = 100;
 
-			upgradeManager.checkSlots(this, slots, 3, 3);
+			upgradeManager.checkSlots(slots, 3, 3);
 
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);

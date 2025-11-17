@@ -148,8 +148,8 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 			}
 
 			for(DirPos pos : getConPos()) {
-				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			this.heat *= 0.999D;

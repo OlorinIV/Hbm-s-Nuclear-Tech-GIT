@@ -25,7 +25,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -38,7 +38,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineSolidifier extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
+public class TileEntityMachineSolidifier extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -52,7 +52,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 
 	public FluidTank tank;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineSolidifier() {
 		super(5);
@@ -73,7 +73,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 
 			this.updateConnections();
 
-			upgradeManager.checkSlots(this, slots, 2, 3);
+			upgradeManager.checkSlots(slots, 2, 3);
 			int speed = upgradeManager.getLevel(UpgradeType.SPEED);
 			int power = upgradeManager.getLevel(UpgradeType.POWER);
             int over = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];

@@ -95,13 +95,13 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 
 			for(DirPos pos : getSteamPos()) {
 				this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			if(tanks[0].getTankType() != Fluids.NONE) for(DirPos pos : getFluidPos()) {
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
-			if(smoke.getFill() > 0) this.sendFluid(smoke, worldObj, xCoord + rot.offsetX, yCoord + 5, zCoord + rot.offsetZ, Library.POS_Y);
+			if(smoke.getFill() > 0) this.tryProvide(smoke, worldObj, xCoord + rot.offsetX, yCoord + 5, zCoord + rot.offsetZ, Library.POS_Y);
 
 			if(this.output != null) {
 

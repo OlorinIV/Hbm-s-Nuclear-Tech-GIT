@@ -73,7 +73,7 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 			networkPackNT(25);
 
 			for(DirPos pos : getConPos()) {
-				if(this.tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 		}
 	}
