@@ -112,7 +112,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 			for(DirPos pos : getConPos()) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 
-			if(lid == 1) loadIngredients();
+			if(lid > 0) loadIngredients();
 
 			if(power > 0) {
 

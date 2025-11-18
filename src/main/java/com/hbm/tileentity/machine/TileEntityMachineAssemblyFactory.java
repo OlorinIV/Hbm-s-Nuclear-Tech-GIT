@@ -301,7 +301,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 		super.readFromNBT(nbt);
 
 		for(int i = 0; i < inputTanks.length; i++) this.inputTanks[i].readFromNBT(nbt, "i" + i);
-		for(int i = 0; i < outputTanks.length; i++) this.outputTanks[i].readFromNBT(nbt, "i" + i);
+		for(int i = 0; i < outputTanks.length; i++) this.outputTanks[i].readFromNBT(nbt, "o" + i);
 
 		this.water.readFromNBT(nbt, "w");
 		this.lps.readFromNBT(nbt, "s");
@@ -316,7 +316,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 		super.writeToNBT(nbt);
 
 		for(int i = 0; i < inputTanks.length; i++) this.inputTanks[i].writeToNBT(nbt, "i" + i);
-		for(int i = 0; i < outputTanks.length; i++) this.outputTanks[i].writeToNBT(nbt, "i" + i);
+		for(int i = 0; i < outputTanks.length; i++) this.outputTanks[i].writeToNBT(nbt, "o" + i);
 
 		this.water.writeToNBT(nbt, "w");
 		this.lps.writeToNBT(nbt, "s");

@@ -306,6 +306,7 @@ public class MainRegistry {
 		aMatSecurity.customCraftingMaterial = ModItems.plate_kevlar;
 		aMatCobalt.customCraftingMaterial = ModItems.ingot_cobalt;
 		aMatStarmetal.customCraftingMaterial = ModItems.ingot_starmetal;
+		aMatBismuth.customCraftingMaterial = ModItems.plate_bismuth;
 		tMatSchrab.setRepairItem(new ItemStack(ModItems.ingot_schrabidium));
 		tMatHammmer.setRepairItem(new ItemStack(Item.getItemFromBlock(ModBlocks.block_schrabidium)));
 		tMatChainsaw.setRepairItem(new ItemStack(ModItems.ingot_steel));
@@ -368,7 +369,11 @@ public class MainRegistry {
 	public static void load(FMLInitializationEvent event) {
 
 		RodRecipes.registerInit();
-        
+
+        statLegendary = new StatBasic("stat.ntmLegendary", new ChatComponentTranslation("stat.ntmLegendary")).registerStat();
+        statMines = new StatBasic("stat.ntmMines", new ChatComponentTranslation("stat.ntmMines")).registerStat();
+        statBullets = new StatBasic("stat.ntmBullets", new ChatComponentTranslation("stat.ntmBullets")).registerStat();
+
         achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", -3, 1, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
         achImpossible = new Achievement("achievement.impossible", "impossible", 18, 10, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
         achTOB = new Achievement("achievement.tasteofblood", "tasteofblood", 3, 10, new ItemStack(ModItems.fluid_icon, 1, Fluids.ASCHRAB.getID()), null).initIndependentStat().setSpecial().registerStat();
@@ -379,36 +384,36 @@ public class MainRegistry {
         achFiend2 = new Achievement("achievement.fiend2", "fiend2", -4, 9, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
         achStratum = new Achievement("achievement.stratum", "stratum", -4, -2, new ItemStack(ModBlocks.stone_gneiss), null).initIndependentStat().setSpecial().registerStat();
         achOmega12 = new Achievement("achievement.omega12", "omega12", 17, -1, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
-        
+
         achNo9 = new Achievement("achievement.no9", "no9", -8, 12, ModItems.no9, null).initIndependentStat().registerStat();
         achSlimeball = new Achievement("achievement.slimeball", "slimeball", -10, 6, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.ACID), null).initIndependentStat().registerStat();
         achSulfuric = new Achievement("achievement.sulfuric", "sulfuric", -10, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.BALLS), achSlimeball).initIndependentStat().setSpecial().registerStat();
         achInferno = new Achievement("achievement.inferno", "inferno", -8, 10, ModItems.canister_napalm, null).initIndependentStat().setSpecial().registerStat();
         achRedRoom = new Achievement("achievement.redRoom", "redRoom", -10, 10, ModItems.key_red, null).initIndependentStat().setSpecial().registerStat();
-        
+
         bobHidden = new Achievement("achievement.hidden", "hidden", 15, -4, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.QUESTIONMARK), null).initIndependentStat().registerStat();
-        
+
         horizonsStart = new Achievement("achievement.horizonsStart", "horizonsStart", -5, 4, ModItems.sat_gerald, null).initIndependentStat().registerStat();
         horizonsEnd = new Achievement("achievement.horizonsEnd", "horizonsEnd", -3, 4, ModItems.sat_gerald, horizonsStart).initIndependentStat().registerStat();
         horizonsBonus = new Achievement("achievement.horizonsBonus", "horizonsBonus", -1, 4, ModItems.sat_gerald, horizonsEnd).initIndependentStat().registerStat().setSpecial();
-        
+
         bossCreeper = new Achievement("achievement.bossCreeper", "bossCreeper", -7, 1, ModItems.coin_creeper, null).initIndependentStat().registerStat();
         bossMeltdown = new Achievement("achievement.bossMeltdown", "bossMeltdown", -8, 3, ModItems.coin_radiation, bossCreeper).initIndependentStat().registerStat();
         bossMaskman = new Achievement("achievement.bossMaskman", "bossMaskman", -8, -1, ModItems.coin_maskman, bossCreeper).initIndependentStat().registerStat();
         bossWorm = new Achievement("achievement.bossWorm", "bossWorm", -8, -3, ModItems.coin_worm, bossMaskman).initIndependentStat().registerStat().setSpecial();
         bossUFO = new Achievement("achievement.bossUFO", "bossUFO", -6, -3, ModItems.coin_ufo, bossWorm).initIndependentStat().registerStat().setSpecial();
-        
+
         achRadPoison = new Achievement("achievement.radPoison", "radPoison", -2, 6, ModItems.geiger_counter, null).initIndependentStat().registerStat();
         achRadDeath = new Achievement("achievement.radDeath", "radDeath", 0, 6, Items.skull, achRadPoison).initIndependentStat().registerStat().setSpecial();
-        
+
         achSomeWounds = new Achievement("achievement.someWounds", "someWounds", -2, 10, ModItems.injector_knife, null).initIndependentStat().registerStat();
-        
+
         digammaSee = new Achievement("achievement.digammaSee", "digammaSee", -1, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.DIGAMMASEE), null).initIndependentStat().registerStat();
         digammaFeel = new Achievement("achievement.digammaFeel", "digammaFeel", 1, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.DIGAMMAFEEL), digammaSee).initIndependentStat().registerStat();
         digammaKnow = new Achievement("achievement.digammaKnow", "digammaKnow", 3, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.DIGAMMAKNOW), digammaFeel).initIndependentStat().registerStat().setSpecial();
         digammaKauaiMoho = new Achievement("achievement.digammaKauaiMoho", "digammaKauaiMoho", 5, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.DIGAMMAKAUAIMOHO), digammaKnow).initIndependentStat().registerStat().setSpecial();
         digammaUpOnTop = new Achievement("achievement.digammaUpOnTop", "digammaUpOnTop", 7, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.DIGAMMAUPONTOP), digammaKauaiMoho).initIndependentStat().registerStat().setSpecial();
-        
+
         //progression achieves
         achBurnerPress = new Achievement("achievement.burnerPress", "burnerPress", 0, 0, new ItemStack(ModBlocks.machine_press), null).initIndependentStat().registerStat();
         achBlastFurnace = new Achievement("achievement.blastFurnace", "blastFurnace", 1, 3, new ItemStack(ModBlocks.machine_difurnace_off), achBurnerPress).initIndependentStat().registerStat();
@@ -441,7 +446,7 @@ public class MainRegistry {
         achMeltdown = new Achievement("achievement.meltdown", "meltdown", 15, -7, ModItems.powder_balefire, achFusion).initIndependentStat().setSpecial().registerStat();
         achRedBalloons = new Achievement("achievement.redBalloons", "redBalloons", 11, 0, ModItems.missile_nuclear, achPolymer).initIndependentStat().setSpecial().registerStat();
         achManhattan = new Achievement("achievement.manhattan", "manhattan", 11, -4, new ItemStack(ModBlocks.nuke_boy), achPolymer).initIndependentStat().setSpecial().registerStat();
-        
+
         AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[] {
 			achSacrifice,
 			achImpossible,
@@ -1401,6 +1406,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.test_nuke_tier2_bullet");
 		ignoreMappings.add("hbm:item.test_nuke_tier1_target");
 		ignoreMappings.add("hbm:item.test_nuke_tier2_target");
+		ignoreMappings.add("hbm:tile.hadron_cooler");
 		ignoreMappings.add("hbm:tile.machine_transformer_20");
 		ignoreMappings.add("hbm:tile.machine_transformer_dnt_20");
 		ignoreMappings.add("hbm:item.levitation_unit");
@@ -1433,6 +1439,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.sand_uranium");
 		ignoreMappings.add("hbm:tile.sand_polonium");
 		ignoreMappings.add("hbm:tile.sand_quartz");
+		ignoreMappings.add("hbm:item.bob_metalworks");
+		ignoreMappings.add("hbm:item.bob_assembly");
+		ignoreMappings.add("hbm:item.bob_chemistry");
+		ignoreMappings.add("hbm:item.bob_oil");
+		ignoreMappings.add("hbm:item.bob_nuclear");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

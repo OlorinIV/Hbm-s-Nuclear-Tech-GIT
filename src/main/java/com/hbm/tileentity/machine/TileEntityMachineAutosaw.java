@@ -147,8 +147,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 								double relAngle = Math.abs(angle - rotationYawRads);
 								relAngle = Math.abs((relAngle + Math.PI) % (2 * Math.PI) - Math.PI);
 
-								if(relAngle > CUT_ANGLE)
-									continue;
+								if(relAngle > CUT_ANGLE) continue;
 
 								int x = xCoord + dx;
 								int y = yCoord + 1;
@@ -159,8 +158,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 									continue;
 
 								int meta = worldObj.getBlockMetadata(x, y, z);
-								if(shouldIgnore(worldObj, x, y, z, b, meta))
-									continue;
+								if(shouldIgnore(worldObj, x, y, z, b, meta)) continue;
 								
 								state = 1;
 								break outer;
@@ -342,6 +340,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 					worldObj.func_147480_a(x + d[0], i, z + d[1], true);
 				} else if(b instanceof BlockLeaves) {
 					meta = worldObj.getBlockMetadata(x + d[0], i, z + d[1]) & 3;
+					if(b == Blocks.leaves2) meta += 4;
 					worldObj.func_147480_a(x + d[0], i, z + d[1], true);
 				}
 			}
