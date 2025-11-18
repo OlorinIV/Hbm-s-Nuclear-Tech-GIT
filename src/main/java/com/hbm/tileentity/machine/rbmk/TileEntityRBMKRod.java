@@ -180,6 +180,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		case SLOW: return slowFlux + fastFlux * 0.5;
 		case FAST: return fastFlux + slowFlux * 0.3;
 		case ANY: return this.fluxQuantity;
+		case NONE: return 0.0D;
 		}
 
 		return 0.0D;

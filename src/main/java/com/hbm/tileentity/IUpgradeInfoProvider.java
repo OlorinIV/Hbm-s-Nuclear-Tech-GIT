@@ -27,7 +27,6 @@ public interface IUpgradeInfoProvider {
 	public static final String KEY_DELAY = "upgrade.delay";
 	public static final String KEY_SPEED = "upgrade.speed";
 	public static final String KEY_EFFICIENCY = "upgrade.efficiency";
-	public static final String KEY_PRODUCTIVITY = "upgrade.productivity";
 	public static final String KEY_FORTUNE = "upgrade.fortune";
 	public static final String KEY_RANGE = "upgrade.range";
 }

@@ -40,44 +40,52 @@ public class ModuleMachineFusion extends ModuleMachineBase {
 	}
 	
 	@Override
-	protected boolean hasInput(GenericRecipe recipe) {
+	protected int hasInput(GenericRecipe recipe) {
 		
-		if(processSpeed <= 0) return false;
+		if(processSpeed <= 0) return 0;
 		
 		if(recipe.inputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
-				if(inputTanks[i].getFill() > 0 && inputTanks[i].getFill() < (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed)) return false;
+				if(inputTanks[i].getFill() > 0 && inputTanks[i].getFill() < (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed)) return 0;
 			}
 		}
 		
-		return true;
+		return 1;
 	}
 	
 	@Override
-	public void process(GenericRecipe recipe, double speed, double power) {
-		this.battery.setPower(this.battery.getPower() - (long) Math.ceil((power == 1 ? recipe.power : (long) (recipe.power * power)) * processSpeed));
-		double step = Math.min(speed / recipe.duration * processSpeed, 1D); // can't do more than one recipe per tick, might look into that later
+	public void process(GenericRecipe recipe, double speed, double power, int count) {
+
+        // Maybe the reactor should not do multiple recipes in 1 tick?
+
+        this.battery.setPower(this.battery.getPower() - (long) Math.ceil((power == 1 ? recipe.power : (long) (recipe.power * power)) * processSpeed));
+		double step = speed / recipe.duration * processSpeed; // trying to remove restriction
 		this.progress += step;
 		this.bonus += step * this.bonusSpeed;
-		this.bonus = Math.min(this.bonus, 1.5D); // bonus might not be used immediately in rare circumstances, allow 50% buffer
+
+        // Should we move the restriction?
+        //this.bonus = Math.min(this.bonus, 1.5D); // bonus might not be used immediately in rare circumstances, allow 50% buffer
+
+        int multi = Math.min((int)this.progress, count);
+        int bonusMulti = (int)this.bonus;
 		
 		// fusion reactor is the only machine as of now that consumes input while not having finished the output
 		if(recipe.inputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
-				inputTanks[i].setFill(inputTanks[i].getFill() - (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed));
+				inputTanks[i].setFill(inputTanks[i].getFill() - (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed * multi));
 			}
 		}
 		
-		if(this.progress >= 1D) {
-			produceItem(recipe);
+		if(multi > 0) {
+			produceItem(recipe, multi);
 			
-			if(this.canProcess(recipe, speed, power))  this.progress -= 1D;
+			if(this.canProcess(recipe, speed, power) > 0)  this.progress -= multi;
 			else this.progress = 0D;
 		}
 		
-		if(this.bonus >= 1D && this.canFitOutput(recipe)) {
-			produceItem(recipe);
-			this.bonus -= 1D;
+		if(bonusMulti > 0 && this.canFitOutput(recipe, bonusMulti)) {
+			produceItem(recipe, bonusMulti);
+			this.bonus -= bonusMulti;
 		}
 	}
 

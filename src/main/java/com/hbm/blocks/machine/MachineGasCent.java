@@ -2,6 +2,9 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IMultiblock;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent;
@@ -36,21 +39,31 @@ public class MachineGasCent extends BlockDummyable implements IMultiblock {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
-			return true;
-		} else if(!player.isSneaking())
-		{
-			int[] pos = this.findCore(world, x, y, z);
-
-			if(pos == null)
-				return false;
-
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
-			return true;
-		} else {
-			return false;
-		}
+        
+        if (!world.isRemote) {
+            
+            int[] pos = this.findCore(world, x, y, z);
+            if (pos == null) return false;
+            
+            if (player.isSneaking()) {
+                TileEntityMachineGasCent te = (TileEntityMachineGasCent) world.getTileEntity(pos[0], pos[1], pos[2]);
+                
+                if (te != null) {
+                    if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+                        FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
+                        
+                        if (te.setFluidRC(type)) {
+                            te.markDirty();
+                            ItemFluidIDMulti.chatOnChangeType(player, "chat.machine_gascent.abbr", type);
+                            return true;
+                        }
+                    }
+                }
+            } else {
+                FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
+            }
+        }
+        return true;
 	}
 	
 	@Override

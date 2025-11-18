@@ -5,6 +5,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.container.ContainerRBMKHeater;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
@@ -55,13 +56,13 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 				FT_Heatable trait = feed.getTankType().getTrait(FT_Heatable.class);
 				HeatingStep step = trait.getFirstStep();
 				steam.setTankType(step.typeProduced);
-				double tempRange = this.heat - steam.getTankType().temperature;
+				double tempRange = feed.getTankType().temperature < -20 ? this.heat - feed.getTankType().temperature : this.heat - steam.getTankType().temperature; //temperature of hot coolant for normal coolants, and temperature of coolant itself for "cryo" fluids (e.g. LN2) 
 				double eff = trait.getEfficiency(HeatingType.HEATEXCHANGER);
 				
 				if(tempRange > 0 && eff > 0) {
 					double TU_PER_DEGREE = 2_000D * eff; //based on 1mB of water absorbing 200 TU as well as 0.1°C from an RBMK column
 					int inputOps = feed.getFill() / step.amountReq;
-					int outputOps = (steam.getMaxFill() - steam.getFill()) / step.amountProduced;
+					int outputOps = step.amountProduced == 0 ? inputOps : (steam.getMaxFill() - steam.getFill()) / step.amountProduced; //Written by CrpBnrz: patched in order to prevent crashes caused by heaters heating LN2
 					int tempOps = (int) Math.floor((tempRange * TU_PER_DEGREE) / step.heatReq);
 					int ops = Math.min(inputOps, Math.min(outputOps, tempOps));
 
@@ -76,12 +77,21 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 			
 			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			for(DirPos pos : getOutputPos()) {
-				if(this.steam.getFill() > 0) this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.steam.getFill() > 0) this.tryProvide(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 		}
 		
 		super.updateEntity();
 	}
+    
+    public boolean setCoolantRC(FluidType type) {
+        FT_Heatable trait = type.getTrait(FT_Heatable.class);
+        if(trait != null && trait.getEfficiency(HeatingType.HEATEXCHANGER) > 0) {
+            feed.setTankType(type);
+            return true;
+        }
+        return false;
+    }
 
 	protected DirPos[] getOutputPos() {
 		

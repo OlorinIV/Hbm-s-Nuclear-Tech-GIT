@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.Compat;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -70,12 +71,21 @@ public class RadBlock extends VolcanicBlock {
 	public Block getReaction(World world, int x, int y, int z) {
 		
 		Block b = world.getBlock(x, y, z);
+		
+		Block certus = Compat.tryLoadBlock(Compat.MOD_AE, "tile.OreQuartz");
+		Block certus_charged = Compat.tryLoadBlock(Compat.MOD_AE, "tile.OreQuartzCharged");
+		
 		if(b.getMaterial() == Material.water) return Blocks.stone;
 		if(b == Blocks.log || b == Blocks.log2) return ModBlocks.waste_log;
 		if(b == Blocks.planks) return ModBlocks.waste_planks;
 		if(b == Blocks.leaves || b == Blocks.leaves2) return Blocks.fire;
 		if(b == Blocks.diamond_ore) return ModBlocks.ore_sellafield_radgem;
 		if(b == ModBlocks.ore_uranium || b == ModBlocks.ore_gneiss_uranium) return world.rand.nextInt(5) == 0 ? ModBlocks.ore_sellafield_schrabidium : ModBlocks.ore_sellafield_uranium_scorched;
+		
+		if(certus != null && certus_charged != null) {
+			if(b == Blocks.quartz_ore) return world.rand.nextInt(15) == 0 ? certus_charged : certus;
+		}
+		
 		return null;
 	}
 }

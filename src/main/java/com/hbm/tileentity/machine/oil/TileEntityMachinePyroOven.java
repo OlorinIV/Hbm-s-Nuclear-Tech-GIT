@@ -56,7 +56,7 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 
 	private AudioWrapper audio;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachinePyroOven() {
 		super(6, 50);
@@ -90,14 +90,14 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 			for(DirPos pos : getConPos()) {
 				this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-			if(smoke.getFill() > 0) this.sendFluid(smoke, worldObj, xCoord - rot.offsetX, yCoord + 3, zCoord - rot.offsetZ, Library.POS_Y);
+			if(smoke.getFill() > 0) this.tryProvide(smoke, worldObj, xCoord - rot.offsetX, yCoord + 3, zCoord - rot.offsetZ, Library.POS_Y);
 
-			upgradeManager.checkSlots(this, slots, 4, 5);
+			upgradeManager.checkSlots(slots, 4, 5);
 			int speed = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerSaving = upgradeManager.getLevel(UpgradeType.POWER);
 			int overdrive = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
@@ -107,7 +107,7 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 
 			if(this.canProcess()) {
 				PyroOvenRecipe recipe = getMatchingRecipe();
-				this.progress += 1F / Math.max((recipe.duration - speed * (recipe.duration / 4)) / (overdrive * 2 + 1), 1);
+				this.progress += 1F / Math.max((recipe.duration - speed * (recipe.duration / 4)) / ItemMachineUpgrade.OverdriveSpeeds[overdrive], 1);
 				this.isProgressing = true;
 				this.power -= this.getConsumption(speed + overdrive * 2, powerSaving);
 

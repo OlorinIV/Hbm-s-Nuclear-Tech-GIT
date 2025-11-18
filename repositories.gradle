@@ -1,0 +1,31 @@
+// Add any additional repositories for your dependencies here.
+
+repositories {
+    maven {
+        name = "OC"
+        url = uri("https://maven.cil.li/")
+        mavenContent {
+            includeGroup("li.cil.oc")
+        }
+    }
+
+    maven {
+        name = "ChickenBones"
+        url = uri("https://chickenbones.net/maven/")
+        mavenContent {
+            includeGroup("codechicken")
+        }
+    }
+
+    maven {
+        name = "GTNH Maven"
+        url = uri("https://nexus.gtnewhorizons.com/repository/public/")
+        mavenContent {}
+    }
+
+    maven {
+        name = "OvermindDL1 Forge repo mirror"
+        url = uri("https://gregtech.overminddl1.com/")
+        mavenContent {}
+    }
+}

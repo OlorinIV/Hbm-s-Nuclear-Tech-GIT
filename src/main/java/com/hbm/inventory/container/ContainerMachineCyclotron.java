@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ContainerMachineCyclotron extends Container {
@@ -63,29 +64,29 @@ public class ContainerMachineCyclotron extends Container {
 			ItemStack stack = slot.getStack();
 			var3 = stack.copy();
 
-			if(index <= 15) {
-				if(!this.mergeItemStack(stack, 16, this.inventorySlots.size(), true)) {
+			if(index <= 11) {
+				if(!this.mergeItemStack(stack, 12, this.inventorySlots.size(), true)) {
 					return null;
 				}
 				
 			} else {
-				
-				if(stack.getItem() instanceof IBatteryItem || stack.getItem() == ModItems.battery_creative) {
+				Item item = stack.getItem();
+                
+				if(item instanceof IBatteryItem || item == ModItems.battery_creative) {
 					if(!this.mergeItemStack(stack, 9, 10, true))
 						return null;
 					
-				} else if(stack.getItem() instanceof ItemMachineUpgrade) {
+				} else if(item instanceof ItemMachineUpgrade) {
 					if(!this.mergeItemStack(stack, 10, 11, true))
 						if(!this.mergeItemStack(stack, 11, 12, true))
 							return null;
 					
 				} else {
-					
-					if(stack.getItem() == ModItems.part_lithium ||
-							stack.getItem() == ModItems.part_beryllium ||
-							stack.getItem() == ModItems.part_carbon ||
-							stack.getItem() == ModItems.part_copper ||
-							stack.getItem() == ModItems.part_plutonium) {
+					if (item == ModItems.part_lithium || 
+                        item == ModItems.part_beryllium || 
+                        item == ModItems.part_carbon ||
+						item == ModItems.part_copper ||
+						item == ModItems.part_plutonium) {
 						
 						if(!this.mergeItemStack(stack, 0, 3, true))
 							return null;

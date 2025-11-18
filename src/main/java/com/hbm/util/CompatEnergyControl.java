@@ -57,7 +57,7 @@ public class CompatEnergyControl {
 	public static int getHeat(TileEntity tile) {
 		if(tile instanceof TileEntityRBMKBase) return (int) ((TileEntityRBMKBase) tile).heat;
 		//original implementation also used the SNR and LNR for some reason, but those no longer exist. neither ZINOX nor research reactor were part of the system.
-		return -1;
+		return -274;
 	}
 
 	/** Returns a list of Object arrays, one array for each fluid tank where the array contains fluid name, fill state and capacity (STRING, INTEGER, INTEGER) */

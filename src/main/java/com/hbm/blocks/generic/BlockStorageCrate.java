@@ -108,7 +108,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
-		
+
 		if(!world.isRemote && !ServerConfig.CRATE_KEEP_CONTENTS.get()) {
 			dropInv = true;
 			if(!player.capabilities.isCreativeMode) {
@@ -151,14 +151,6 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 				if(lockable.isLocked()) {
 					nbt.setInteger("lock", lockable.getPins());
 					nbt.setDouble("lockMod", lockable.getMod());
-				}
-			}
-
-			if(inv instanceof TileEntityCrateBase) {
-				TileEntityCrateBase crate = (TileEntityCrateBase) inv;
-				// Saves memory and ensures consistency between crafted crates and mined ones
-				if (crate.hasSpiders) {
-					nbt.setBoolean("spiders", true);
 				}
 			}
 
@@ -207,8 +199,6 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 			TileEntity entity = world.getTileEntity(x, y, z);
 			if(entity instanceof TileEntityCrateBase && ((TileEntityCrateBase) entity).canAccess(player)) {
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
-				TileEntityCrateBase crate = (TileEntityCrateBase) entity;
-				TileEntityCrateBase.spawnSpiders(player, world, crate);
 			}
 			return true;
 		} else {
@@ -239,8 +229,6 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 
 			if(inv instanceof TileEntityCrateBase) {
 				TileEntityCrateBase crate = (TileEntityCrateBase) inv;
-				crate.hasSpiders = stack.stackTagCompound.getBoolean("spiders");
-
 				if (stack.hasDisplayName()) {
 					crate.setCustomName(stack.getDisplayName());
 				}
@@ -379,7 +367,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 
 	@Override
 	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
-		
+
 		TileEntity te = world.getTileEntity(x, y, z);
 
 		if (!(te instanceof IInventory))
@@ -389,7 +377,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 
 		if (!inv.hasCustomInventoryName())
 			return;
-		
+
 		ILookOverlay.printGeneric(event, inv.getInventoryName(), 0xffff00, 0x404000, new ArrayList<String>(0));
 	}
 }

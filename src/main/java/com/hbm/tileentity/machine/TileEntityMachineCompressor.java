@@ -9,7 +9,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineCompressor extends TileEntityMachineCompressorBase {
-	
+
 	public float fanSpin;
 	public float prevFanSpin;
 	public float piston;

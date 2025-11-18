@@ -2,7 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
@@ -78,7 +78,7 @@ public class BlockFissure extends BlockContainer implements IBlockMultiPass {
 		return new TileEntityFissure();
 	}
 	
-	public static class TileEntityFissure extends TileEntityLoadedBase implements IFluidStandardSender {
+	public static class TileEntityFissure extends TileEntityLoadedBase implements IFluidStandardSenderMK2 {
 
 		public FluidTank lava = new FluidTank(Fluids.LAVA, 1_000);
 		
@@ -87,7 +87,7 @@ public class BlockFissure extends BlockContainer implements IBlockMultiPass {
 			
 			if(!worldObj.isRemote) {
 				lava.setFill(1_000);
-				this.sendFluid(lava, worldObj, xCoord, yCoord + 1, zCoord, ForgeDirection.UP);
+				this.tryProvide(lava, worldObj, xCoord, yCoord + 1, zCoord, ForgeDirection.UP);
 			}
 		}
 

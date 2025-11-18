@@ -259,7 +259,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		NBTStructure.registerStructure(0, new SpawnCondition("meteor_dungeon") {{
 			minHeight = 32;
 			maxHeight = 32;
-			sizeLimit = 128;
+			sizeLimit = 192;
 			canSpawn = biome -> biome.rootHeight >= 0;
 			startPool = "start";
 			pools = new HashMap<String, JigsawPool>() {{
@@ -301,7 +301,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 					add(new JigsawPiece("meteor_3_pillar", StructureManager.meteor_3_pillar), 1);
 					add(new JigsawPiece("meteor_3_star", StructureManager.meteor_3_star), 1);
 					add(new JigsawPiece("meteor_3_tesla", StructureManager.meteor_3_tesla), 1);
-					add(new JigsawPiece("meteor_3_book", StructureManager.meteor_3_book), 1);
+					add(new JigsawPiece("meteor_3_book", StructureManager.meteor_3_book), 2);
 					add(new JigsawPiece("meteor_3_mku", StructureManager.meteor_3_mku), 1);
 					add(new JigsawPiece("meteor_3_statue", StructureManager.meteor_3_statue), 1);
 					add(new JigsawPiece("meteor_3_glow", StructureManager.meteor_3_glow), 1);

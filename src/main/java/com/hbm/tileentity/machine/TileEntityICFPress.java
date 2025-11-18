@@ -12,11 +12,13 @@ import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemICFPellet;
 import com.hbm.items.machine.ItemICFPellet.EnumICFFuel;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -26,7 +28,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityICFPress extends TileEntityMachineBase implements IFluidStandardReceiver, IGUIProvider, IFluidCopiable {
+public class TileEntityICFPress extends TileEntityMachineBase implements IFluidStandardReceiverMK2, IGUIProvider, IFluidCopiable {
 	
 	public FluidTank[] tanks;
 	public int muon;
@@ -53,8 +55,10 @@ public class TileEntityICFPress extends TileEntityMachineBase implements IFluidS
 			this.tanks[1].setType(7, slots);
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				this.subscribeToAllAround(tanks[0].getTankType(), this);
-				this.subscribeToAllAround(tanks[1].getTankType(), this);
+                for(DirPos pos : getConPos()) {
+                    trySubscribe(tanks[0].getTankType(), worldObj, pos);
+                    trySubscribe(tanks[1].getTankType(), worldObj, pos);
+                }
 			}
 			
 			if(muon <= 0 && slots[2] != null && slots[2].getItem() == ModItems.particle_muon) {
@@ -138,6 +142,17 @@ public class TileEntityICFPress extends TileEntityMachineBase implements IFluidS
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 	}
+    
+    private DirPos[] getConPos() {
+        return new DirPos[] {
+                new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+                new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+                new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+                new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+                new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+                new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
+        };
+    }
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {

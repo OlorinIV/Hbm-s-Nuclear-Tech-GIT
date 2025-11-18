@@ -458,9 +458,6 @@ public class HbmWorldGen implements IWorldGenerator {
 					safe.setPins(rand.nextInt(999) + 1);
 					safe.lock();
 
-					if(rand.nextInt(10) < 3) // 30% chance; those safes have been sitting there for ages, they gotta have some spiders in them
-						safe.fillWithSpiders();
-
 					if(GeneralConfig.enableDebugMode)
 						MainRegistry.logger.info("[Debug] Successfully spawned safe at " + x + " " + (y + 1) +" " + z);
 				}
@@ -518,30 +515,30 @@ public class HbmWorldGen implements IWorldGenerator {
 				world.setBlock(x, y, z, ModBlocks.stone_keyhole);
 			}
 		}
-		
+
 		genBlueprintChest(world, rand, i, j, 5000, 5000);
 	}
-	
+
 	private static void genBlueprintChest(World world, Random rand, int i, int j, int boundsX, int boundsZ) {
 		if(Math.abs(i) < 100 && Math.abs(j) < 100) return;
 		if(rand.nextBoolean()) return;
 
 		int cX = Math.abs(i) % boundsX;
 		int cZ = Math.abs(j) % boundsZ;
-		
+
 		if(cX <= 0 && cX + 16 >= 0 && cZ <= 0 && cZ + 16 >= 0) {
 			int x = i + 8;
 			int z = j + 8;
 			int y = world.getHeightValue(x, z) - rand.nextInt(2);
-			
+
 			world.setBlock(x, y, z, Blocks.chest);
-			
+
 			for(int a = x - 1; a <= x + 1; a++) for(int b = y - 1; b <= y + 1; b++) for(int c = z - 1; c <= z + 1; c++) {
 				if(a != x || b != y || c != z) world.setBlock(a, b, c, Blocks.obsidian);
 			}
-			
+
 			TileEntity tile = Compat.getTileStandard(world, x, y, z);
-			
+
 			if(tile instanceof TileEntityChest) WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_BLUEPRINTS), (TileEntityChest) tile, 50);
 		}
 	}

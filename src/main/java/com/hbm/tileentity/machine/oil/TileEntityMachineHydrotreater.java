@@ -62,7 +62,7 @@ public class TileEntityMachineHydrotreater extends TileEntityMachineBase impleme
 			tanks[0].loadTank(1, 2, slots);
 			tanks[1].loadTank(3, 4, slots);
 			
-			if(worldObj.getTotalWorldTime() % 2 == 0) reform();
+			reform();
 
 			tanks[2].unloadTank(5, 6, slots);
 			tanks[3].unloadTank(7, 8, slots);
@@ -70,7 +70,7 @@ public class TileEntityMachineHydrotreater extends TileEntityMachineBase impleme
 			for(DirPos pos : getConPos()) {
 				for(int i = 2; i < 4; i++) {
 					if(tanks[i].getFill() > 0) {
-						this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+						this.tryProvide(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 					}
 				}
 			}
@@ -121,6 +121,14 @@ public class TileEntityMachineHydrotreater extends TileEntityMachineBase impleme
 		
 		power -= 20_000;
 	}
+    
+    public boolean setOilRC(FluidType type) {
+        Triplet<FluidStack, FluidStack, FluidStack> recipe = HydrotreatingRecipes.getOutput(type);
+        if(recipe == null) return false;
+        tanks[0].setTankType(type);
+        tanks[1].conform(recipe.getX());
+        return true;
+    }
 	
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {

@@ -77,6 +77,33 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare) {
 			return ModItems.chunk_ore;
 		}
+		if(this == ModBlocks.deco_aluminium) {
+			return ModItems.ingot_aluminium;
+		}
+		if(this == ModBlocks.deco_beryllium) {
+			return ModItems.ingot_beryllium;
+		}
+		if(this == ModBlocks.deco_lead) {
+			return ModItems.ingot_lead;
+		}
+		if(this == ModBlocks.deco_red_copper) {
+			return ModItems.ingot_red_copper;
+		}
+		if(this == ModBlocks.deco_steel) {
+			return ModItems.ingot_steel;
+		}
+		if(this == ModBlocks.deco_rusty_steel) {
+			return rand.nextInt(2) == 0 ? ModItems.ingot_steel : null;
+		}
+		if(this == ModBlocks.deco_titanium) {
+			return ModItems.ingot_titanium;
+		}
+		if(this == ModBlocks.deco_tungsten) {
+			return ModItems.ingot_tungsten;
+		}
+		if(this == ModBlocks.deco_asbestos) {
+			return ModItems.ingot_asbestos;
+		}
 		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos) {
 			return ModItems.ingot_asbestos;
 		}
@@ -125,17 +152,17 @@ public class BlockOre extends Block {
 
 		return 1;
 	}
-	
+
 	public boolean allowFortune = true;
-	
+
 	public BlockOre noFortune() {
 		this.allowFortune = false;
 		return this;
 	}
-	
+
 	@Override
 	public int quantityDroppedWithBonus(int fortune, Random rand) {
-		
+
 		if(fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(0, rand, fortune) && allowFortune) {
 			int mult = rand.nextInt(fortune + 2) - 1;
 

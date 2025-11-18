@@ -437,4 +437,21 @@ public abstract class SerializableRecipe {
 		}
 		return recipeList.isEmpty();
 	}
+
+	public static void writeValue(Long value, JsonWriter writer) throws IOException {
+		writer.beginArray();
+		writer.setIndent("");
+		writer.value(value);
+		writer.endArray();
+		writer.setIndent("  ");
+	}
+
+	public static Long readValue(JsonArray array) {
+		try {
+			long value = array.get(0).getAsLong();
+			return value;
+		} catch(Exception ex) { }
+		MainRegistry.logger.error("Error reading value " + array.toString() + " - defaulting to zero!");
+		return 0L;
+	}
 }

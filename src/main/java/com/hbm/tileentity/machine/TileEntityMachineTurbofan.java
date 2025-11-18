@@ -9,6 +9,7 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMachineTurbofan;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
@@ -68,7 +69,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 
 	private AudioWrapper audio;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineTurbofan() {
 		super(5, 150);
@@ -154,7 +155,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 
 			this.wasOn = false;
 
-			upgradeManager.checkSlots(this, slots, 2, 2);
+			upgradeManager.checkSlots(slots, 2, 2);
 			this.afterburner = upgradeManager.getLevel(UpgradeType.AFTERBURN);
 
 			if(slots[2] != null && slots[2].getItem() == ModItems.flame_pony)
@@ -195,7 +196,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			for(DirPos pos : getConPos()) {
 				this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(this.blood.getFill() > 0) this.sendFluid(blood, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.blood.getFill() > 0) this.tryProvide(blood, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
@@ -393,6 +394,14 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			}
 		}
 	}
+    
+    public boolean setFuelRC(FluidType type) {
+        if(tank.getTankType().hasTrait(FT_Combustible.class) && tank.getTankType().getTrait(FT_Combustible.class).getGrade() == FuelGrade.AERO) {
+            tank.setTankType(type);
+            return true;
+        }
+        return false;
+    }
 
 	@Override
 	public void serialize(ByteBuf buf) {

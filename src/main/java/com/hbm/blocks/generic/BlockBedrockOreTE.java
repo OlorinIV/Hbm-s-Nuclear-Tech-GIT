@@ -227,7 +227,7 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 			
 			this.resource = new ItemStack(Item.getItemById(nbt.getInteger("0id")), nbt.getByte("size"), nbt.getShort("meta"));
 			
-			if(this.resource.getItem() == null) this.resource = new ItemStack(ModItems.powder_iron);
+			if(this.resource.getItem() == null) this.resource = new ItemStack(ModItems.bedrock_ore_base);
 			
 			FluidType type = Fluids.fromID(nbt.getInteger("fluid"));
 			

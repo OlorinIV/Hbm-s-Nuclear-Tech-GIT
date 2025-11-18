@@ -17,7 +17,7 @@ import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -28,12 +28,12 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDrain extends TileEntityLoadedBase implements IFluidStandardReceiver, IBufPacketReceiver, IFluidCopiable {
+public class TileEntityMachineDrain extends TileEntityLoadedBase implements IFluidStandardReceiverMK2, IBufPacketReceiver, IFluidCopiable {
 
 	public FluidTank tank;
 
 	public TileEntityMachineDrain() {
-		this.tank = new FluidTank(Fluids.NONE, 2_000);
+		this.tank = new FluidTank(Fluids.NONE, 10_000);
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerPWR;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
@@ -73,7 +74,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public int channelCount;
 	public int sourceCount;
 
-	public int unloadDelay = 0;
+	public int unloadDelay = 60;
 	public boolean assembled;
 
 	private AudioWrapper audio;
@@ -152,7 +153,6 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 		connections = connectionsDouble / 2;
 		connectionsControlled = connectionsControlledDouble / 2;
-		heatsinkCount = Math.min(heatsinkCount, 80);
 
 		//switching this to int64 because after 2127 heatsinks the capacity exceeds the int32 which is well within the 4000+ threshold we are working with. oops!
 		this.coreHeatCapacity = this.coreHeatCapacityBase + this.heatsinkCount * (this.coreHeatCapacityBase / 20);
@@ -178,10 +178,10 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 			//since fluid sources are often not within 1 chunk, we just do 2 chunks distance and call it a day
 			if(!worldObj.getChunkProvider().chunkExists(chunkX, chunkZ) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX + 2, chunkZ + 2) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX + 2, chunkZ - 2) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ + 2) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ - 2)) {
+					!worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ + 1) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ - 1) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX - 1, chunkZ + 1) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX - 1, chunkZ - 1)) {
 				this.unloadDelay = 60;
 			}
 
@@ -190,7 +190,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 						BlockPos portPos = pos.offset(dir);
 
-						if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
+						if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
 						if(worldObj.getTotalWorldTime() % 20 == 0) this.trySubscribe(tanks[0].getTankType(), worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
 					}
 				}
@@ -375,6 +375,15 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	protected int getRodCountForCoolant() {
 		return this.rodCount + (int) Math.ceil(this.heatsinkCount / 4D);
 	}
+    
+    public boolean setCoolantRC(FluidType type) {
+        FT_Heatable trait = type.getTrait(FT_Heatable.class);
+        if(trait != null && trait.getEfficiency(HeatingType.PWR) > 0) {
+            tanks[0].setTankType(type);
+            return true;
+        }
+        return false;
+    }
 
 	public boolean isPrinting;
 

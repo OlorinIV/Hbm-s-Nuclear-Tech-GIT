@@ -4742,7 +4742,7 @@ itemGroup.tabTest=Nuclear Tech Mod Test Tab
 itemGroup.tabWeapon=NTM Зброя та турелі
 
 pa.idle=Очікування
-pa.idle.descОчікування
+pa.idle.desc=Очікування
 pa.running=Запущений
 pa.running.desc=Запущений
 pa.success=Завершено

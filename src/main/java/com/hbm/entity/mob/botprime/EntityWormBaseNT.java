@@ -193,7 +193,7 @@ public abstract class EntityWormBaseNT extends EntityBurrowingNT {
 		}
 		
 		if((this.ticksExisted % 60 == 0 || this.ticksExisted == 1) && (this.targetedEntity == null || this.followed == null)) {
-			findEntityToFollow(this.worldObj.selectEntitiesWithinAABB(EntityLiving.class, this.boundingBox.expand(this.rangeForParts, this.rangeForParts, this.rangeForParts), EntityWormBaseNT.wormSelector));
+			findEntityToFollow(this.worldObj.selectEntitiesWithinAABB(EntityWormBaseNT.class, this.boundingBox.expand(this.rangeForParts, this.rangeForParts, this.rangeForParts), EntityWormBaseNT.wormSelector));
 		}
 		
 		double deltaX = this.waypointX - this.posX;

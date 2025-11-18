@@ -57,17 +57,17 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.machine_difurnace_on));
 		API.hideItem(new ItemStack(ModBlocks.machine_rtg_furnace_on));
 		API.hideItem(new ItemStack(ModBlocks.reinforced_lamp_on));
-		API.hideItem(new ItemStack(ModBlocks.statue_elb_f));
+		//API.hideItem(new ItemStack(ModBlocks.statue_elb_f));
 		API.hideItem(new ItemStack(ModBlocks.cheater_virus));
 		API.hideItem(new ItemStack(ModBlocks.cheater_virus_seed));
 		API.hideItem(new ItemStack(ModItems.euphemium_kit));
-		API.hideItem(new ItemStack(ModItems.bobmazon_hidden));
+		//API.hideItem(new ItemStack(ModItems.bobmazon_hidden));
 		API.hideItem(new ItemStack(ModItems.book_lore)); //the broken nbt-less one shouldn't show up in normal play anyway
 		if(MainRegistry.polaroidID != 11) {
 			API.hideItem(new ItemStack(ModItems.book_secret));
-			API.hideItem(new ItemStack(ModItems.book_of_));
+			//API.hideItem(new ItemStack(ModItems.book_of_));
 			API.hideItem(new ItemStack(ModItems.burnt_bark));
-			API.hideItem(new ItemStack(ModItems.ams_core_thingy));
+			//API.hideItem(new ItemStack(ModItems.ams_core_thingy));
 		}
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_vault));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_blast));
@@ -77,11 +77,13 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_plate_launch_table));
 		API.hideItem(new ItemStack(ModBlocks.dummy_plate_cargo));
 
+		/*
 		API.hideItem(new ItemStack(ModBlocks.pink_log));
 		API.hideItem(new ItemStack(ModBlocks.pink_planks));
 		API.hideItem(new ItemStack(ModBlocks.pink_slab));
 		API.hideItem(new ItemStack(ModBlocks.pink_double_slab));
 		API.hideItem(new ItemStack(ModBlocks.pink_stairs));
+		*/
 
 		API.hideItem(new ItemStack(ModBlocks.spotlight_incandescent_off));
 		API.hideItem(new ItemStack(ModBlocks.spotlight_fluoro_off));

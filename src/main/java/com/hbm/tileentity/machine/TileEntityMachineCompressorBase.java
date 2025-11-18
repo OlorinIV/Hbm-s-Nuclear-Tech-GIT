@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICompressor;
 import com.hbm.inventory.recipes.CompressorRecipes;
 import com.hbm.inventory.recipes.CompressorRecipes.CompressorRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IFluidCopiable;
@@ -38,7 +39,7 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 
 	public FluidTank[] tanks;
 	public long power;
-	public static final long maxPower = 100_000;
+	public static final long maxPower = 1_000_000;
 	public boolean isOn;
 	public int progress;
 	public int processTime = 100;
@@ -46,7 +47,7 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 	public int powerRequirement;
 	public static final int powerRequirementBase = 2_500;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineCompressorBase() {
 		super(4);
@@ -73,11 +74,11 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 			this.tanks[0].setType(0, slots);
 			this.setupTanks();
 
-			upgradeManager.checkSlots(this, slots, 1, 3);
+			upgradeManager.checkSlots(slots, 1, 3);
 
-			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+			int speed = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.SPEED)];
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
-			int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+			int over = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
 
 			CompressorRecipe rec = CompressorRecipes.recipes.get(new Pair(tanks[0].getTankType(), tanks[0].getPressure()));
 			int timeBase = this.processTimeBase;
@@ -85,11 +86,9 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 
 			//there is a reason to do this but i'm not telling you
 			// ^ a few months later i have to wonder what the fuck this guy was on about, and if i ever see him i will punch him in the nuts
-			if(rec == null) this.processTime = speedLevel == 3 ? 10 : speedLevel == 2 ? 20 : speedLevel == 1 ? 60 : timeBase;
-			else this.processTime = timeBase / (speedLevel + 1);
+			this.processTime = timeBase / speed / over;
 			this.powerRequirement = this.powerRequirementBase / (powerLevel + 1);
-			this.processTime = this.processTime / (overLevel + 1);
-			this.powerRequirement = this.powerRequirement * ((overLevel * 2) + 1);
+			this.powerRequirement = this.powerRequirement * speed * over;
 
 			if(processTime <= 0) processTime = 1;
 
@@ -286,8 +285,8 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_compressor));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + "Generic compression: "+ I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level == 3 ? 90 : level == 2 ? 80 : level == 1 ? 40 : 0) + "%"));
-			info.add(EnumChatFormatting.GREEN + "Recipe: "+ I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level + 1)) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level * level + 1)) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (100 * level * level) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));

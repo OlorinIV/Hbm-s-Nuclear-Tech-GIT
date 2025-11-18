@@ -9,6 +9,7 @@ import com.hbm.inventory.container.ContainerMachineExposureChamber;
 import com.hbm.inventory.gui.GUIMachineExposureChamber;
 import com.hbm.inventory.recipes.ExposureChamberRecipes;
 import com.hbm.inventory.recipes.ExposureChamberRecipes.ExposureChamberRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
@@ -34,10 +35,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityMachineExposureChamber extends TileEntityMachineBase implements IGUIProvider, IEnergyReceiverMK2, IUpgradeInfoProvider {
 
 	public long power;
-	public static final long maxPower = 1_000_000;
+	public static final long maxPower = 10_000_000;
 
 	public int progress;
-	public static final int processTimeBase = 200;
+	public static final int processTimeBase = 80;
 	public int processTime = processTimeBase;
 	public static final int consumptionBase = 10_000;
 	public int consumption = consumptionBase;
@@ -47,7 +48,7 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 	public float rotation;
 	public float prevRotation;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -95,10 +96,10 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 				for(DirPos pos : getConPos()) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
-			upgradeManager.checkSlots(this, slots, 6, 7);
+			upgradeManager.checkSlots(slots, 6, 7);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
-			int overdriveLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+			int overdrive = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
 
 			this.consumption = this.consumptionBase;
 
@@ -106,8 +107,8 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 			this.consumption *= (speedLevel / 2 + 1);
 			this.processTime *= (powerLevel / 2 + 1);
 			this.consumption /= (powerLevel + 1);
-			this.processTime /= (overdriveLevel + 1);
-			this.consumption *= (overdriveLevel * 2 + 1);
+			this.processTime /= overdrive;
+			this.consumption *= overdrive;
 
 			if(slots[1] == null && slots[0] != null && slots[3] != null && this.savedParticles <= 0) {
 				ExposureChamberRecipe recipe = this.getRecipe(slots[0], slots[3]);

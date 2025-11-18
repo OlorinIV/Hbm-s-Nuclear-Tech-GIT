@@ -115,7 +115,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			this.tryProvide(worldObj, xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, dir.getOpposite());
 			for(DirPos pos : getConPos()) this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			for(DirPos pos : getConPos()) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			for(DirPos pos : getConPos()) this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 
 			tanks[0].setType(0, 1, slots);
 			tanks[0].loadTank(2, 3, slots);
@@ -186,6 +186,15 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			}
 		}
 	}
+    
+    public boolean setSteamRC(FluidType type) {
+        if(!type.hasTrait(FT_Coolable.class)) return false;
+        if(type.getTrait(FT_Coolable.class).getEfficiency(CoolingType.TURBINE) > 0) {
+            tanks[0].setTankType(type);
+            return true;
+        }
+        return false;
+    }
 
 	protected DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);

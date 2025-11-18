@@ -57,7 +57,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 	public static long maxPower = 100000000000L;
 	public static int inputTankSize = 1_000_000_000;
 	public static int outputTankSize = 1_000_000_000;
-	public static double efficiency = 0.85D;
+	public static double efficiency = 0.95D;
 
 	public TileEntityChungus() {
 		tanks = new FluidTank[2];
@@ -104,7 +104,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 			boolean valid = false;
 			if(in.hasTrait(FT_Coolable.class)) {
 				FT_Coolable trait = in.getTrait(FT_Coolable.class);
-				double eff = trait.getEfficiency(CoolingType.TURBINE) * efficiency; //85% efficiency by default
+				double eff = trait.getEfficiency(CoolingType.TURBINE) * efficiency; //95% efficiency by default
 				if(eff > 0) {
 					tanks[1].setTankType(trait.coolsTo);
 					int inputOps = tanks[0].getFill() / trait.amountReq;
@@ -128,7 +128,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 			this.tryProvide(worldObj, xCoord - dir.offsetX * 11, yCoord, zCoord - dir.offsetZ * 11, dir.getOpposite());
 
 			for(DirPos pos : this.getConPos()) {
-				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 

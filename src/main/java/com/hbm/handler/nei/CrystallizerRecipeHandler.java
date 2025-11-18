@@ -21,7 +21,7 @@ public class CrystallizerRecipeHandler extends NEIUniversalHandler {
 	public String getKey() {
 		return "ntmCrystallizer";
 	}
-	
+
 	@Override
 	public void loadTransferRects() {
 		super.loadTransferRects();
@@ -34,9 +34,9 @@ public class CrystallizerRecipeHandler extends NEIUniversalHandler {
 	public void drawExtras(int recipe) {
 
 		RecipeSet rec = (RecipeSet) this.arecipes.get(recipe);
-		
+
 		CrystallizerRecipe cRecipe = CrystallizerRecipes.getOutput(rec.input[1].item, Fluids.fromID(rec.input[0].item.getItemDamage()));
-		
+
 		if(cRecipe != null && cRecipe.productivity > 0) {
 			FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 			String momentum = "Effectiveness: +" + Math.min((int) (cRecipe.productivity * 100), 99) + "% per level";

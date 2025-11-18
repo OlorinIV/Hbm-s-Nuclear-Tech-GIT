@@ -126,6 +126,11 @@ public class RodRecipes {
 		addRBMKRod(ModItems.billet_zfb_bismuth, ModItems.rbmk_fuel_zfb_bismuth);
 		addRBMKRod(ModItems.billet_zfb_pu241, ModItems.rbmk_fuel_zfb_pu241);
 		addRBMKRod(ModItems.billet_zfb_am_mix, ModItems.rbmk_fuel_zfb_am_mix);
+
+		addRBMKRod(ModItems.billet_rs1, ModItems.rbmk_fuel_rs1);
+		addRBMKRod(ModItems.billet_rs2, ModItems.rbmk_fuel_rs2);
+		addRBMKRod(ModItems.billet_rs3, ModItems.rbmk_fuel_rs3);
+
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
 
 		addPellet(SA326,							EnumWatzType.SCHRABIDIUM);

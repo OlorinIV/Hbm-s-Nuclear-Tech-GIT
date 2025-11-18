@@ -118,14 +118,14 @@ public abstract class EntityMinecartModBase extends EntityMinecart
     @Override
 	protected void entityInit()
     {
-        this.dataWatcher.addObject(17, new Integer(0));
-        this.dataWatcher.addObject(18, new Integer(1));
-        this.dataWatcher.addObject(19, new Float(0.0F));
-        this.dataWatcher.addObject(20, new Integer(0));
-        this.dataWatcher.addObject(21, new Integer(6));
-        this.dataWatcher.addObject(22, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(23, new Integer(0));
-        this.dataWatcher.addObject(24, new Integer(0));
+        this.dataWatcher.addObject(17, 0);
+        this.dataWatcher.addObject(18, 1);
+        this.dataWatcher.addObject(19, 0.0F);
+        this.dataWatcher.addObject(20, 0);
+        this.dataWatcher.addObject(21, 6);
+        this.dataWatcher.addObject(22, (byte) 0);
+        this.dataWatcher.addObject(23, 0);
+        this.dataWatcher.addObject(24, 0);
     }
 
     /**

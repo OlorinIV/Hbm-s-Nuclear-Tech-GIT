@@ -17,7 +17,7 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 
 	public long power;
 	public final long maxPower = 5_000_000;
-	public static long rfInput = 2;
+	public static long rfInput = 1;
 	public static long heOutput = 5;
 	public static double inputDecay = 0.0;
 

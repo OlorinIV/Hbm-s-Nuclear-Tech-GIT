@@ -55,7 +55,7 @@ import java.util.Iterator;
  */
 public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 
-	public double heat;
+	public double heat = 20D;
 
 	public int reasimWater;
 	public static final int maxWater = 16000;
@@ -157,6 +157,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 	 */
 	private void moveHeat() {
 
+		if(heat == 20) return;
 		boolean reasim = RBMKDials.getReasimBoilers(worldObj);
 
 		List<TileEntityRBMKBase> rec = new ArrayList<>();
@@ -249,18 +250,17 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 	}
 
 	protected void coolPassively() {
+		double passiveCooling = this.passiveCooling();
 
 		if(TomSaveData.forWorld(worldObj).fire > 1e-5) {
 			double light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord) / 15D;
 			if(heat < 20 + (480 * light)) {
-				this.heat += this.passiveCooling() * 2;
+				this.heat += passiveCooling * 2;
 			}
 		}
 
-		this.heat -= this.passiveCooling();
-
-		if(heat < 20)
-			heat = 20D;
+		this.heat = this.heat < -273 ? -273 : this.heat;
+		this.heat -= MathHelper.clamp_double(this.heat - 20D,passiveCooling * -1, passiveCooling);
 	}
 
 	public RBMKType getRBMKType() {

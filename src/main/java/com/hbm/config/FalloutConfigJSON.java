@@ -83,6 +83,9 @@ public class FalloutConfigJSON {
 		Block deepslate = Compat.tryLoadBlock(Compat.MOD_EF, "deepslate");
 		Block stone = Compat.tryLoadBlock(Compat.MOD_EF, "stone");
 		
+		Block certus = Compat.tryLoadBlock(Compat.MOD_AE, "tile.OreQuartz");
+		Block certus_charged = Compat.tryLoadBlock(Compat.MOD_AE, "tile.OreQuartzCharged");
+
 		for(int i = 1; i <= 10; i++) {
 			int m = 10 - i;
 			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_diamond, m, 3),		new Triplet(ModBlocks.ore_sellafield_emerald, m, 2))			.c(0.5)		.max(i * 5).sol(true).mB(Blocks.coal_ore));
@@ -102,6 +105,9 @@ public class FalloutConfigJSON {
 			if(i <= 9) entries.add(new FalloutEntry()				.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mMa(Material.grass));
 			if(deepslate != null)	entries.add(new FalloutEntry()	.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mB(deepslate));
 			if(stone != null)		entries.add(new FalloutEntry()	.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mB(stone));
+			
+			if(certus != null && certus_charged != null) entries.add(new FalloutEntry().prim(new Triplet(certus, m, 14), new Triplet(certus_charged, m, 1)).max(i * 5).sol(true).mB(Blocks.quartz_ore));
+
 		}
 		
 		entries.add(new FalloutEntry()

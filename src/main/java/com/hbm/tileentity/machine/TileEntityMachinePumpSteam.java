@@ -25,7 +25,7 @@ public class TileEntityMachinePumpSteam extends TileEntityMachinePumpBase {
 			for(DirPos pos : getConPos()) {
 				this.trySubscribe(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				if(lps.getFill() > 0) {
-					this.sendFluid(lps, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.tryProvide(lps, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
 		}

@@ -1,7 +1,10 @@
 package com.hbm.tileentity.machine.albion;
 
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Heatable;
+import com.hbm.inventory.fluid.trait.FT_Heatable.*;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -46,13 +49,22 @@ public abstract class TileEntityCooledBase extends TileEntityMachineBase impleme
 			if(this.temperature > KELVIN + 20) this.temperature = KELVIN + 20;
 			
 			if(this.temperature > this.temperature_target) {
-				int cyclesTemp = (int) Math.ceil((Math.min(this.temperature - temperature_target, temp_change_max)) / temp_change_per_mb);
-				int cyclesCool = coolantTanks[0].getFill();
-				int cyclesHot = coolantTanks[1].getMaxFill() - coolantTanks[1].getFill();
+                //Changeable cooling fluid
+                FT_Heatable trait = coolantTanks[0].getTankType().getTrait(FT_Heatable.class);
+                if(trait.getEfficiency(HeatingType.PA) == 0) {
+                    this.networkPackNT(50);
+                    return;
+                }
+                HeatingStep step = trait.getFirstStep();
+                coolantTanks[1].setTankType(step.typeProduced);
+
+                int cyclesTemp = (int) Math.ceil((Math.min(this.temperature - temperature_target, temp_change_max)) / temp_change_per_mb / step.amountReq);
+				int cyclesCool = coolantTanks[0].getFill() / step.amountReq;
+				int cyclesHot = step.amountProduced == 0 ? cyclesCool : (coolantTanks[1].getMaxFill() - coolantTanks[1].getFill()) / step.amountProduced;
 				int cycles = BobMathUtil.min(cyclesTemp, cyclesCool, cyclesHot);
 
-				coolantTanks[0].setFill(coolantTanks[0].getFill() - cycles);
-				coolantTanks[1].setFill(coolantTanks[1].getFill() + cycles);
+				coolantTanks[0].setFill(coolantTanks[0].getFill() - cycles * step.amountReq);
+				coolantTanks[1].setFill(coolantTanks[1].getFill() + cycles * step.amountProduced);
 				this.temperature -= this.temp_change_per_mb * cycles;
 			}
 			
@@ -63,7 +75,16 @@ public abstract class TileEntityCooledBase extends TileEntityMachineBase impleme
 	public boolean isCool() {
 		return this.temperature <= this.temperature_target;
 	}
-	
+
+    public boolean setCoolantRC(FluidType type) {
+        FT_Heatable trait = type.getTrait(FT_Heatable.class);
+        if(trait != null && trait.getEfficiency(HeatingType.PA) > 0) {
+            coolantTanks[0].setTankType(type);
+            return true;
+        }
+        return false;
+    }
+
 	public abstract DirPos[] getConPos();
 
 	@Override

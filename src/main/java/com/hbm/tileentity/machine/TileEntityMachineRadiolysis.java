@@ -114,8 +114,8 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			tanks[0].setType(10, 11, slots);
 			setupTanks();
 
-			if(heat > 100) {
-				int crackTime = (int) Math.max(-0.1 * (heat - 100) + 30, 5);
+			if(heat >= 100) {
+				int crackTime = (int) Math.max(95 / Math.sqrt(heat - 90) + 0.68, 1);
 
 				if(worldObj.getTotalWorldTime() % crackTime == 0)
 					crack();
@@ -127,8 +127,8 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			for(DirPos pos : getConPos()) {
 				this.tryProvide(worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
-				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+				if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 			}
 
 			this.networkPackNT(50);
@@ -181,6 +181,13 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			}
 		}
 	}
+    
+    public boolean setOilRC(FluidType type) {
+        Pair<FluidStack, FluidStack> recipe = RadiolysisRecipes.getRadiolysis(type);
+        if(recipe == null) return false;
+        tanks[0].setTankType(type);
+        return true;
+    }
 
 	private boolean hasSpace(int left, int right) {
 		return tanks[1].getFill() + left <= tanks[1].getMaxFill() && tanks[2].getFill() + right <= tanks[2].getMaxFill();

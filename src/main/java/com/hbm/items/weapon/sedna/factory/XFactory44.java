@@ -51,7 +51,7 @@ public class XFactory44 {
 		EntityBoxcar pippo = new EntityBoxcar(bullet.worldObj);
 		pippo.posX = mop.hitVec.xCoord;
 		pippo.posY = mop.hitVec.yCoord + 50;
-		pippo.posZ = mop.hitVec.zCoord;;
+		pippo.posZ = mop.hitVec.zCoord;
 		bullet.worldObj.spawnEntityInWorld(pippo);
 		bullet.worldObj.playSoundEffect(pippo.posX, pippo.posY + 50, pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
 		bullet.setDead();
@@ -61,7 +61,7 @@ public class XFactory44 {
 		EntityTorpedo murky = new EntityTorpedo(bullet.worldObj);
 		murky.posX = mop.hitVec.xCoord;
 		murky.posY = mop.hitVec.yCoord + 50;
-		murky.posZ = mop.hitVec.zCoord;;
+		murky.posZ = mop.hitVec.zCoord;
 		bullet.worldObj.spawnEntityInWorld(murky);
 		bullet.setDead();
 	};

@@ -17,7 +17,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerMachineArcFurnaceLarge extends Container {
-	
+
 	private TileEntityMachineArcFurnaceLarge furnace;
 
 	public ContainerMachineArcFurnaceLarge(InventoryPlayer playerInv, TileEntityMachineArcFurnaceLarge tile) {
@@ -59,7 +59,7 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 					return null;
 				}
 			} else {
-				
+
 				if(rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
 					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 3, 4, false)) return null;
 				} else if(rStack.getItem() == ModItems.arc_electrode) {
@@ -85,7 +85,7 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 	public boolean canInteractWith(EntityPlayer player) {
 		return furnace.isUseableByPlayer(player);
 	}
-	
+
 	public static class SlotArcFurnace extends SlotNonRetarded {
 
 		public SlotArcFurnace(IInventory inventory, int id, int x, int y) {
@@ -98,15 +98,14 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 			if(furnace.liquidMode) return true;
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, furnace.liquidMode);
 			if(recipe != null && recipe.solidOutput != null) {
-				return recipe.solidOutput.stackSize * stack.stackSize <= recipe.solidOutput.getMaxStackSize() && stack.stackSize <= furnace.getMaxInputSize();
+				return recipe.solidOutput.stackSize * stack.stackSize <= recipe.solidOutput.getMaxStackSize();
 			}
 			return false;
 		}
-		
+
 		@Override
 		public int getSlotStackLimit() {
-			TileEntityMachineArcFurnaceLarge furnace = (TileEntityMachineArcFurnaceLarge) this.inventory;
-			return this.getHasStack() ? furnace.getMaxInputSize() : 1;
+			return 64;
 		}
 	}
 }

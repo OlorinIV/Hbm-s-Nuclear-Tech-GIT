@@ -70,7 +70,7 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 			for(DirPos pos : getConPos()) {
 				for(int i = 1; i < 4; i++) {
 					if(tanks[i].getFill() > 0) {
-						this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+						this.tryProvide(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 					}
 				}
 			}
@@ -122,6 +122,13 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 		
 		power -= 20_000;
 	}
+    
+    public boolean setOilRC(FluidType type) {
+        Triplet<FluidStack, FluidStack, FluidStack> recipe = ReformingRecipes.getOutput(type);
+        if(recipe == null) return false;
+        tanks[0].setTankType(type);
+        return true;
+    }
 	
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {

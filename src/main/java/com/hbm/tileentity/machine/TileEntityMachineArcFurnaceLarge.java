@@ -68,7 +68,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	private AudioWrapper audioLid;
 	private AudioWrapper audioProgress;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public byte[] electrodes = new byte[3];
 	public static final byte ELECTRODE_NONE = 0;
@@ -76,9 +76,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public static final byte ELECTRODE_USED = 2;
 	public static final byte ELECTRODE_DEPLETED = 3;
 
-	public int getMaxInputSize() {
-		return upgrade == 0 ? 1 : upgrade == 1 ? 4 : upgrade == 2 ? 8 : 16;
-	}
+    public int getMaxInputSize() {return 64;}
 
 	public static final int maxLiquid = MaterialShapes.BLOCK.q(128);
 	public List<MaterialStack> liquids = new ArrayList();
@@ -104,7 +102,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	@Override
 	public void updateEntity() {
 
-		upgradeManager.checkSlots(this, slots, 4, 4);
+		upgradeManager.checkSlots(slots, 4, 4);
 		this.upgrade = upgradeManager.getLevel(UpgradeType.SPEED);
 
 		if(!worldObj.isRemote) {
@@ -121,17 +119,18 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				boolean ingredients = this.hasIngredients();
 				boolean electrodes = this.hasElectrodes();
 
-				int consumption = (int) (1_000 * Math.pow(5, upgrade));
+                int speed = ItemMachineUpgrade.OverdriveSpeeds[upgrade];
+				int consumption = 1000 * speed * speed;
 
 				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
 					if(lid > 0) {
-						lid -= 1F / (60F / (upgrade * 0.5 + 1));
+						lid -= 1F / (60F / (upgrade + 1));
 						if(lid < 0) lid = 0;
 						this.progress = 0;
 					} else {
 
 						if(power >= consumption) {
-							int duration = 400 / (upgrade * 2 + 1);
+							int duration = 400 / speed;
 							this.progress += 1F / duration;
 							this.isProgressing = true;
 							this.power -= consumption;
@@ -139,7 +138,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 								this.process();
 								this.progress = 0;
 								this.markDirty();
-								this.delay = (int) (120 / (upgrade * 0.5 + 1));
+								this.delay = (int) (120 / (upgrade + 1));
 								PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, 10F);
 							}
 						}
@@ -147,8 +146,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				} else {
 					if(this.delay > 0) delay--;
 					this.progress = 0;
-					if(lid < 1) {
-						lid += 1F / (60F / (upgrade * 0.5 + 1));
+					if(lid < 1 && this.electrodes[0] != 0 && this.electrodes[1] != 0 && this.electrodes[2] != 0) {
+						lid += 1F / (60F / (upgrade + 1));
 						if(lid > 1) lid = 1;
 					}
 				}
@@ -165,7 +164,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(1), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(3), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
@@ -404,7 +403,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if(slot < 3) return lid >= 1 && stack.getItem() == ModItems.arc_electrode;
+		if(slot < 3) return stack.getItem() == ModItems.arc_electrode;
 		if(slot > 4) {
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
 			if(recipe == null) return false;
@@ -459,7 +458,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(is, this.liquidMode);
 		if(recipe != null) {
 			int maxStackSize = this.liquidMode ? 64 : recipe.solidOutput.getMaxStackSize() / recipe.solidOutput.stackSize;
-			maxStackSize = Math.min(maxStackSize, Math.min(is.getMaxStackSize(), getMaxInputSize()));
+			maxStackSize = Math.min(maxStackSize, is.getMaxStackSize());
 
 			//Scan
 			for(int i = 5; i < 25; i++){
@@ -719,8 +718,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_arc_furnace));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level * 2 + 1)) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + ((int) Math.pow(5, level) * 100 - 100) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level * level + 1)) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + ((level * level + 1) * (level * level + 1) * 100 - 100) + "%"));
 		}
 	}
 

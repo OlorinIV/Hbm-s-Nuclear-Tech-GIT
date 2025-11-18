@@ -183,8 +183,8 @@ public class CompatRecipeRegistry {
 
 	//TBI mixer
 
-	public static void registerOutgasser(AStack input, ItemStack output, FluidStack fluid) {
-		OutgasserRecipes.recipes.put(input, new Pair(output, fluid));
+	public static void registerOutgasser(AStack input, ItemStack output, FluidStack fluid, Long flux) {
+		OutgasserRecipes.recipes.put(input, new Triplet(output, fluid, flux));
 	}
 
 	public static void registerCompressor(FluidStack input, FluidStack output, int time) {

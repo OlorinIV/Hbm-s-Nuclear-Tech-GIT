@@ -7,11 +7,13 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMixer;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMixer;
 import com.hbm.inventory.recipes.MixerRecipes;
 import com.hbm.inventory.recipes.MixerRecipes.MixerRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.*;
@@ -48,7 +50,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 
 	public FluidTank[] tanks;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineMixer() {
 		super(5);
@@ -71,16 +73,16 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[2].setType(2, slots);
 
-			upgradeManager.checkSlots(this, slots, 3, 4);
+			upgradeManager.checkSlots(slots, 3, 4);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
-			int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+            int over = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
 
 			this.consumption = 50;
 
 			this.consumption += speedLevel * 150;
-			this.consumption -= this.consumption * powerLevel * 0.25;
-			this.consumption *= (overLevel * 3 + 1);
+			this.consumption -= this.consumption * powerLevel / 4;
+			this.consumption *= over;
 
 			for(DirPos pos : getConPos()) {
 				this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -95,7 +97,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 				this.power -= this.getConsumption();
 
 				this.processTime -= this.processTime * speedLevel / 4;
-				this.processTime /= (overLevel + 1);
+				this.processTime /= over;
 
 				if(processTime <= 0) this.processTime = 1;
 
@@ -109,7 +111,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 			}
 
 			for(DirPos pos : getConPos()) {
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			NBTTagCompound data = new NBTTagCompound();
@@ -209,6 +211,13 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 		if(recipe.solidInput != null) this.decrStackSize(1, recipe.solidInput.stacksize);
 		tanks[2].setFill(tanks[2].getFill() + recipe.output);
 	}
+    
+    public boolean setTargetFluidRC(FluidType type) {
+        MixerRecipe[] recipes = MixerRecipes.getOutput(type);
+        if(recipes == null || recipes.length == 0) return false;
+        tanks[2].setTankType(type);
+        return true;
+    }
 
 	public int getConsumption() {
 		return consumption;

@@ -13,23 +13,24 @@ public class ItemArcElectrode extends ItemEnumMulti {
 		this.setFull3D();
 		this.setMaxStackSize(1);
 	}
-	
+
 	public static int getDurability(ItemStack stack) {
 		if(!stack.hasTagCompound()) return 0;
 		return stack.stackTagCompound.getInteger("durability");
 	}
-	
+
 	public static boolean damage(ItemStack stack) {
+		if(getMaxDurability(stack) == -1) return false;
 		if(!stack.hasTagCompound()) {
 			stack.stackTagCompound = new NBTTagCompound();
 		}
-		
+
 		int durability = stack.stackTagCompound.getInteger("durability");
 		durability++;
 		stack.stackTagCompound.setInteger("durability", durability);
 		return durability >= getMaxDurability(stack);
 	}
-	
+
 	public static int getMaxDurability(ItemStack stack) {
 		EnumElectrodeType num = EnumUtil.grabEnumSafely(EnumElectrodeType.class, stack.getItemDamage());
 		return num.durability;
@@ -49,10 +50,10 @@ public class ItemArcElectrode extends ItemEnumMulti {
 		GRAPHITE(	10),
 		LANTHANIUM(	100),
 		DESH(		500),
-		SATURNITE(	1500);
-		
+		SATURNITE(	-1);
+
 		public int durability;
-		
+
 		private EnumElectrodeType(int dura) {
 			this.durability = dura;
 		}

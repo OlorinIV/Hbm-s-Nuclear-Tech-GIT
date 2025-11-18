@@ -32,7 +32,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 	public FluidTank water;
 	public FluidTank steam;
-	private long lastProgressTick = 0;
+	private int delay = 0;
 
 	public String getName() {
 		return "container.machineStrandCaster";
@@ -70,17 +70,18 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 			if(this.amount == 0) {
 				this.type = null;
-			}
+				this.delay = 0;
+			} else this.delay += 1;
 
 			this.updateConnections();
 
 			int moldsToCast = maxProcessable();
-		
-			// Makes it flush the buffers after 10 seconds of inactivity, or when they're full
-			if (moldsToCast > 0 && (moldsToCast >= 9 || worldObj.getWorldTime() >= lastProgressTick + 200)) {
+
+			// Makes it flush the buffers after 3 seconds of inactivity, or when they're full
+			if (moldsToCast > 0 && (moldsToCast >= 9 || delay > 59)) {
 
 				ItemMold.Mold mold = this.getInstalledMold();
-				
+
 				this.amount -= moldsToCast * mold.getCost();
 
 				ItemStack out = mold.getOutput(type);
@@ -108,7 +109,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 				water.setFill(water.getFill() - getWaterRequired() * moldsToCast);
 				steam.setFill(steam.getFill() + getWaterRequired() * moldsToCast);
 
-				lastProgressTick = worldObj.getWorldTime();
+				this.delay = 0;
 			}
 
 			networkPackNT(150);
@@ -208,7 +209,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 	private void updateConnections() {
 		for(DirPos pos : getFluidConPos()) {
 			this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.tryProvide(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 
@@ -226,7 +227,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 		stack.amount -= required;
 
-		lastProgressTick = world.getWorldTime();
+		this.delay = 0;
 
 		return stack;
 	}
@@ -274,7 +275,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		super.writeToNBT(nbt);
 		water.writeToNBT(nbt, "w");
 		steam.writeToNBT(nbt, "s");
-		nbt.setLong("t", lastProgressTick);
+		nbt.setInteger("d", this.delay);
 	}
 
 	@Override
@@ -282,7 +283,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		super.readFromNBT(nbt);
 		water.readFromNBT(nbt, "w");
 		steam.readFromNBT(nbt, "s");
-		lastProgressTick = nbt.getLong("t");
+		this.delay = nbt.getInteger("d");
 	}
 
 	@Override

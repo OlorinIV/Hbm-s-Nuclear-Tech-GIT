@@ -1,7 +1,7 @@
 package api.hbm.block;
 
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.world.World;
 
 public interface IBlowable { //sloppy toppy
 	

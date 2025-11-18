@@ -64,20 +64,20 @@ public class ModelCrab extends ModelBase {
 		this.crabModel[5].addBox(-0.5F, 0F, 2F, 1, 1, 3, 0F); // Leg 6
 		this.crabModel[5].setRotationPoint(0F, -3F, 0F);
 		this.crabModel[5].rotateAngleX = -0.17453293F;
-		this.crabModel[5].rotateAngleY = 0.78539816F;
+		this.crabModel[5].rotateAngleY = ((float)Math.PI / 4F);
 		this.crabModel[10].addBox(-0.5F, 1F, 4F, 1, 3, 1, 0F); // Foot 11
 		this.crabModel[10].setRotationPoint(0F, -3F, 0F);
 		this.crabModel[10].rotateAngleX = 0.17453293F;
-		this.crabModel[10].rotateAngleY = 0.78539816F;
+		this.crabModel[10].rotateAngleY = ((float)Math.PI / 4F);
 
 		this.crabModel[6].addBox(-0.5F, 0F, 2F, 1, 1, 3, 0F); // Leg 7
 		this.crabModel[6].setRotationPoint(0F, -3F, 0F);
 		this.crabModel[6].rotateAngleX = -0.17453293F;
-		this.crabModel[6].rotateAngleY = -0.78539816F;
+		this.crabModel[6].rotateAngleY = -((float)Math.PI / 4F);
 		this.crabModel[9].addBox(-0.5F, 1F, 4F, 1, 3, 1, 0F); // Foot 10
 		this.crabModel[9].setRotationPoint(0F, -3F, 0F);
 		this.crabModel[9].rotateAngleX = 0.17453293F;
-		this.crabModel[9].rotateAngleY = -0.78539816F;
+		this.crabModel[9].rotateAngleY = -((float)Math.PI / 4F);
 
 		this.crabModel[7].addBox(-0.5F, 0F, 2F, 1, 1, 3, 0F); // Leg 8
 		this.crabModel[7].setRotationPoint(0F, -3F, 0F);
@@ -100,7 +100,7 @@ public class ModelCrab extends ModelBase {
 		this.crabModel[13].addBox(-0.5F, 0F, 1.5F, 1, 1, 1, 0F); // Fang 14
 		this.crabModel[13].setRotationPoint(0F, -3F, 0F);
 		this.crabModel[13].rotateAngleX = -0.43633231F;
-		this.crabModel[13].rotateAngleY = -0.6981317F;
+		this.crabModel[13].rotateAngleY = -((float)Math.PI * 2F / 9F);
 
 		this.crabModel[14].addBox(-0.5F, 0F, 1.5F, 1, 1, 1, 0F); // Fang 15
 		this.crabModel[14].setRotationPoint(0F, -3F, 0F);
@@ -135,8 +135,8 @@ public class ModelCrab extends ModelBase {
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
 
-		this.crabModel[10].rotateAngleY = 0.78539816F;
-		this.crabModel[9].rotateAngleY = -0.78539816F;
+		this.crabModel[10].rotateAngleY = ((float)Math.PI / 4F);
+		this.crabModel[9].rotateAngleY = -((float)Math.PI / 4F);
 		this.crabModel[11].rotateAngleY = -2.35619449F;
 		this.crabModel[12].rotateAngleY = 2.35619449F;
 		this.crabModel[5].rotateAngleY = this.crabModel[10].rotateAngleY;

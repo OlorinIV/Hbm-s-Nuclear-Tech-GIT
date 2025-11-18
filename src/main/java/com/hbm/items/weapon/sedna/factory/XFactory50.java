@@ -49,7 +49,7 @@ public class XFactory50 {
 		EntityBuilding silver = new EntityBuilding(bullet.worldObj);
 		silver.posX = mop.hitVec.xCoord;
 		silver.posY = mop.hitVec.yCoord + 50;
-		silver.posZ = mop.hitVec.zCoord;;
+		silver.posZ = mop.hitVec.zCoord;
 		bullet.worldObj.spawnEntityInWorld(silver);
 		bullet.setDead();
 	};
