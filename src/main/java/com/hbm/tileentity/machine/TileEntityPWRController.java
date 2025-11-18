@@ -178,10 +178,10 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 			//since fluid sources are often not within 1 chunk, we just do 2 chunks distance and call it a day
 			if(!worldObj.getChunkProvider().chunkExists(chunkX, chunkZ) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX + 2, chunkZ + 2) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX + 2, chunkZ - 2) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ + 2) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ - 2)) {
+					!worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ + 1) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ - 1) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX - 1, chunkZ + 1) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX - 1, chunkZ - 1)) {
 				this.unloadDelay = 60;
 			}
 
@@ -190,7 +190,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 						BlockPos portPos = pos.offset(dir);
 
-						if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
+						if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
 						if(worldObj.getTotalWorldTime() % 20 == 0) this.trySubscribe(tanks[0].getTankType(), worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
 					}
 				}

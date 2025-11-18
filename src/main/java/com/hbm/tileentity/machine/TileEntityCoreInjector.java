@@ -5,10 +5,12 @@ import com.hbm.inventory.container.ContainerCoreInjector;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICoreInjector;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidStandardReceiver, SimpleComponent, IGUIProvider, CompatHandler.OCComponent {
+public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidStandardReceiverMK2, SimpleComponent, IGUIProvider, CompatHandler.OCComponent {
 	
 	public FluidTank[] tanks;
 	public static final int range = 15;
@@ -48,9 +50,11 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			this.subscribeToAllAround(tanks[0].getTankType(), this);
-			this.subscribeToAllAround(tanks[1].getTankType(), this);
+            
+            for(DirPos pos : getConPos()) {
+                trySubscribe(tanks[0].getTankType(), worldObj, pos);
+                trySubscribe(tanks[1].getTankType(), worldObj, pos);
+            }
 
 			tanks[0].setType(0, 1, slots);
 			tanks[1].setType(2, 3, slots);
@@ -122,6 +126,17 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 	}
+    
+    private DirPos[] getConPos() {
+        return new DirPos[] {
+                new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+                new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+                new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+                new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+                new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+                new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
+        };
+    }
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {

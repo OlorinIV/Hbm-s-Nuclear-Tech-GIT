@@ -50,7 +50,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 
 	public FluidTank[] tanks;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineMixer() {
 		super(5);
@@ -73,7 +73,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[2].setType(2, slots);
 
-			upgradeManager.checkSlots(this, slots, 3, 4);
+			upgradeManager.checkSlots(slots, 3, 4);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
             int over = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
@@ -111,7 +111,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 			}
 
 			for(DirPos pos : getConPos()) {
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			NBTTagCompound data = new NBTTagCompound();

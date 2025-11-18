@@ -3,7 +3,6 @@ package com.hbm.tileentity.machine;
 import java.util.HashMap;
 import java.util.List;
 
-import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.tile.IInfoProviderEC;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
@@ -32,6 +31,7 @@ import com.hbm.util.InventoryUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -48,7 +48,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 
 //epic!
-public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IUpgradeInfoProvider, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IUpgradeInfoProvider, IGUIProvider, IInfoProviderEC {
 
 	public long power;
 	public int progress;
@@ -61,7 +61,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	public PseudoFluidTank inputTank;
 	public PseudoFluidTank outputTank;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	private int audioDuration = 0;
 	private AudioWrapper audio;
@@ -200,7 +200,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 				attemptConversion();
 			}
 
-			upgradeManager.checkSlots(this, slots, 6, 6);
+			upgradeManager.checkSlots(slots, 6, 6);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int over = getOverdrive();
 

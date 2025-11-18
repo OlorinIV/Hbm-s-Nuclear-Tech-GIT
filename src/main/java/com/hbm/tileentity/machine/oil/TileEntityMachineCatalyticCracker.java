@@ -51,7 +51,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 
 				for(DirPos pos : getConPos()) {
 					for(int i = 2; i <= 4; i++) {
-						if(tanks[i].getFill() > 0) this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+						if(tanks[i].getFill() > 0) this.tryProvide(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 					}
 				}
 

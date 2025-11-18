@@ -209,7 +209,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 	private void updateConnections() {
 		for(DirPos pos : getFluidConPos()) {
 			this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.tryProvide(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 

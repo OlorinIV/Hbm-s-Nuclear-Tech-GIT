@@ -128,11 +128,11 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			}
 
 			for(DirPos pos : getConPos()) {
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[3].getFill() > 0) this.sendFluid(tanks[3], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[3].getFill() > 0) this.tryProvide(tanks[3], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
-			upgradeManager.checkSlots(this, slots, 1, 3);
+			upgradeManager.checkSlots(slots, 1, 3);
 
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);

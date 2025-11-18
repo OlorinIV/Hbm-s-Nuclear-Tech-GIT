@@ -10,8 +10,8 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BobMathUtil;
 
-import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.fluidmk2.IFillableItem;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -20,7 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRefueler extends TileEntityLoadedBase implements IFluidStandardReceiver {
+public class TileEntityRefueler extends TileEntityLoadedBase implements IFluidStandardReceiverMK2 {
 
 	public double fillLevel;
 	public double prevFillLevel;

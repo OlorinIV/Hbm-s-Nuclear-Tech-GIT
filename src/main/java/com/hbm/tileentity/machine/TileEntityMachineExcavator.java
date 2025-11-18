@@ -38,7 +38,7 @@ import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.conveyor.IConveyorBelt;
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -60,7 +60,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineExcavator extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
+public class TileEntityMachineExcavator extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 
 	public long maxPower = 1_000_000;
 	public long power;
@@ -90,7 +90,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 
 	public FluidTank tank;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineExcavator() {
 		super(14);
@@ -106,7 +106,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	public void updateEntity() {
 
 		//needs to happen on client too for GUI rendering
-		upgradeManager.checkSlots(this, slots, 2, 3);
+		upgradeManager.checkSlots(slots, 2, 3);
 		int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 		int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
         int over = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];;

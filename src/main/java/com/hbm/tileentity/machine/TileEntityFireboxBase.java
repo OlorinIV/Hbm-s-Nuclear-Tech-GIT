@@ -13,7 +13,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.ItemStackUtil;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,7 +25,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider, IHeatSource {
+public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting implements IFluidStandardSenderMK2, IGUIProvider, IHeatSource {
 
 	public int maxBurnTime;
 	public int burnTime;

@@ -273,7 +273,7 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 	private void sendFluid() {
 
 		for(DirPos pos : getConPos()) {
-			this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir().getOpposite());
+			this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir().getOpposite());
 		}
 	}
 

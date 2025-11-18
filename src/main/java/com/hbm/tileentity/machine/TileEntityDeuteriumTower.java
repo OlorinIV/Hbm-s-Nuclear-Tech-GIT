@@ -41,7 +41,7 @@ public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 	public void sendFluidToAll(FluidTank tank, TileEntity te) {
 
 		for(DirPos pos : getConPos()) {
-			this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.tryProvide(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 	

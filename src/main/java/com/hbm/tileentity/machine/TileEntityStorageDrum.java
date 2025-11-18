@@ -12,6 +12,7 @@ import com.hbm.inventory.gui.GUIStorageDrum;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
@@ -19,8 +20,9 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -34,7 +36,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityStorageDrum extends TileEntityMachineBase implements IFluidStandardSender, IBufPacketReceiver, IGUIProvider, IFluidCopiable {
+public class TileEntityStorageDrum extends TileEntityMachineBase implements IFluidStandardSenderMK2, IBufPacketReceiver, IGUIProvider, IFluidCopiable {
 
 
 	public FluidTank[] tanks;
@@ -144,8 +146,10 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 			if(age >= 20)
 				age -= 20;
 
-			this.sendFluidToAll(tanks[0], this);
-			this.sendFluidToAll(tanks[1], this);
+            for(DirPos pos : getConPos()) {
+                tryProvide(tanks[0].getTankType(), worldObj, pos);
+                tryProvide(tanks[1].getTankType(), worldObj, pos);
+            }
 
 			this.networkPackNT(25);
 
@@ -164,6 +168,17 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 	}
+    
+    private DirPos[] getConPos() {
+        return new DirPos[] {
+                new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+                new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+                new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+                new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+                new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+                new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
+        };
+    }
 
 	private void radiate(World world, int x, int y, int z, float rads) {
 

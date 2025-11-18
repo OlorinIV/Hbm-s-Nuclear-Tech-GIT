@@ -28,7 +28,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,7 +43,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineGasFlare extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
+public class TileEntityMachineGasFlare extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -53,7 +53,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 	protected int fluidUsed = 0;
 	protected int output = 0;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineGasFlare() {
 		super(6);
@@ -120,7 +120,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 
 			if(isOn && tank.getFill() > 0) {
 
-				upgradeManager.checkSlots(this, slots, 4, 5);
+				upgradeManager.checkSlots(slots, 4, 5);
 				int burn = upgradeManager.getLevel(UpgradeType.SPEED);
 				int yield = upgradeManager.getLevel(UpgradeType.EFFECT);
 

@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -13,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluidStandardSender, IBufPacketReceiver {
+public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluidStandardSenderMK2, IBufPacketReceiver {
 	
 	public FluidTank steam;
 	
@@ -75,7 +75,7 @@ public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluid
 
 	public void fillFluidInit() {
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.sendFluid(steam, worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			this.tryProvide(steam, worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 
 	@Override

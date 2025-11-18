@@ -52,7 +52,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	public static int processingSpeed = 160;
 	public static int baseConsumption = 200;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public String getConfigName() {
 		return "centrifuge";
@@ -191,7 +191,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			int consumption = baseConsumption;
 			int speed = 1;
 
-			upgradeManager.checkSlots(this, slots, 6, 7);
+			upgradeManager.checkSlots(slots, 6, 7);
 			speed += upgradeManager.getLevel(UpgradeType.SPEED);
 			consumption += upgradeManager.getLevel(UpgradeType.SPEED) * baseConsumption;
 

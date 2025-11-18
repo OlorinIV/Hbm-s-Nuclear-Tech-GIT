@@ -47,7 +47,7 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 	public int powerRequirement;
 	public static final int powerRequirementBase = 2_500;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineCompressorBase() {
 		super(4);
@@ -74,7 +74,7 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 			this.tanks[0].setType(0, slots);
 			this.setupTanks();
 
-			upgradeManager.checkSlots(this, slots, 1, 3);
+			upgradeManager.checkSlots(slots, 1, 3);
 
 			int speed = ItemMachineUpgrade.OverdriveSpeeds[upgradeManager.getLevel(UpgradeType.SPEED)];
 			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);

@@ -1,11 +1,13 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -13,7 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidStandardReceiver, IBufPacketReceiver {
+public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidStandardReceiverMK2, IBufPacketReceiver {
 	
 	public FluidTank water;
 	
@@ -25,8 +27,8 @@ public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidS
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			this.subscribeToAllAround(water.getTankType(), this);
+            
+            for(DirPos pos : getConPos()) trySubscribe(water.getTankType(), worldObj, pos);
 			
 			if(RBMKDials.getReasimBoilers(worldObj)) for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
@@ -70,6 +72,17 @@ public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidS
 	public void deserialize(ByteBuf buf) {
 		this.water.deserialize(buf);
 	}
+    
+    private DirPos[] getConPos() {
+        return new DirPos[] {
+                new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+                new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+                new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+                new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+                new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+                new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
+        };
+    }
 
 	@Override
 	public FluidTank[] getAllTanks() {

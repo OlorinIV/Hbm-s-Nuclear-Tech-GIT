@@ -75,7 +75,7 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 		if(!worldObj.isRemote) {
 
 			for(DirPos pos : getConPos()) {
-				if(water.getFill() > 0) this.sendFluid(water, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(water.getFill() > 0) this.tryProvide(water, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			if(groundCheckDelay > 0) {

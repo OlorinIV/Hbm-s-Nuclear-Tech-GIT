@@ -29,7 +29,7 @@ import com.hbm.util.i18n.I18nUtil;
 import api.hbm.block.IDrillInteraction;
 import api.hbm.block.IMiningDrill;
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -51,7 +51,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyReceiverMK2, IMiningDrill, IFluidStandardSender, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyReceiverMK2, IMiningDrill, IFluidStandardSenderMK2, IGUIProvider, IUpgradeInfoProvider {
 
 	public long power;
 	public int age = 0;
@@ -70,7 +70,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	boolean lock = false;
 	double breakProgress;
 
-	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineMiningLaser() {
 
@@ -95,10 +95,10 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 			this.updateConnections();
 
-			this.sendFluid(tank, worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
-			this.sendFluid(tank, worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
-			this.sendFluid(tank, worldObj, xCoord, yCoord + 2, zCoord, Library.POS_Z);
-			this.sendFluid(tank, worldObj, xCoord, yCoord - 2, zCoord, Library.NEG_Z);
+			this.tryProvide(tank, worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
+			this.tryProvide(tank, worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
+			this.tryProvide(tank, worldObj, xCoord, yCoord + 2, zCoord, Library.POS_Z);
+			this.tryProvide(tank, worldObj, xCoord, yCoord - 2, zCoord, Library.NEG_Z);
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
@@ -115,7 +115,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 			if(isOn) {
 
-				upgradeManager.checkSlots(this, slots, 1, 8);
+				upgradeManager.checkSlots(slots, 1, 8);
 				int cycles = 1 + upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 				int speed = 1 + upgradeManager.getLevel(UpgradeType.SPEED);
 				int range = 1 + upgradeManager.getLevel(UpgradeType.EFFECT) * 2;

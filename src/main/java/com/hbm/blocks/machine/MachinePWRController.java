@@ -126,7 +126,7 @@ public class MachinePWRController extends BlockContainer implements ITooltipProv
 	private static HashMap<BlockPos, Block> fuelRods = new HashMap();
 	private static HashMap<BlockPos, Block> sources = new HashMap();
 	private static boolean errored;
-	private static final int maxSize = 4096;
+	private static final int maxSize = 8192;
 
 	public void assemble(World world, int x, int y, int z, EntityPlayer player) {
 		assembly.clear();

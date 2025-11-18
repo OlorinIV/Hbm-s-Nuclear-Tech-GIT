@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
@@ -31,7 +31,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IFluidStandardSender, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IFluidStandardSenderMK2, SimpleComponent, CompatHandler.OCComponent {
 
 	public FluidTank gas;
 	public double progress;
@@ -65,7 +65,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			}
 			
 			for(DirPos pos : getOutputPos()) {
-				if(this.gas.getFill() > 0) this.sendFluid(gas, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.gas.getFill() > 0) this.tryProvide(gas, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
             
 			this.idct = false;
