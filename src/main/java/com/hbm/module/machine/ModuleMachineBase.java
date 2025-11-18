@@ -131,9 +131,10 @@ public abstract class ModuleMachineBase {
 		this.battery.setPower(this.battery.getPower() - (power == 1 ? recipe.power : (long) (recipe.power * power)));
 		//double step = Math.min(speed / recipe.duration, 1D); // can't do more than one recipe per tick, might look into that later
 		double step = speed / recipe.duration; // restriction removed, can now do multiple recipes per tick
+        this.progress += step;
         int multi = Math.min((int)this.progress, count);
 
-        //I wonder what's inside the guy who separated this - maybe it's just because my code skill is bad
+        //I wonder what's inside the brain of the guy who separated this - maybe it's just because my code skill is too bad
         if(multi > 0) {
 			consumeInput(recipe, multi);
 			produceItem(recipe, multi);
@@ -144,7 +145,7 @@ public abstract class ModuleMachineBase {
 	}
 
 	/** Part 1 of the process completion, uses up input
-     * Note that it requires a multiplier indicating how miny times the recipe should be proceeded
+     * Note that it requires a multiplier indicating how many times the recipe should be proceeded
      * If not sure then just put 1 here as a temporary solution
      */
 	protected void consumeInput(GenericRecipe recipe, int multi) {
@@ -164,7 +165,7 @@ public abstract class ModuleMachineBase {
 	}
 
 	/** Part 2 of the process completion, generated output
-     * Note that it also requires a multiplier indicating how miny times the recipe should be proceeded
+     * Note that it also requires a multiplier indicating how many times the recipe should be proceeded
      * If not sure then just put 1 here as a temporary solution
      */
 	protected void produceItem(GenericRecipe recipe, int multi) {
