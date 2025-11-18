@@ -1273,6 +1273,8 @@ general.na=N/A
 
 gui.recipe.duration=Duration
 gui.recipe.consumption=Consumption
+gui.recipe.fusionIn=Klystron Input Energy
+gui.recipe.fusionOut=Plasma Output Energy
 gui.recipe.input=Input
 gui.recipe.output=Output
 gui.recipe.atPressure=at
@@ -2257,6 +2259,8 @@ item.boy_target.name=Subcritical U235 Target
 item.briquette.coal.name=Coal Briquette
 item.briquette.lignite.name=Lignite Briquette
 item.briquette.wood.name=Sawdust Briquette
+item.broken_item.name=Broken Item
+item.broken_item.prefix=Broken %s
 item.bucket_acid.name=Bucket of Acid
 item.bucket_mud.name=Bucket of Poisonous Mud
 item.bucket_schrabidic_acid.name=Bucket of Schrabidic Acid

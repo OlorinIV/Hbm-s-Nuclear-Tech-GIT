@@ -13,6 +13,7 @@ import com.hbm.items.special.ItemByproduct.EnumByproduct;
 import com.hbm.main.CraftingManager;
 
 import static com.hbm.inventory.OreDictManager.*;
+import static com.hbm.inventory.material.Mats.*;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -53,6 +54,8 @@ public class MineralRecipes {
 		add1To9Pair(ModBlocks.block_cadmium, ModItems.ingot_cadmium);
 		add1To9Pair(ModBlocks.block_tcalloy, ModItems.ingot_tcalloy);
 		add1To9Pair(ModBlocks.block_cdalloy, ModItems.ingot_cdalloy);
+		add1To9Pair(new ItemStack(ModBlocks.block_slag), new ItemStack(ModItems.ingot_raw, 9, MAT_SLAG.id));
+
 
 		//Hardcoded metas since I failed to get that from code
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_sodium, 1), "###", "###", "###", '#', new ItemStack(ModItems.ingot_raw, 1, 1100));
@@ -490,6 +493,10 @@ public class MineralRecipes {
 	public static void add1To9Pair(Block one, Item nine) {
 		add1To9(new ItemStack(one), new ItemStack(nine, 9));
 		add9To1(new ItemStack(nine), new ItemStack(one));
+	}
+public static void add1To9Pair(ItemStack one, ItemStack nine) {
+		add1To9(one, nine);
+		add9To1(nine, one);
 	}
 
 	public static void add1To9PairSameMeta(Item one, Item nine, int meta) {

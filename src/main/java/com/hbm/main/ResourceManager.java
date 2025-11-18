@@ -249,6 +249,11 @@ public class ResourceManager {
 	//ITER
 	public static final IModelCustom iter = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/reactors/iter.obj")).asVBO();
 	public static final IModelCustom fusion_torus = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/fusion/torus.obj")).asVBO();
+	public static final IModelCustom fusion_klystron = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/fusion/klystron.obj")).asVBO();
+	public static final IModelCustom fusion_breeder = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/fusion/breeder.obj")).asVBO();
+	public static final IModelCustom fusion_collector = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/fusion/collector.obj")).asVBO();
+	public static final IModelCustom fusion_boiler = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/fusion/boiler.obj")).asVBO();
+	public static final IModelCustom fusion_mhdt = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/fusion/mhdt.obj")).asVBO();
 
 	//ICF
 	public static final IModelCustom icf = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/reactors/icf.obj")).asVBO();
@@ -700,6 +705,11 @@ public class ResourceManager {
 	public static final ResourceLocation iter_torus_chlorophyte = new ResourceLocation(RefStrings.MODID, "textures/models/iter/torus_chlorophyte.png");
 	public static final ResourceLocation iter_torus_vaporwave = new ResourceLocation(RefStrings.MODID, "textures/models/iter/torus_vaporwave.png");
 	public static final ResourceLocation fusion_torus_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/torus.png");
+	public static final ResourceLocation fusion_klystron_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/klystron.png");
+	public static final ResourceLocation fusion_breeder_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/breeder.png");
+	public static final ResourceLocation fusion_collector_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/collector.png");
+	public static final ResourceLocation fusion_boiler_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/boiler.png");
+	public static final ResourceLocation fusion_mhdt_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/mhdt.png");
 
 	//ICF
 	public static final ResourceLocation icf_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/icf.png");

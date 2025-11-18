@@ -424,7 +424,13 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityICF.class, new RenderICF());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityICFController.class, new RenderICFController());
 		//Fusion
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFusionTorusStruct.class, new RenderFusionTorusMultiblock());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFusionTorus.class, new RenderFusionTorus());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFusionKlystron.class, new RenderFusionKlystron());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFusionBreeder.class, new RenderFusionBreeder());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFusionCollector.class, new RenderFusionCollector());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFusionBoiler.class, new RenderFusionBoiler());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFusionMHDT.class, new RenderFusionMHDT());
 		//Watz
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWatz.class, new RenderWatz());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWatzPump.class, new RenderWatzPump());

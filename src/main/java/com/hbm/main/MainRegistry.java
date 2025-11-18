@@ -1406,6 +1406,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.test_nuke_tier2_bullet");
 		ignoreMappings.add("hbm:item.test_nuke_tier1_target");
 		ignoreMappings.add("hbm:item.test_nuke_tier2_target");
+		ignoreMappings.add("hbm:tile.hadron_cooler");
 		ignoreMappings.add("hbm:tile.machine_transformer_20");
 		ignoreMappings.add("hbm:tile.machine_transformer_dnt_20");
 		ignoreMappings.add("hbm:item.levitation_unit");
@@ -1438,6 +1439,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.sand_uranium");
 		ignoreMappings.add("hbm:tile.sand_polonium");
 		ignoreMappings.add("hbm:tile.sand_quartz");
+		ignoreMappings.add("hbm:item.bob_metalworks");
+		ignoreMappings.add("hbm:item.bob_assembly");
+		ignoreMappings.add("hbm:item.bob_chemistry");
+		ignoreMappings.add("hbm:item.bob_oil");
+		ignoreMappings.add("hbm:item.bob_nuclear");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

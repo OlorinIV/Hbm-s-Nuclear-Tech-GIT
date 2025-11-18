@@ -8,6 +8,11 @@ import com.hbm.blocks.generic.*;
 import com.hbm.blocks.generic.BlockHazard.ExtDisplayEffect;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.machine.albion.*;
+import com.hbm.blocks.machine.fusion.MachineFusionBoiler;
+import com.hbm.blocks.machine.fusion.MachineFusionBreeder;
+import com.hbm.blocks.machine.fusion.MachineFusionCollector;
+import com.hbm.blocks.machine.fusion.MachineFusionKlystron;
+import com.hbm.blocks.machine.fusion.MachineFusionMHDT;
 import com.hbm.blocks.machine.fusion.MachineFusionTorus;
 import com.hbm.blocks.machine.pile.*;
 import com.hbm.blocks.machine.rbmk.*;
@@ -876,6 +881,7 @@ public class ModBlocks {
 	public static Block struct_soyuz_core;
 	public static Block struct_iter_core;
 	public static Block struct_plasma_core;
+	public static Block struct_torus_core;
 	public static Block struct_watz_core;
 	public static Block struct_icf_core;
 
@@ -917,6 +923,12 @@ public class ModBlocks {
 
 	public static Block fusion_component;
 	public static Block fusion_torus;
+	public static Block fusion_klystron;
+	public static Block fusion_breeder;
+	public static Block fusion_collector;
+	public static Block fusion_boiler;
+	public static Block fusion_mhdt;
+	public static Block fusion_coupler;
 
 	public static Block machine_icf_press;
 	public static Block icf_component;
@@ -2029,6 +2041,7 @@ public class ModBlocks {
 		struct_soyuz_core = new BlockSoyuzStruct(Material.iron).setBlockName("struct_soyuz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":struct_soyuz_core");
 		struct_iter_core = new BlockITERStruct(Material.iron).setBlockName("struct_iter_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_iter_core");
 		struct_plasma_core = new BlockPlasmaStruct(Material.iron).setBlockName("struct_plasma_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_plasma_core");
+		struct_torus_core = new BlockFusionTorusStruct(Material.iron).setBlockName("struct_torus_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_torus_core");
 		struct_watz_core = new BlockWatzStruct(Material.iron).setBlockName("struct_watz_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_watz_core");
 		struct_icf_core = new BlockICFStruct(Material.iron).setBlockName("struct_icf_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_icf_core");
 
@@ -2069,6 +2082,11 @@ public class ModBlocks {
 
 		fusion_component = new BlockFusionComponent().setBlockName("fusion_component").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fusion_component");
 		fusion_torus = new MachineFusionTorus().setBlockName("fusion_torus").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		fusion_klystron = new MachineFusionKlystron().setBlockName("fusion_klystron").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		fusion_breeder = new MachineFusionBreeder().setBlockName("fusion_breeder").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		fusion_collector = new MachineFusionCollector().setBlockName("fusion_collector").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		fusion_boiler = new MachineFusionBoiler().setBlockName("fusion_boiler").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		fusion_mhdt = new MachineFusionMHDT().setBlockName("fusion_mhdt").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		machine_icf_press = new MachineICFPress().setBlockName("machine_icf_press").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		icf = new MachineICF().setBlockName("icf").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3408,6 +3426,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(struct_soyuz_core, struct_soyuz_core.getUnlocalizedName());
 		GameRegistry.registerBlock(struct_iter_core, struct_iter_core.getUnlocalizedName());
 		GameRegistry.registerBlock(struct_plasma_core, struct_plasma_core.getUnlocalizedName());
+		register(struct_torus_core);
 		GameRegistry.registerBlock(struct_watz_core, struct_watz_core.getUnlocalizedName());
 		GameRegistry.registerBlock(struct_icf_core, struct_icf_core.getUnlocalizedName());
 
@@ -3463,6 +3482,11 @@ public class ModBlocks {
 		
 		register(fusion_component);
 		register(fusion_torus);
+		register(fusion_klystron);
+		register(fusion_breeder);
+		register(fusion_collector);
+		register(fusion_boiler);
+		register(fusion_mhdt);
 
 		register(watz_element);
 		register(watz_cooler);

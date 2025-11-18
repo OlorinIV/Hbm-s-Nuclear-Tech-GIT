@@ -5,6 +5,7 @@ import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.fusion.TileEntityFusionTorus;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -76,6 +77,11 @@ public class MachineFusionTorus extends BlockDummyable {
 		if(meta >= 6) return new TileEntityProxyCombo().inventory().power().fluid();
 		
 		return null;
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		return super.standardOpenBehavior(world, x, y, z, player, 0);
 	}
 
 	@Override
@@ -155,5 +161,36 @@ public class MachineFusionTorus extends BlockDummyable {
 				}
 			}
 		}
+
+		// is that enough ports?
+		this.makeExtra(world, x, y + 4, z);
+
+		this.makeExtra(world, x + 6, y, z);
+		this.makeExtra(world, x + 6, y + 4, z);
+		this.makeExtra(world, x + 6, y, z + 2);
+		this.makeExtra(world, x + 6, y + 4, z + 2);
+		this.makeExtra(world, x + 6, y, z - 2);
+		this.makeExtra(world, x + 6, y + 4, z - 2);
+
+		this.makeExtra(world, x - 6, y, z);
+		this.makeExtra(world, x - 6, y + 4, z);
+		this.makeExtra(world, x - 6, y, z + 2);
+		this.makeExtra(world, x - 6, y + 4, z + 2);
+		this.makeExtra(world, x - 6, y, z - 2);
+		this.makeExtra(world, x - 6, y + 4, z - 2);
+
+		this.makeExtra(world, x, y, z + 6);
+		this.makeExtra(world, x, y + 4, z + 6);
+		this.makeExtra(world, x + 2, y, z + 6);
+		this.makeExtra(world, x + 2, y + 4, z + 6);
+		this.makeExtra(world, x - 2, y, z + 6);
+		this.makeExtra(world, x - 2, y + 4, z + 6);
+
+		this.makeExtra(world, x, y, z - 6);
+		this.makeExtra(world, x, y + 4, z - 6);
+		this.makeExtra(world, x + 2, y, z - 6);
+		this.makeExtra(world, x + 2, y + 4, z - 6);
+		this.makeExtra(world, x - 2, y, z - 6);
+		this.makeExtra(world, x - 2, y + 4, z - 6);
 	}
 }

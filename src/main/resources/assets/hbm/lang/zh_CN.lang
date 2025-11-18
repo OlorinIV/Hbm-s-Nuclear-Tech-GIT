@@ -468,7 +468,7 @@ book_lore.beacon.page.9=一旦所需对等端做出响应， 则给出“接受�
 book_lore.beacon.page.10=最常用的是FAR-5M标准。 如果没有协商标准，通信将 立即结束，起到“ping” 的作用。如果通信继续， 可以使用另一个长单音 “结束连接”来结束连接。
 book_lore.beacon.page.11=第5章：保修 $ [页面故意留空]
 
-cannery.f1=[按%s键获取帮助]
+cannery.f1=[按 %s 键获取帮助]
 
 cannery.centrifuge=气体离心机
 cannery.centrifuge.0=气体离心机可以使用通用流体管道传输流体。
@@ -6452,6 +6452,28 @@ desc.gui.upgrade.effectiveness=*§a效率§r：堆叠至3级
 desc.gui.upgrade.overdrive=*§7超速§r：堆叠至3级
 desc.gui.upgrade.power=*§1节能§r：堆叠至3级
 desc.gui.upgrade.speed=*§4速度§r：堆叠至3级
+
+#From Tokiko, please sort that
+chem.biooilsolidfuel=通过燃油和压缩生物质生产固体燃料
+chem.biosolidfuel=通过压缩生物质生产固体燃料
+chem.coallube=通过煤焦杂酚油生产润滑油
+chem.heavylube=通过重油生产润滑油
+chem.oilelectrodes=石墨电极生产（使用燃油）
+chem.lubeelectrodes=石墨电极生产（使用润滑油）
+item.gun_drill.name=动力钻
+item.weapon_mod_special.canisters.name=动力钻 - 额外燃料仓
+item.weapon_mod_special.drill_hss.name=动力钻 - 高速钢钻头
+item.weapon_mod_special.drill_saturnite.name=动力钻 - 土星钻头
+item.weapon_mod_special.drill_tcalloy.name=动力钻 - 锝钢钻头
+item.weapon_mod_special.drill_weaponsteel.name=动力钻 - 武器级钢钻头
+item.weapon_mod_special.engine_aviation.name=动力钻 - 航空引擎
+item.weapon_mod_special.engine_diesel.name=动力钻 - 柴油引擎
+item.weapon_mod_special.engine_electric.name=动力钻 - 电动机
+item.weapon_mod_special.engine_turbo.name=动力钻 - 涡轮发动机
+item.weapon_mod_special.magnet.name=动力钻 - 电磁铁
+item.weapon_mod_special.sifter.name=动力钻 - 过滤筛
+tile.pipe_anchor.name=管锚
+tile.vine_phosphor.name=磷光藤蔓
 
 # NTMC Addon Strings
 
