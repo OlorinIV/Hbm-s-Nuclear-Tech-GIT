@@ -173,7 +173,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		writeExtraData(recipe, writer);
 	}
 	
-	public void writeExtraData(T recipe, JsonWriter writer) { }
+	public void writeExtraData(T recipe, JsonWriter writer) throws IOException { }
 	
 	public IOutput[] readOutputArray(JsonArray array) {
 		IOutput[] output = new IOutput[array.size()];
@@ -286,6 +286,10 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 	public static class ChanceOutputMulti implements IOutput {
 		
 		public List<ChanceOutput> pool = new ArrayList();
+		
+		public ChanceOutputMulti(ChanceOutput... out) {
+			for(ChanceOutput output : out) pool.add(output);
+		}
 		
 		@Override public ItemStack collapse() { return ((ChanceOutput) WeightedRandom.getRandomItem(RNG, pool)).collapse(); }
 		@Override public boolean possibleMultiOutput() { return pool.size() > 1; }
