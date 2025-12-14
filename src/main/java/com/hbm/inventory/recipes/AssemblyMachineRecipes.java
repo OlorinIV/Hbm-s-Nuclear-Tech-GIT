@@ -15,7 +15,7 @@ import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.inventory.RecipesCommon.ComparableNBTStack;
+import com.hbm.inventory.RecipesCommon.NBTStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -58,6 +58,11 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 	@Override
 	public void registerDefaults() {
 
+		// NBTStack test
+		// this.register(new GenericRecipe("demo1").setup(20, 100).outputItems(BrokenItem.make(ModItems.plate_iron)).inputItems(new OreDictStack(IRON.ingot())));
+		// this.register(new GenericRecipe("demo2").setup(20, 100).outputItems(BrokenItem.make(ModItems.plate_gold)).inputItems(new OreDictStack(IRON.ingot())));
+		// this.register(new GenericRecipe("demo3").setup(20, 100).outputItems(new ItemStack(Items.iron_ingot)).inputItems(new NBTStack(BrokenItem.make(ModItems.plate_iron))));
+		
 		// plates and ingots
 		String autoPlate = "autoswitch.plates";
 		this.register(new GenericRecipe("ass.plateiron").setup(60, 100).outputItems(new ItemStack(ModItems.plate_iron, 1)).inputItems(new OreDictStack(IRON.ingot())).setPools(GenericRecipes.POOL_PREFIX_ALT + "plates").setGroup(autoPlate, this));
@@ -396,7 +401,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.batteryschrabidium").setup(200, 100).outputItems(new ItemStack(ModBlocks.machine_schrabidium_battery, 1))
 				.inputItems(new OreDictStack(DESH.ingot(), 16), new OreDictStack(NP237.dust(), 12), new OreDictStack(SA326.dust(), 12)));
 		this.register(new GenericRecipe("ass.batterydnt").setup(400, 100).outputItems(new ItemStack(ModBlocks.machine_dineutronium_battery, 1))
-				.inputItems(new OreDictStack(DNT.ingot(), 24), new ComparableStack(ModItems.powder_spark_mix, 12), new ComparableNBTStack(ItemBattery.getEmptyBattery(ModItems.battery_spark_cell_10000)), new OreDictStack(CMB.ingot(), 32)));
+				.inputItems(new OreDictStack(DNT.ingot(), 24), new ComparableStack(ModItems.powder_spark_mix, 12), new NBTStack(ItemBattery.getEmptyBattery(ModItems.battery_spark_cell_10000)), new OreDictStack(CMB.ingot(), 32)));
 		this.register(new GenericRecipe("ass.fensusan").setup(1_200, 100).outputItems(new ItemStack(ModBlocks.machine_fensu, 1))
 				.inputItems(new ComparableStack(ModItems.ingot_electronium, 32),
 						new ComparableStack(ModBlocks.machine_dineutronium_battery, 16),
@@ -727,7 +732,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.turretjeremy").setup(200, 100).outputItems(new ItemStack(ModBlocks.turret_jeremy, 1))
 				.inputItems(new ComparableStack(ModBlocks.machine_battery, 1), new OreDictStack(STEEL.ingot(), 16), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED), new ComparableStack(ModItems.motor_desh, 1), new OreDictStack(STEEL.shell(), 3), new OreDictStack(WEAPONSTEEL.mechanism(), 3), new ComparableStack(ModBlocks.crate_steel, 1), new ComparableStack(ModItems.crt_display, 1)));
 		this.register(new GenericRecipe("ass.turrettauon").setup(200, 100).outputItems(new ItemStack(ModBlocks.turret_tauon, 1))
-				.inputItems(new ComparableStack(ModBlocks.machine_lithium_battery, 1), new OreDictStack(STEEL.ingot(), 16), new OreDictStack(ANY_PLASTIC.ingot(), 4), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED), new ComparableStack(ModItems.motor_desh, 1), new OreDictStack(CU.ingot(), 32), new OreDictStack(BIGMT.mechanism(), 3), new ComparableNBTStack(ItemBattery.getEmptyBattery(ModItems.battery_lithium)), new ComparableStack(ModItems.crt_display, 1)));
+				.inputItems(new ComparableStack(ModBlocks.machine_lithium_battery, 1), new OreDictStack(STEEL.ingot(), 16), new OreDictStack(ANY_PLASTIC.ingot(), 4), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED), new ComparableStack(ModItems.motor_desh, 1), new OreDictStack(CU.ingot(), 32), new OreDictStack(BIGMT.mechanism(), 3), new NBTStack(ItemBattery.getEmptyBattery(ModItems.battery_lithium)), new ComparableStack(ModItems.crt_display, 1)));
 		this.register(new GenericRecipe("ass.turretrichard").setup(200, 100).outputItems(new ItemStack(ModBlocks.turret_richard, 1))
 				.inputItems(new ComparableStack(ModBlocks.machine_battery, 1), new OreDictStack(STEEL.ingot(), 16), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED), new OreDictStack(ANY_PLASTIC.ingot(), 2), new OreDictStack(STEEL.shell(), 8), new OreDictStack(WEAPONSTEEL.mechanism(), 3), new ComparableStack(ModBlocks.crate_steel, 1), new ComparableStack(ModItems.crt_display, 1)));
 		this.register(new GenericRecipe("ass.turrethoward").setup(200, 100).outputItems(new ItemStack(ModBlocks.turret_howard, 1))
