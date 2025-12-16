@@ -816,7 +816,7 @@ import net.minecraft.item.ItemStack;
 		makeRecipe(new ComparableStack(ModBlocks.machine_rtg_furnace_off, 1), new AStack[] {
 			new ComparableStack(Blocks.furnace, 1),
 			new ComparableStack(ModItems.rtg_unit, 3),
-			new OreDictStack(PB.plate528(), 6),
+			new OreDictStack(PB.plate(), 6),
 			new OreDictStack(OreDictManager.getReflector(), 4),
 			new OreDictStack(CU.plate(), 2)
 		}, 150);

@@ -1152,7 +1152,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.rtgfurnace").setup(200,100).outputItems(new ItemStack(ModBlocks.machine_rtg_furnace_off, 1))
 			.inputItems(new ComparableStack(Blocks.furnace, 1),
 				new ComparableStack(ModItems.rtg_unit, 3),
-				new OreDictStack(PB.plate528(), 6),
+				new OreDictStack(PB.plate(), 6),
 				new OreDictStack(OreDictManager.getReflector(), 4),
 				new OreDictStack(CU.plate(), 2)));
 		this.register(new GenericRecipe("ass.drillcmb").setup(100, 100).outputItems(new ItemStack(ModItems.drillbit, 1, EnumDrillType.CMB.ordinal()))
