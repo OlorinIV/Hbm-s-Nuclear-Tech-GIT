@@ -316,7 +316,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	}
 
     public boolean setOilRC(FluidType type) {
-        Quintet<FluidStack, FluidStack, FluidStack, FluidStack, ItemStack> recipe = RefineryRecipes.getRefinery(type);
+        RefineryRecipe recipe = RefineryRecipes.getRefinery(type);
         if(recipe == null) return false;
         tanks[0].setTankType(type);
         return true;
