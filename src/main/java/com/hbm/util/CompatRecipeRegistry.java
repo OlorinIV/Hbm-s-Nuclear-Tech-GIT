@@ -17,6 +17,7 @@ import com.hbm.inventory.recipes.CrystallizerRecipes.CrystallizerRecipe;
 import com.hbm.inventory.recipes.ElectrolyserFluidRecipes.ElectrolysisRecipe;
 import com.hbm.inventory.recipes.ElectrolyserMetalRecipes.ElectrolysisMetalRecipe;
 import com.hbm.inventory.recipes.ExposureChamberRecipes.ExposureChamberRecipe;
+import com.hbm.inventory.recipes.OutgasserRecipes.OutgasserRecipe;
 import com.hbm.inventory.recipes.ParticleAcceleratorRecipes.ParticleAcceleratorRecipe;
 import com.hbm.inventory.recipes.PedestalRecipes.PedestalExtraCondition;
 import com.hbm.inventory.recipes.PedestalRecipes.PedestalRecipe;
@@ -183,8 +184,15 @@ public class CompatRecipeRegistry {
 
 	//TBI mixer
 
-	public static void registerOutgasser(AStack input, ItemStack output, FluidStack fluid, Long flux) {
+	@Deprecated public static void registerOutgasser(AStack input, ItemStack output, FluidStack fluid, Long flux) {
 		OutgasserRecipes.recipes.put(input, new Triplet(output, fluid, flux));
+	}
+
+    //TODO: Fix this for NTMC
+	public static void registerOutgasser(AStack input, ItemStack output, FluidStack fluid, boolean fusionOnly) {
+		OutgasserRecipe recipe = new OutgasserRecipe(output, fluid);
+		if(fusionOnly) recipe.fusionOnly();
+		OutgasserRecipes.recipes.put(input, recipe);
 	}
 
 	public static void registerCompressor(FluidStack input, FluidStack output, int time) {

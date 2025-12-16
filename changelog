@@ -1,11 +1,10 @@
 ## Changed
-* Removed a ton of unused projectile entities
-* Removed the old ZOMG beams, negative energy type explosions now use DFC-like effects instead
-* Removed the old multitool (it sucked)
+* Updated russian localization
+* Changed the recipe change button on the mixer to be bright red with arrows on it (since the "C" looked too much like it meant "clear")
+* The refinery and the vacuum refinery now have working recipe configs
+* Recipe autogen for foundry casting now deprioritizes fragments, preventing them from being casted when nuggets of that material are available
 
 ## Fixed
-* Fixed ore acidizer recipe config just straight up not working with ore dictionary keys
-* Fixed logistic network nodes disabled via redstone not re-enabling when redstone is cut
-* Added provisional emergency brake to drone pathfinding, pathfinding will simply fail if it goes on for too long
-* Fixed ore acidizer partitioner freezing the game
-* Fixed ore acidizer partitioner trash slots not being accessible via automation
+* Fixed atomic clock precision assembler recipe not working
+* Fixed ICF parts using 528 mode templates in normal mode
+* Fixed arc furnace queue slots inserting too many items, causing the output to exceed max stack size
