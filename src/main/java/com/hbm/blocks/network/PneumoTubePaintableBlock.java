@@ -131,16 +131,16 @@ public class PneumoTubePaintableBlock extends BlockContainer implements IToolabl
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fX, float fY, float fZ) {
 
 		ItemStack stack = player.getHeldItem();
-		if(stack != null && stack.getItem() instanceof ItemBlock) {
+		if (stack != null && stack.getItem() instanceof ItemBlock) {
 			ItemBlock ib = (ItemBlock) stack.getItem();
 			Block block = ib.field_150939_a;
 
-			if(BlockCablePaintable.allowedPaint(block, this)) {
+			if (block.renderAsNormalBlock() && block != this) {
 				TileEntity tile = world.getTileEntity(x, y, z);
-				if(tile instanceof TileEntityPneumoTubePaintable) {
+				if (tile instanceof TileEntityPneumoTubePaintable) {
 					TileEntityPneumoTubePaintable tube = (TileEntityPneumoTubePaintable) tile;
 
-					if(tube.block == null) {
+					if (tube.block == null) {
 						tube.block = block;
 						tube.meta = stack.getItemDamage() & 15;
 						world.markBlockForUpdate(x, y, z);
@@ -149,22 +149,20 @@ public class PneumoTubePaintableBlock extends BlockContainer implements IToolabl
 					}
 				}
 			}
-		} else if(ToolType.getType(stack) == ToolType.SCREWDRIVER || ToolType.getType(stack) == ToolType.HAND_DRILL) return false;
-		
-		if(!player.isSneaking()) {
-			TileEntity tile = world.getTileEntity(x, y, z);
-			if(tile instanceof TileEntityPneumoTube) {
-				TileEntityPneumoTube tube = (TileEntityPneumoTube) tile;
-				if(tube.isCompressor()) {
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
-					return true;
-				} else if(tube.isEndpoint()) {
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, 1, world, x, y, z);
-					return true;
+		} else if (ToolType.getType(stack) == ToolType.SCREWDRIVER || ToolType.getType(stack) == ToolType.HAND_DRILL) return false;
+			if (!player.isSneaking()) {
+				TileEntity tile = world.getTileEntity(x, y, z);
+				if (tile instanceof TileEntityPneumoTube) {
+					TileEntityPneumoTube tube = (TileEntityPneumoTube) tile;
+					if (tube.isCompressor()) {
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+						return true;
+					} else if(tube.isEndpoint()) {
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 1, world, x, y, z);
+						return true;
+					}
 				}
 			}
-		}
-		
 		return false;
 	}
 
@@ -179,7 +177,7 @@ public class PneumoTubePaintableBlock extends BlockContainer implements IToolabl
 		public void updateEntity() {
 			super.updateEntity();
 
-			if(worldObj.isRemote && (lastMeta != meta || lastBlock != block)) {
+			if (worldObj.isRemote && (lastMeta != meta || lastBlock != block )) {
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				lastBlock = block;
 				lastMeta = meta;
