@@ -184,13 +184,13 @@ public class CompatRecipeRegistry {
 
 	//TBI mixer
 
-	@Deprecated public static void registerOutgasser(AStack input, ItemStack output, FluidStack fluid, Long flux) {
-		OutgasserRecipes.recipes.put(input, new Triplet(output, fluid, flux));
-	}
+//	@Deprecated public static void registerOutgasser(AStack input, ItemStack output, FluidStack fluid, Long flux) {
+//		OutgasserRecipes.recipes.put(input, new Triplet(output, fluid, flux));
+//	}
 
     //TODO: Fix this for NTMC
-	public static void registerOutgasser(AStack input, ItemStack output, FluidStack fluid, boolean fusionOnly) {
-		OutgasserRecipe recipe = new OutgasserRecipe(output, fluid);
+	public static void registerOutgasser(AStack input, ItemStack output, FluidStack fluid, long flux, boolean fusionOnly) {
+		OutgasserRecipe recipe = new OutgasserRecipe(output, fluid, flux);
 		if(fusionOnly) recipe.fusionOnly();
 		OutgasserRecipes.recipes.put(input, recipe);
 	}
