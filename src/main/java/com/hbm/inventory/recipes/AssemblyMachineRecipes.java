@@ -581,7 +581,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.fusionmhdt").setup(1_200, 100).outputItems(new ItemStack(ModBlocks.fusion_mhdt, 1))
 				.inputItems(new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 16), new OreDictStack(CU.plateWelded(), 64), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 16), new OreDictStack(SBD.wireDense(), 64), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.QUANTUM))
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 16, EnumExpensiveType.FERRO_PLATING), new ComparableStack(ModItems.item_expensive, 16, EnumExpensiveType.PLASTIC), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 32), new ComparableStack(ModItems.circuit, 8, EnumCircuitType.QUANTUM))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				/* .setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte") */ ); // it's just ridiculous to pay 1,024 chlorophyte dusts for this
 		this.register(new GenericRecipe("ass.fusioncoupler").setup(300, 100).outputItems(new ItemStack(ModBlocks.fusion_coupler, 1))
 				.inputItems(new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 4), new OreDictStack(CU.plate(), 32), new OreDictStack(BSCCO.wireDense(), 16), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BISMOID))
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 4, EnumExpensiveType.FERRO_PLATING), new OreDictStack(BSCCO.wireDense(), 16), new ComparableStack(ModItems.item_expensive, 2, EnumExpensiveType.COMPUTER)));
