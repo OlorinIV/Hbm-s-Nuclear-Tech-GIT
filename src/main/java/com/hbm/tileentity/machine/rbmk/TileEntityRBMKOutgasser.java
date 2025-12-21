@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import api.hbm.fluidmk2.IFluidStandardSenderMK2;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
@@ -12,6 +13,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIRBMKOutgasser;
 import com.hbm.inventory.recipes.OutgasserRecipes;
+import com.hbm.inventory.recipes.OutgasserRecipes.OutgasserRecipe;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.Tuple.Triplet;
@@ -47,35 +49,33 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public String getName() {
 		return "container.rbmkOutgasser";
 	}
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 			if(slots[0] != null){
-				Triplet<ItemStack, FluidStack, Long> output = OutgasserRecipes.getOutput(slots[0]);
-				if(output != null) this.duration = output.getZ();
+				OutgasserRecipe output = OutgasserRecipes.getOutput(slots[0]);
+				if(output != null) this.duration = output.fluxNeeded;
 			} else {
 				this.duration = 10000L;
 				this.progress = 0;
 			}
 
+			if(!canProcess()) this.progress = 0;
+			for(DirPos pos : getOutputPos()) if(this.gas.getFill() > 0) this.tryProvide(gas, worldObj, pos);
 			if(!canProcess()) {
 				this.progress = 0;
 			}
-			
-			for(DirPos pos : getOutputPos()) {
-				if(this.gas.getFill() > 0) this.tryProvide(gas, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
-            
+
 			this.idct = false;
 		}
-		
+
 		super.updateEntity();
 	}
-	
+
 	protected DirPos[] getOutputPos() {
-		
+
 		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
 			return new DirPos[] {
 					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
@@ -107,10 +107,10 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 
 		if(!this.idct) {
 			if(slots[0] != null){
-				Triplet<ItemStack, FluidStack, Long> output = OutgasserRecipes.getOutput(slots[0]);
-				if(output != null) this.duration = output.getZ();
+				OutgasserRecipe output = OutgasserRecipes.getOutput(slots[0]);
+				if(output != null) this.duration = output.fluxNeeded;
 			} else {
-				this.duration = 10000L;
+				this.duration = 10_000L;
 				this.progress = 0;
 			}
 			this.idct = true;
@@ -134,12 +134,12 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		if(slots[0] == null)
 			return false;
 
-		Triplet<ItemStack, FluidStack, Long> output = OutgasserRecipes.getOutput(slots[0]);
+		OutgasserRecipe output = OutgasserRecipes.getOutput(slots[0]);
 
-		if(output == null)
-			return false;
+		if(output == null) return false;
+		if(output.fusionOnly) return false;
 
-		FluidStack fluid = output.getY();
+		FluidStack fluid = output.liquidOutput;
 
 		if(fluid != null) {
 			if(gas.getTankType() != fluid.type && gas.getFill() > 0) return false;
@@ -147,7 +147,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			if(gas.getFill() + fluid.fill > gas.getMaxFill()) return false;
 		}
 
-		ItemStack out = output.getX();
+		ItemStack out = output.solidOutput;
 
 		if(slots[1] == null || out == null)
 			return true;
@@ -157,15 +157,15 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 
 	private void process() {
 
-		Triplet<ItemStack, FluidStack, Long> output = OutgasserRecipes.getOutput(slots[0]);
+		OutgasserRecipe output = OutgasserRecipes.getOutput(slots[0]);
 		this.decrStackSize(0, 1);
 		this.progress -= this.duration;
 
-		if(output.getY() != null) {
-			gas.setFill(gas.getFill() + output.getY().fill);
+		if(output.liquidOutput != null) {
+			gas.setFill(gas.getFill() + output.liquidOutput.fill);
 		}
 
-		ItemStack out = output.getX();
+		ItemStack out = output.solidOutput;
 
 		if(out != null) {
 			if(slots[1] == null) {

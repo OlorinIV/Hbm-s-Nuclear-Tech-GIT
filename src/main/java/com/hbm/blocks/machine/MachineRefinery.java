@@ -27,7 +27,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
@@ -51,20 +50,20 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-        
+
         if (!world.isRemote) {
-            
+
             int[] pos = this.findCore(world, x, y, z);
             if (pos == null) return false;
-            
+
             TileEntityMachineRefinery refinery = (TileEntityMachineRefinery) world.getTileEntity(pos[0], pos[1], pos[2]);
             if(refinery == null || refinery.hasExploded) return false;
-            
+
             if (player.isSneaking()) {
-                
+
                 if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
                     FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
-                    
+
                     if (refinery.setOilRC(type)) {
                         refinery.markDirty();
                         ItemFluidIDMulti.chatOnChangeType(player, "tile.machine_refinery.name", type);
@@ -97,26 +96,10 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 	public int getOffset() {
 		return 1;
 	}
-
-	@Override
-	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
-		
-		if(!player.capabilities.isCreativeMode) {
-			harvesters.set(player);
-			this.dropBlockAsItem(world, x, y, z, meta, 0);
-			harvesters.set(null);
-		}
-	}
 	
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		return IPersistentNBT.getDrops(world, x, y, z, this);
-	}
-	
-	@Override
-	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
-		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
-		player.addExhaustion(0.025F);
 	}
 
 	@Override

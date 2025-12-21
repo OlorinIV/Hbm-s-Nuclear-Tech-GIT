@@ -59,6 +59,8 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new CrucibleRecipes());
 		recipeHandlers.add(new CentrifugeRecipes());
 		recipeHandlers.add(new CrystallizerRecipes());
+		recipeHandlers.add(new RefineryRecipes());
+		recipeHandlers.add(new VacuumRefineryRecipes());
 		recipeHandlers.add(new FractionRecipes());
 		recipeHandlers.add(new CrackingRecipes());
 		recipeHandlers.add(new ReformingRecipes());
@@ -73,6 +75,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new FuelPoolRecipes());
 		recipeHandlers.add(new MixerRecipes());
 		recipeHandlers.add(new OutgasserRecipes());
+		recipeHandlers.add(new FluidBreederRecipes());
 		recipeHandlers.add(new CompressorRecipes());
 		recipeHandlers.add(new ElectrolyserFluidRecipes());
 		recipeHandlers.add(new ElectrolyserMetalRecipes());
@@ -85,12 +88,14 @@ public abstract class SerializableRecipe {
 		//AFTER Assembler
 		recipeHandlers.add(new AnvilRecipes());
 		recipeHandlers.add(new PedestalRecipes());
+		recipeHandlers.add(new AnnihilatorRecipes());
 		
 		//GENERIC
 		recipeHandlers.add(AssemblyMachineRecipes.INSTANCE);
 		recipeHandlers.add(ChemicalPlantRecipes.INSTANCE);
 		recipeHandlers.add(PUREXRecipes.INSTANCE);
 		recipeHandlers.add(FusionRecipes.INSTANCE);
+		recipeHandlers.add(PrecAssRecipes.INSTANCE);
 
 		recipeHandlers.add(new MatDistribution());
 		recipeHandlers.add(new CustomMachineRecipes());
