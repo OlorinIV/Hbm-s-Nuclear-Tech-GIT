@@ -156,7 +156,7 @@ public class OutgasserRecipes extends SerializableRecipe {
 
 		if(rec.getValue().fluxNeeded != 0L) {
 			writer.name("fluxNeeded");
-			this.writeValue(rec.getValue().getZ(), writer);
+			this.writeValue(rec.getValue().fluxNeeded, writer);
 		}
 
 		writer.name("fusionOnly").value(rec.getValue().fusionOnly);
