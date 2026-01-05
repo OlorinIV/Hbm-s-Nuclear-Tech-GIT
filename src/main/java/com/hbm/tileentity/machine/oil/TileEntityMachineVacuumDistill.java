@@ -176,7 +176,7 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 	}
     
     public boolean setOilRC(FluidType type) {
-        Quartet<FluidStack, FluidStack, FluidStack, FluidStack> recipe = RefineryRecipes.getVacuum(type);
+        VacuumRefineryRecipe recipe = VacuumRefineryRecipes.getVacuum(type);
         if(recipe == null) return false;
         tanks[0].setTankType(type);
         tanks[0].withPressure(2);
