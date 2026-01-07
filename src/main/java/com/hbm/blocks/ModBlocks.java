@@ -753,13 +753,14 @@ public class ModBlocks {
 	public static Block machine_microwave;
 
 	public static Block machine_battery_socket;
-	
+	public static Block machine_battery_redd;
+  
 	@Deprecated public static Block machine_battery_potato;
 	@Deprecated public static Block machine_battery;
 	@Deprecated public static Block machine_lithium_battery;
 	@Deprecated public static Block machine_schrabidium_battery;
 	@Deprecated public static Block machine_dineutronium_battery;
-	public static Block machine_fensu;
+	@Deprecated public static Block machine_fensu;
 
 	@Deprecated public static Block capacitor_bus;
 	public static Block capacitor_copper; // neat for structures
@@ -797,6 +798,7 @@ public class ModBlocks {
 	public static Block pipe_anchor;
 	public static Block fluid_valve;
 	public static Block fluid_switch;
+	public static Block fluid_counter_valve;
 	public static Block fluid_pump;
 	public static Block machine_drain;
 	public static Block radio_torch_sender;
@@ -1883,12 +1885,14 @@ public class ModBlocks {
 		machine_microwave = new MachineMicrowave(Material.iron).setBlockName("machine_microwave").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_microwave");
 
 		machine_battery_socket = new MachineBatterySocket().setBlockName("machine_battery_socket").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		machine_battery_potato = new MachineBattery(Material.iron, 10_000).setBlockName("machine_battery_potato").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_battery = new MachineBattery(Material.iron, 1_000_000).setBlockName("machine_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_lithium_battery = new MachineBattery(Material.iron, 50_000_000).setBlockName("machine_lithium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_schrabidium_battery = new MachineBattery(Material.iron, 25_000_000_000L).setBlockName("machine_schrabidium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_dineutronium_battery = new MachineBattery(Material.iron, 1_000_000_000_000L).setBlockName("machine_dineutronium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_fensu = new MachineFENSU(Material.iron).setBlockName("machine_fensu").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_fensu");
+		machine_battery_redd = new MachineBatteryREDD().setBlockName("machine_battery_redd").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		
+		machine_battery_potato = new MachineBattery(Material.iron, 10_000).setBlockName("machine_battery_potato").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
+		machine_battery = new MachineBattery(Material.iron, 1_000_000).setBlockName("machine_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
+		machine_lithium_battery = new MachineBattery(Material.iron, 50_000_000).setBlockName("machine_lithium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
+		machine_schrabidium_battery = new MachineBattery(Material.iron, 25_000_000_000L).setBlockName("machine_schrabidium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
+		machine_dineutronium_battery = new MachineBattery(Material.iron, 1_000_000_000_000L).setBlockName("machine_dineutronium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
+		machine_fensu = new MachineFENSU(Material.iron).setBlockName("machine_fensu").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":machine_fensu");
 
 		capacitor_bus = new MachineCapacitorBus(Material.iron).setBlockName("capacitor_bus").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
 		capacitor_copper = new MachineCapacitor(Material.iron, 1_000_000L, "copper").setBlockName("capacitor_copper").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_copper");
@@ -1940,6 +1944,7 @@ public class ModBlocks {
 		fluid_duct_gauge = new FluidDuctGauge().setBlockName("fluid_duct_gauge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_valve = new FluidValve(Material.iron).setBlockName("fluid_valve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_switch = new FluidSwitch(Material.iron).setBlockName("fluid_switch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		fluid_counter_valve = new FluidCounterValve(Material.iron).setBlockName("fluid_counter_valve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_pump = new FluidPump(Material.iron).setBlockName("fluid_pump").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_drain = new MachineDrain(Material.iron).setBlockName("machine_drain").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":concrete");
 		radio_torch_sender = new RadioTorchSender().setBlockName("radio_torch_sender").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -3235,6 +3240,7 @@ public class ModBlocks {
 		register(pipe_anchor);
 		register(fluid_duct_gauge);
 		register(fluid_valve);
+		register(fluid_counter_valve);
 		register(fluid_switch);
 		register(fluid_pump);
 		register(machine_drain);
@@ -3291,6 +3297,7 @@ public class ModBlocks {
 		register(barrel_tcalloy);
 		register(barrel_antimatter);
 		register(machine_battery_socket);
+		register(machine_battery_redd);
 		register(machine_battery_potato);
 		register(machine_battery);
 		register(machine_lithium_battery);

@@ -82,6 +82,7 @@ public class TileMappings {
 		put(TileEntityDecoPoleSatelliteReceiver.class, "tileentity_satellitereceicer");
 		put(TileEntityMachineBattery.class, "tileentity_battery");
 		put(TileEntityBatterySocket.class, "tileentity_battery_socket");
+		put(TileEntityBatteryREDD.class, "tileentity_battery_redd");
 		put(TileEntityCapacitor.class, "tileentity_capacitor");
 		put(TileEntityMachineWoodBurner.class, "tileentity_wood_burner");
 		put(TileEntityRedBarrel.class, "tileentity_barrel");
@@ -443,6 +444,7 @@ public class TileMappings {
 		put(TileEntityPipeExhaust.class, "tileentity_pipe_exhaust");
 		put(TileEntityPipeExhaustPaintable.class, "tileentity_pipe_exhaust_paintable");
 		put(TileEntityFluidValve.class, "tileentity_pipe_valve");
+		put(TileEntityFluidCounterValve.class, "tileentity_pipe_counter_valve");
 		put(TileEntityFluidPump.class, "tileentity_pipe_pump");
 
 		put(TileEntityPipeAnchor.class, "tileentity_pioe_anchor");
