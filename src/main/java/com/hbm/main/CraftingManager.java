@@ -119,7 +119,7 @@ public class CraftingManager {
 		addRecipeAuto(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.PCB), new Object[] { "I", "P", 'I', ModItems.plate_polymer, 'P', CU.plate() });
 		addRecipeAuto(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.PCB, 4), new Object[] { "I", "P", 'I', ModItems.plate_polymer, 'P', GOLD.plate() });
 		addRecipeAuto(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER_CHASSIS), new Object[] { "PPP", "CBB", "PPP", 'P', ANY_PLASTIC.ingot(), 'C', ModItems.crt_display, 'B', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.PCB) });
-
+		
 		if(!GeneralConfig.enable528) {
 			addRecipeAuto(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP), new Object[] { "I", "S", "W", 'I', ModItems.plate_polymer, 'S', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.SILICON), 'W', CU.wireFine() });
 			addRecipeAuto(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP), new Object[] { "I", "S", "W", 'I', ModItems.plate_polymer, 'S', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.SILICON), 'W', GOLD.wireFine() });
@@ -581,6 +581,7 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModBlocks.fluid_duct_gauge), new Object[] { ModBlocks.fluid_duct_paintable, STEEL.ingot(), DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC) });
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_valve, 1), new Object[] { "S", "W", 'S', Blocks.lever, 'W', ModBlocks.fluid_duct_paintable });
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_switch, 1), new Object[] { "S", "W", 'S', REDSTONE.dust(), 'W', ModBlocks.fluid_duct_paintable });
+		addRecipeAuto(new ItemStack(ModBlocks.fluid_counter_valve, 1), new Object[] { "S", "W", 'S', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP), 'W', ModBlocks.fluid_switch });
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_pump, 1), new Object[] { " S ", "PGP", "IMI", 'S', STEEL.shell(), 'P', STEEL.pipe(), 'G', GRAPHITE.ingot(), 'I', STEEL.ingot(), 'M', ModItems.motor });
 		addRecipeAuto(new ItemStack(ModBlocks.pneumatic_tube, 8), new Object[] { "CRC", 'C', CU.plateCast(), 'R', ANY_RUBBER.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.pneumatic_tube, 24), new Object[] { "CRC", 'C', CU.plateWelded(), 'R', ANY_RUBBER.ingot() });
