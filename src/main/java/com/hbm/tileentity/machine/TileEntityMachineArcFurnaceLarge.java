@@ -393,7 +393,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
-		if(slot < 3) return lid >= 1 && stack.getItem() == ModItems.arc_electrode;
+		if(slot < 3) return stack.getItem() == ModItems.arc_electrode;
 		if(slot >= 25) {
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
 			if(recipe == null) return false;

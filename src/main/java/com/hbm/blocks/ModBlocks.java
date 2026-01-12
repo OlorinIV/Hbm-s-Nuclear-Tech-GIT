@@ -13,6 +13,7 @@ import com.hbm.blocks.machine.fusion.MachineFusionBreeder;
 import com.hbm.blocks.machine.fusion.MachineFusionCollector;
 import com.hbm.blocks.machine.fusion.MachineFusionCoupler;
 import com.hbm.blocks.machine.fusion.MachineFusionKlystron;
+import com.hbm.blocks.machine.fusion.MachineFusionKlystronCreative;
 import com.hbm.blocks.machine.fusion.MachineFusionMHDT;
 import com.hbm.blocks.machine.fusion.MachineFusionTorus;
 import com.hbm.blocks.machine.pile.*;
@@ -753,13 +754,14 @@ public class ModBlocks {
 	public static Block machine_microwave;
 
 	public static Block machine_battery_socket;
-	
+	public static Block machine_battery_redd;
+  
 	@Deprecated public static Block machine_battery_potato;
 	@Deprecated public static Block machine_battery;
 	@Deprecated public static Block machine_lithium_battery;
 	@Deprecated public static Block machine_schrabidium_battery;
 	@Deprecated public static Block machine_dineutronium_battery;
-	public static Block machine_fensu;
+	@Deprecated public static Block machine_fensu;
 
 	@Deprecated public static Block capacitor_bus;
 	public static Block capacitor_copper; // neat for structures
@@ -797,6 +799,7 @@ public class ModBlocks {
 	public static Block pipe_anchor;
 	public static Block fluid_valve;
 	public static Block fluid_switch;
+	public static Block fluid_counter_valve;
 	public static Block fluid_pump;
 	public static Block machine_drain;
 	public static Block radio_torch_sender;
@@ -909,6 +912,7 @@ public class ModBlocks {
 	public static Block fusion_component;
 	public static Block fusion_torus;
 	public static Block fusion_klystron;
+	public static Block fusion_klystron_creative;
 	public static Block fusion_breeder;
 	public static Block fusion_collector;
 	public static Block fusion_boiler;
@@ -1069,9 +1073,6 @@ public class ModBlocks {
 	public static Block zirnox_destroyed;
 
 	public static Block machine_controller;
-
-	public static Block machine_spp_bottom;
-	public static Block machine_spp_top;
 
 	public static Block radiobox;
 	public static Block radiorec;
@@ -1885,12 +1886,14 @@ public class ModBlocks {
 		machine_microwave = new MachineMicrowave(Material.iron).setBlockName("machine_microwave").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_microwave");
 
 		machine_battery_socket = new MachineBatterySocket().setBlockName("machine_battery_socket").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		machine_battery_potato = new MachineBattery(Material.iron, 10_000).setBlockName("machine_battery_potato").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_battery = new MachineBattery(Material.iron, 1_000_000).setBlockName("machine_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_lithium_battery = new MachineBattery(Material.iron, 50_000_000).setBlockName("machine_lithium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_schrabidium_battery = new MachineBattery(Material.iron, 25_000_000_000L).setBlockName("machine_schrabidium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_dineutronium_battery = new MachineBattery(Material.iron, 1_000_000_000_000L).setBlockName("machine_dineutronium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_fensu = new MachineFENSU(Material.iron).setBlockName("machine_fensu").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_fensu");
+		machine_battery_redd = new MachineBatteryREDD().setBlockName("machine_battery_redd").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		
+		machine_battery_potato = new MachineBattery(Material.iron, 10_000).setBlockName("machine_battery_potato").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
+		machine_battery = new MachineBattery(Material.iron, 1_000_000).setBlockName("machine_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
+		machine_lithium_battery = new MachineBattery(Material.iron, 50_000_000).setBlockName("machine_lithium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
+		machine_schrabidium_battery = new MachineBattery(Material.iron, 25_000_000_000L).setBlockName("machine_schrabidium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
+		machine_dineutronium_battery = new MachineBattery(Material.iron, 1_000_000_000_000L).setBlockName("machine_dineutronium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
+		machine_fensu = new MachineFENSU(Material.iron).setBlockName("machine_fensu").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":machine_fensu");
 
 		capacitor_bus = new MachineCapacitorBus(Material.iron).setBlockName("capacitor_bus").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
 		capacitor_copper = new MachineCapacitor(Material.iron, 1_000_000L, "copper").setBlockName("capacitor_copper").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_copper");
@@ -1942,6 +1945,7 @@ public class ModBlocks {
 		fluid_duct_gauge = new FluidDuctGauge().setBlockName("fluid_duct_gauge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_valve = new FluidValve(Material.iron).setBlockName("fluid_valve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_switch = new FluidSwitch(Material.iron).setBlockName("fluid_switch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		fluid_counter_valve = new FluidCounterValve(Material.iron).setBlockName("fluid_counter_valve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_pump = new FluidPump(Material.iron).setBlockName("fluid_pump").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_drain = new MachineDrain(Material.iron).setBlockName("machine_drain").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":concrete");
 		radio_torch_sender = new RadioTorchSender().setBlockName("radio_torch_sender").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -2056,6 +2060,7 @@ public class ModBlocks {
 		fusion_component = new BlockFusionComponent().setBlockName("fusion_component").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fusion_component");
 		fusion_torus = new MachineFusionTorus().setBlockName("fusion_torus").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_klystron = new MachineFusionKlystron().setBlockName("fusion_klystron").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		fusion_klystron_creative = new MachineFusionKlystronCreative().setBlockName("fusion_klystron_creative").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_breeder = new MachineFusionBreeder().setBlockName("fusion_breeder").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_collector = new MachineFusionCollector().setBlockName("fusion_collector").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_boiler = new MachineFusionBoiler().setBlockName("fusion_boiler").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -2322,9 +2327,6 @@ public class ModBlocks {
         machine_schrabidium_transmutator = new MachineSchrabidiumTransmutator(Material.iron).setBlockName("machine_schrabidium_transmutator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
 
 		machine_siren = new MachineSiren(Material.iron).setBlockName("machine_siren").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_siren");
-
-		machine_spp_bottom = new SPPBottom(Material.iron).setBlockName("machine_spp_bottom").setHardness(5.0F).setResistance(10.0F);
-		machine_spp_top = new SPPTop(Material.iron).setBlockName("machine_spp_top").setHardness(5.0F).setResistance(10.0F);
 
 		radiobox = new Radiobox(Material.iron).setBlockName("radiobox").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":radiobox");
 		radiorec = new RadioRec(Material.iron).setBlockName("radiorec").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":radiorec");
@@ -3147,8 +3149,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_powerrtg, machine_powerrtg.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_radiolysis, machine_radiolysis.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_hephaestus, machine_hephaestus.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_spp_bottom, machine_spp_bottom.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_spp_top, machine_spp_top.getUnlocalizedName());
 
 		GameRegistry.registerBlock(hadron_plating, hadron_plating.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_plating_blue, hadron_plating_blue.getUnlocalizedName());
@@ -3239,6 +3239,7 @@ public class ModBlocks {
 		register(pipe_anchor);
 		register(fluid_duct_gauge);
 		register(fluid_valve);
+		register(fluid_counter_valve);
 		register(fluid_switch);
 		register(fluid_pump);
 		register(machine_drain);
@@ -3295,6 +3296,7 @@ public class ModBlocks {
 		register(barrel_tcalloy);
 		register(barrel_antimatter);
 		register(machine_battery_socket);
+		register(machine_battery_redd);
 		register(machine_battery_potato);
 		register(machine_battery);
 		register(machine_lithium_battery);
@@ -3447,6 +3449,7 @@ public class ModBlocks {
 		register(fusion_component);
 		register(fusion_torus);
 		register(fusion_klystron);
+		register(fusion_klystron_creative);
 		register(fusion_breeder);
 		register(fusion_collector);
 		register(fusion_boiler);

@@ -1,25 +1,33 @@
-## Added
-* New battery system
-  * Energy storage blocks, capacitors and battery items are now deprecated, but can still be used
-  * There is now new types of battery items, as well as capacitor items
-  * Instead of energy storage blocks, there is now a battery socket, which allows those new items to be connected to the power grid
-  * Battery sockets act like cables, they will connect power grids when two cables are plugged into them in different directions
-  * Self-chargers and creative batteries are still around, as well as spark batteries which are needed for the balefire bomb
-
 ## Changed
-* Updated italian localization
-* After not being part of worldgen for a long time, oily coal is finally being removed
-* The rare metal blocks that had been unobtainable and unused for the longest time have been removed
-* The schrabidium transmutator's grace period is over, it is finally being destroyed
-* Most of the legacy fusion reactor components, which were unobtainable and unusable, have been removed
-  * The block ID economy is looking better than ever
-* Infinite water barrels can now be crafted with any water container and not just buckets
-* OpenComputers integration for the PWR can now also read the heat capacity stats
+* Material autogen now creates redstone in ingot form, allowing smaller than block quantities to be cast
+* Removed the ancient ZPE blocks
+* Drone hitboxes are now way smaller, which should cause them to get stuck when flying less
+* The new FENSU now keeps its charge and installed muffler when broken
+* Battery sockets are now compatible with comparator output
+* Battery sockets now have a tooltip when a battery pack is installed
+* Sef-charging batteries have been reworked
+  * They are now a new item with metadata (legacy ones still work)
+  * The base form is an empty selfcharger which is filled with two billets of material, i.e. no more upgrade recipes
+  * There are a few new variants like cobalt-60 and gold-198
+  * New selfchargers have a model when plugged into a battery socket
+  * Selfchargers are a fair bit weaker than their old counterparts, but substantially cheaper too
+* Old batteries now have the "LEGACY" tag
+* Pneumatic pipe networks with multiple outputs, especially filtered ones, should now have much better throughput due to not constantly failing to send items in round robin mode
+* The [N] calculator window now shows a history of previous operations
+* Simplified the cyclotron recipe
 
 ## Fixed
-* Fixed meteors using a nonexistant keepalive timer, causing potential audio flickering in certain cases
-* Fixed 528 coltan deposit config misspelling
-* Potentially fixed a performance issue caused by transmission networks not being deleted when they have no active links
-* Fixed multi output recipe objects not deserializing right, causing the precision assembler config to not load
-* Fixed pedestal recipes not using the correct register option, making custom config files wipe all clay tablets
-* Fixed custom fluids breaking when using the `/ntmreload` command
+* Fixed the FEnSU, cyclotron and reliant robin missile being uncraftable due to stacksize limitations
+  * The system for detecting impossible recipe has been improved, instead of a fixed 64 item limit, it now uses the actual limit of the item (or 64 for ore dictionary inputs)
+* Fixed yet another issue regarding addon fluids breaking on recipe reload
+* Fixed YET ANOTHER issue regarding crates, AGAIN
+* Fixed a rare issue where the fusion reactor could have negative fuel
+* Fixed battery socket priority tooltip offset
+* Fixed enchantability on many armor sets being incorrect
+  * Most power armors are intended to not be enchantable at all
+* Fixed crash caused by the balefire bomb
+* Fixed JSON gun reload animations becoming faster and faster with the trenchmaster set
+* Fixed heat transfer rate labels on the boilers and coker unit being off by a magnitude of 10
+* Fixed crucible not having a heat transfer rate tooltip
+* Fixed certain heliostat mirror rotations not showing the mirror
+* Fixed chopper recipe creating eight choppers instead of one
