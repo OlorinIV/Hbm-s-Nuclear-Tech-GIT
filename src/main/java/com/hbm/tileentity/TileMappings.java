@@ -123,7 +123,6 @@ public class TileMappings {
 		put(TileEntityMachinePress.class, "tileentity_press");
 		put(TileEntityMachineAmmoPress.class, "tileentity_ammo_press");
 		put(TileEntityMachineSiren.class, "tileentity_siren");
-		put(TileEntityMachineSPP.class, "tileentity_spp");
 		put(TileEntityMachineRadGen.class, "tileentity_radgen");
 		put(TileEntityMachineRadarNT.class, "tileentity_radar");
 		put(TileEntityMachineRadarLarge.class, "tileentity_radar_large");
@@ -482,6 +481,8 @@ public class TileMappings {
 		put(TileEntityRailSwitch.class, "tileentity_rail_switch");
 
 		put(TileEntityRebar.class, "tileentity_rebar");
+
+        put(TileEntityMachineSchrabidiumTransmutator.class, "tileentity_schrab_transmutator");
 
 		// OC Compat items
 		boolean ocPresent = Loader.isModLoaded("OpenComputers");

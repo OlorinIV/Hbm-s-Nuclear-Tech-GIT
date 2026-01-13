@@ -1,18 +1,4 @@
-## Added
-* Creative klystron
-  * Always outputs as much KyU as the most demanding existing recipe needs
-
 ## Changed
-* Updated chinese and russian localization
-* Increased density of osmiridium ores in tom craters considerably (from 1:500 to 1:200)
-* Added a new server setting called `ENABLE_MKU` to toggle contageon effects, spread and save (part of `/ntmserver`)
-* Extended logging now logs uses of MKU
-
-## Fixed
-* Fixed missing battery socket tooltip
-* Potentially fixed an issue in regards to some hidden structures spawning
-* Fixed FEnSU not immediately applying the muffler effect when used
-* Fixed fluid counter valve not having a recipe
-* Fixed issue where `/ntmreload` would break registered fluids from addons
-* Fixed yet another issue regarding crates
-* Fixed RBMK fluid heaters losing their tank types when unable to boil anything
+* Rad absorbers now use metadata, existing blocks will be converted automatically
+* Fissure bombs that go off in crater biomes now create fissures with metadata 1 which creates radioactive volcanic lava
+  * If a crater biome is created on top of an existing fissue, it will keep producing normal volcanic lava

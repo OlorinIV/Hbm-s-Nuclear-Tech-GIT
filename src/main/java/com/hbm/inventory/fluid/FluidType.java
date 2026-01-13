@@ -116,9 +116,6 @@ public class FluidType {
 	/** For CompatFluidRegistry */
 	public FluidType(String name, int id, int color, int p, int f, int r, EnumSymbol symbol, ResourceLocation texture) {
 		setupForeign(name, id, color, p, f, r, symbol, texture);
-		
-		Fluids.foreignFluids.add(this);
-		Fluids.metaOrder.add(this);
 	}
 	
 	public FluidType setupForeign(String name, int id, int color, int p, int f, int r, EnumSymbol symbol, ResourceLocation texture) {
@@ -133,6 +130,7 @@ public class FluidType {
 		this.renderWithTint = true;
 
 		this.id = id;
+		Fluids.foreignFluids.add(this);
 		Fluids.register(this, id);
 		return this;
 	}
