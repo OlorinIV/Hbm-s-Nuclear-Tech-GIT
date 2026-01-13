@@ -57,13 +57,11 @@ public class ContainerMachineSchrabidiumTransmutator extends Container {
             } else {
                 if (rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) { // put batteries into battery slot
                     if (!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 3, 4, false)) return null;
-                }
-                if (rStack.getItem() == ModItems.ingot_uranium) { // put uranium into uranium slot
+                } else if (rStack.getItem() == ModItems.ingot_uranium) { // put uranium into uranium slot
                     if (!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 0, 1, false)) return null;
-                }
-                if (rStack.getItem() == ModItems.redcoil_capacitor || rStack.getItem() == ModItems.euphemium_capacitor) { // put redcoil capacitors into capacitor slot
+                } else if (rStack.getItem() == ModItems.redcoil_capacitor || rStack.getItem() == ModItems.euphemium_capacitor) { // put redcoil capacitors into capacitor slot
                     if (!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 2, 3, false)) return null;
-                }
+                } else return null; // to prevent crash
             }
 
             if (stack.stackSize == 0)
