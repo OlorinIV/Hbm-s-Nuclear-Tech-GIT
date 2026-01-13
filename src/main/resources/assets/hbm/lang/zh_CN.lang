@@ -4999,10 +4999,15 @@ stat.ntmBullets=打出的弹丸数
 stat.ntmLegendary=制作传说物品次数
 stat.ntmMines=踩中的地雷数
 
-tile.absorber.name=辐射吸收器
-tile.absorber_green.name=高级辐射吸收器
-tile.absorber_pink.name=精英辐射吸收器
-tile.absorber_red.name=增强型辐射吸收器
+tile.absorber.name=辐射吸收器OLD
+tile.absorber_green.name=高级辐射吸收器 OLD
+tile.absorber_pink.name=精英辐射吸收器 OLD
+tile.absorber_red.name=增强型辐射吸收器 OLD
+
+tile.rad_absorber.base.name=辐射吸收器
+tile.rad_absorber.red.name=高级辐射吸收器
+tile.rad_absorber.green.name=精英辐射吸收器
+tile.rad_absorber.pink.name=增强型辐射吸收器
 tile.acid_block.name=酸
 tile.ams_base.name=AMS基座 [开发中]
 tile.ams_emitter.name=AMS发射极 [开发中]
