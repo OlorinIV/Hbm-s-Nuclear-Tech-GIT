@@ -1147,7 +1147,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.drillcmbdiamond").setup(100, 100).outputItems(new ItemStack(ModItems.drillbit, 1, EnumDrillType.CMB_DIAMOND.ordinal()))
 			.inputItems(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.CMB.ordinal()), new OreDictStack(DIAMOND.dust(), 64)));
         // bring back the transmutator
-		this.register(new GenericRecipe("ass.schrabtransmutator").setup(500, 100).outputItems(new ItemStack(ModBlocks.machine_schrabidium_transmutator)).inputItems(new OreDictStack(MAGTUNG.ingot(), 1), new OreDictStack(TI.ingot(), 24), new OreDictStack(ALLOY.plate(), 18), new OreDictStack(STEEL.plateWelded(), 12), new ComparableStack(ModItems.plate_desh, 6), new OreDictStack(RUBBER.ingot(), 8), new ComparableStack(ModItems.battery_pack, 5, EnumBatteryPack.BATTERY_LEAD.ordinal()), new ComparableStack(ModItems.circuit, 2, EnumCircuitType.ADVANCED.ordinal())));
+		this.register(new GenericRecipe("ass.schrabtransmutator").setup(500, 100).outputItems(new ItemStack(ModBlocks.machine_schrabidium_transmutator)).inputItems(new OreDictStack(MAGTUNG.ingot(), 1), new OreDictStack(TI.ingot(), 24), new OreDictStack(ALLOY.plate(), 18), new OreDictStack(STEEL.plateWelded(), 12), new ComparableStack(ModItems.plate_desh, 6), new OreDictStack(RUBBER.ingot(), 8), new ComparableStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_LEAD.ordinal()), new ComparableStack(ModItems.circuit, 2, EnumCircuitType.ADVANCED.ordinal())));
 
         FluidType[] order = Fluids.getInNiceOrder();
 		for(int i = 1; i < order.length; ++i) {
