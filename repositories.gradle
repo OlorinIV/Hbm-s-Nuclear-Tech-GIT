@@ -2,6 +2,11 @@
 
 repositories {
     maven {
+        name = "ntmr"
+        url = uri("https://maven.ntmr.dev/proxy")
+    }
+
+    maven {
         name = "OC"
         url = uri("https://maven.cil.li/")
         mavenContent {
