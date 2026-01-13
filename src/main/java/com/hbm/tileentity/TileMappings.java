@@ -482,6 +482,8 @@ public class TileMappings {
 
 		put(TileEntityRebar.class, "tileentity_rebar");
 
+        put(TileEntityMachineSchrabidiumTransmutator.class, "tileentity_schrab_transmutator");
+
 		// OC Compat items
 		boolean ocPresent = Loader.isModLoaded("OpenComputers");
 
