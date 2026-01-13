@@ -1,8 +1,11 @@
 package com.hbm.inventory.container;
 
+import api.hbm.energymk2.IBatteryItem;
 import com.hbm.inventory.SlotCraftingOutput;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
 
+import com.hbm.util.InventoryUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -37,40 +40,43 @@ public class ContainerMachineSchrabidiumTransmutator extends Container {
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
+    public ItemStack transferStackInSlot(EntityPlayer player, int index)
     {
-        ItemStack var3 = null;
-        Slot var4 = (Slot) this.inventorySlots.get(par2);
+        ItemStack rStack = null;
+        Slot slot = (Slot) this.inventorySlots.get(index);
 
-        if (var4 != null && var4.getHasStack())
+        if (slot != null && slot.getHasStack())
         {
-            ItemStack var5 = var4.getStack();
-            var3 = var5.copy();
+            ItemStack stack = slot.getStack();
+            rStack = stack.copy();
 
-            if (par2 <= 3) {
-                if (!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true))
-                {
+            if (index <= 3) { //If the target is the player's inventory then do not handle it specially
+                if (!this.mergeItemStack(stack, 4, this.inventorySlots.size(), true)) {
                     return null;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 0, 1, false))
-            {
-                if (!this.mergeItemStack(var5, 3, 4, false))
-                    if (!this.mergeItemStack(var5, 2, 3, false))
-                        return null;
+            } else {
+                if (rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) { // put batteries into battery slot
+                    if (!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 3, 4, false)) return null;
+                }
+                if (rStack.getItem() == ModItems.ingot_uranium) { // put uranium into uranium slot
+                    if (!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 0, 1, false)) return null;
+                }
+                if (rStack.getItem() == ModItems.redcoil_capacitor || rStack.getItem() == ModItems.euphemium_capacitor) { // put redcoil capacitors into capacitor slot
+                    if (!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 2, 3, false)) return null;
+                }
             }
 
-            if (var5.stackSize == 0)
+            if (stack.stackSize == 0)
             {
-                var4.putStack((ItemStack) null);
+                slot.putStack((ItemStack) null);
             }
             else
             {
-                var4.onSlotChanged();
+                slot.onSlotChanged();
             }
         }
 
-        return var3;
+        return rStack;
     }
 
     @Override
