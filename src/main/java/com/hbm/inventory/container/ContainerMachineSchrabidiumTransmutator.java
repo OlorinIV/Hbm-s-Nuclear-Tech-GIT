@@ -3,6 +3,7 @@ package com.hbm.inventory.container;
 import api.hbm.energymk2.IBatteryItem;
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
 
 import com.hbm.util.InventoryUtil;
@@ -59,7 +60,7 @@ public class ContainerMachineSchrabidiumTransmutator extends Container {
                     if (!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 3, 4, false)) return null;
                 } else if (rStack.getItem() == ModItems.ingot_uranium) { // put uranium into uranium slot
                     if (!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 0, 1, false)) return null;
-                } else if (rStack.getItem() == ModItems.redcoil_capacitor || rStack.getItem() == ModItems.euphemium_capacitor) { // put redcoil capacitors into capacitor slot
+                } else if (rStack.getItem() instanceof ItemMachineUpgrade) { // put upgrades into upgrade slot
                     if (!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 2, 3, false)) return null;
                 } else return null; // to prevent crash
             }
