@@ -1,19 +1,25 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.VersatileConfig;
 import com.hbm.inventory.OreDictManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMachineSchrabidiumTransmutator;
 import com.hbm.inventory.gui.GUIMachineSchrabidiumTransmutator;
 import com.hbm.inventory.recipes.MachineRecipes;
-import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemMachineUpgrade;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.i18n.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -21,17 +27,29 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider {
+import java.util.HashMap;
+import java.util.List;
+
+public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider {
 
     public long power = 0;
     public int process = 0;
-    public static final long maxPower = 5000000;
-    public static final int processSpeed = 600;
+    public static final long maxPower = 5_000_000;
+    public static final int baseProgress = 600;
+
+    private static final int baseConsumption = 8_000;
 
     private AudioWrapper audio;
+
+    private UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
+
+    //private int speed;
+    public int progress = baseProgress;
+    private int consumption;
 
     private static final int[] slots_io = new int[] { 0, 1, 2, 3 };
 
@@ -51,10 +69,10 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
                 if (MachineRecipes.mODE(stack, OreDictManager.U.ingot()))
                     return true;
                 break;
-            case 2:
-                if (stack.getItem() == ModItems.redcoil_capacitor || stack.getItem() == ModItems.euphemium_capacitor)
-                    return true;
-                break;
+            case 2: // originally the capacitor slot, now for upgrades
+                //if (stack.getItem() == ModItems.redcoil_capacitor || stack.getItem() == ModItems.euphemium_capacitor)
+                //   return true;
+                return false;
             case 3:
                 if (stack.getItem() instanceof IBatteryItem)
                     return true;
@@ -86,10 +104,11 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
     @Override
     public boolean canExtractItem(int i, ItemStack stack, int j) {
 
-        if(stack.getItem() == ModItems.euphemium_capacitor) return false;
+        //if(stack.getItem() == ModItems.euphemium_capacitor) return false;
 
-        if(i == 2 && stack.getItem() != null && (stack.getItem() == ModItems.redcoil_capacitor && stack.getItemDamage() == stack.getMaxDamage())) {
-            return true;
+        //if(i == 2 && stack.getItem() != null && (stack.getItem() == ModItems.redcoil_capacitor && stack.getItemDamage() == stack.getMaxDamage())) {
+        if (i == 2) {
+            return false;
         }
 
         if(i == 1) {
@@ -97,29 +116,18 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
         }
 
         if(i == 3) {
-            if(stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == 0)
-                return true;
+            return stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == 0;
         }
 
         return false;
-    }
-
-    public long getPowerScaled(long i) {
-        return (power * i) / maxPower;
-    }
-
-    public int getProgressScaled(int i) {
-        return (process * i) / processSpeed;
     }
 
     public boolean canProcess() {
-        if (power >= 4990000 && slots[0] != null && MachineRecipes.mODE(slots[0], OreDictManager.U.ingot()) && slots[2] != null
-                && (slots[2].getItem() == ModItems.redcoil_capacitor && slots[2].getItemDamage() < slots[2].getMaxDamage() || slots[2].getItem() == ModItems.euphemium_capacitor)
-                && (slots[1] == null || (slots[1] != null && slots[1].getItem() == VersatileConfig.getTransmutatorItem()
-                && slots[1].stackSize < slots[1].getMaxStackSize()))) {
-            return true;
-        }
-        return false;
+        //&& (slots[2].getItem() == ModItems.redcoil_capacitor && slots[2].getItemDamage() < slots[2].getMaxDamage() || slots[2].getItem() == ModItems.euphemium_capacitor)
+        return power >= consumption // if the power is enough
+                && slots[0] != null && MachineRecipes.mODE(slots[0], OreDictManager.U.ingot())  // if the input is uranium ingot
+                // && slots[2] != null // and originally if the capacitor slot has item (deprecated)
+                && (slots[1] == null || slots[1].getItem() == VersatileConfig.getTransmutatorItem() && slots[1].stackSize < slots[1].getMaxStackSize()); // and whether the output can be successfully inserted into the output slot
     }
 
     public boolean isProcessing() {
@@ -128,10 +136,12 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 
     public void process() {
         process++;
+        power -= consumption;
+        if (power < 0) power = 0;
 
-        if (process >= processSpeed) {
+        if (process >= progress) {
 
-            power = 0;
+            //power = 0;
             process = 0;
 
             slots[0].stackSize--;
@@ -144,9 +154,10 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
             } else {
                 slots[1].stackSize++;
             }
-            if (slots[2] != null && slots[2].getItem() == ModItems.redcoil_capacitor) {
-                slots[2].setItemDamage(slots[2].getItemDamage() + 1);
-            }
+
+            //if (slots[2] != null && slots[2].getItem() == ModItems.redcoil_capacitor) {
+            //    slots[2].setItemDamage(slots[2].getItemDamage() + 1);
+            //}
 
             this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "ambient.weather.thunder", 10000.0F,
                     0.8F + this.worldObj.rand.nextFloat() * 0.2F);
@@ -161,6 +172,17 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
             this.updateConnections();
 
             power = Library.chargeTEFromItems(slots, 3, power, maxPower);
+
+            upgradeManager.checkSlots(slots, 2, 2);
+            int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+            int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+
+            progress = baseProgress * (4 - speedLevel) / 4 / (overLevel * overLevel + 1);
+            consumption = baseConsumption * (speedLevel + 1) * (overLevel * overLevel + 1);
+            /*
+             *   speed: 1.33/2/4 for speed, 2/5/10 fpr overdrive
+             *   consumption: 2/3/4 for speed and 2/5/10 for overdrive
+             */
 
             if(canProcess()) {
                 process();
@@ -191,11 +213,20 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
         }
     }
 
+    public long getPowerScaled(long i) {
+        return (power * i) / maxPower;
+    }
+
+    public int getProgressScaled(int i) {
+        return (process * i) / progress;
+    }
+
     @Override
     public void serialize(ByteBuf buf) {
         super.serialize(buf);
         buf.writeLong(this.power);
         buf.writeInt(this.process);
+        buf.writeInt(this.progress);
     }
 
     @Override
@@ -203,6 +234,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
         super.deserialize(buf);
         this.power = buf.readLong();
         this.process = buf.readInt();
+        this.progress = buf.readInt();
     }
 
     @Override
@@ -260,5 +292,30 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
     @SideOnly(Side.CLIENT)
     public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
         return new GUIMachineSchrabidiumTransmutator(player.inventory, this);
+    }
+
+    @Override
+    public boolean canProvideInfo(ItemMachineUpgrade.UpgradeType type, int level, boolean extendedInfo) {
+        return type == UpgradeType.SPEED || type == UpgradeType.OVERDRIVE;
+    }
+
+    @Override
+    public void provideInfo(ItemMachineUpgrade.UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+        info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_schrabidium_transmutator));
+        if(type == UpgradeType.SPEED) {
+            info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(IUpgradeInfoProvider.KEY_DELAY, "-" + (level * 25) + "%"));
+            info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(IUpgradeInfoProvider.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
+        }
+        if(type == UpgradeType.OVERDRIVE) {
+            info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+        }
+    }
+
+    @Override
+    public HashMap<ItemMachineUpgrade.UpgradeType, Integer> getValidUpgrades() {
+        HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+        upgrades.put(UpgradeType.SPEED, 3);
+        upgrades.put(UpgradeType.OVERDRIVE, 3);
+        return upgrades;
     }
 }
