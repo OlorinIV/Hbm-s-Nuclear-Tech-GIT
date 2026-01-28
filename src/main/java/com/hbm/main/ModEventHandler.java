@@ -32,7 +32,6 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.*;
-import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
@@ -269,37 +268,48 @@ public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event) {
+
 		HbmLivingProps.setRadiation(event.entityLiving, 0);
+
 		if(event.entity.worldObj.isRemote)
 			return;
+
 		if(GeneralConfig.enableCataclysm) {
 			EntityBurningFOEQ foeq = new EntityBurningFOEQ(event.entity.worldObj);
 			foeq.setPositionAndRotation(event.entity.posX, 500, event.entity.posZ, 0.0F, 0.0F);
 			event.entity.worldObj.spawnEntityInWorld(foeq);
 		}
 		if(event.entity instanceof EntityCreeperTainted && event.source == ModDamageSource.boxcar) {
+
 			for(Object o : event.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, event.entity.boundingBox.expand(50, 50, 50))) {
 				EntityPlayer player = (EntityPlayer)o;
 				player.triggerAchievement(MainRegistry.bobHidden);
 			}
 		}
+
 		if(!event.entityLiving.worldObj.isRemote) {
+
 			if(event.source instanceof EntityDamageSource && ((EntityDamageSource)event.source).getEntity() instanceof EntityPlayer
 					 && !(((EntityDamageSource)event.source).getEntity() instanceof FakePlayer)) {
+
 				if(event.entityLiving instanceof EntitySpider && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.spider_milk, 1);
 				}
+
 				if(event.entityLiving instanceof EntityCaveSpider && event.entityLiving.getRNG().nextInt(100) == 0) {
 					event.entityLiving.dropItem(ModItems.serum, 1);
 				}
+
 				if(event.entityLiving instanceof EntityAnimal && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.bandaid, 1);
 				}
+
 				if(event.entityLiving instanceof IMob) {
 					if(event.entityLiving.getRNG().nextInt(1000) == 0) event.entityLiving.dropItem(ModItems.heart_piece, 1);
 					if(event.entityLiving.getRNG().nextInt(250) == 0) event.entityLiving.dropItem(ModItems.key_red_cracked, 1);
 					if(event.entityLiving.getRNG().nextInt(250) == 0) event.entityLiving.dropItem(ModItems.launch_code_piece, 1);
 				}
+
 				if(event.entityLiving instanceof EntityCyberCrab && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.wd40, 1);
 				}
@@ -309,20 +319,31 @@ public class ModEventHandler {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityDeathLast(LivingDeathEvent event) {
+
 		if(event.entityLiving instanceof EntityPlayer) {
+
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
+
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+
 				ItemStack stack = player.inventory.getStackInSlot(i);
+
 				if(stack != null && stack.getItem() == ModItems.detonator_deadman) {
+
 					if(stack.stackTagCompound != null) {
+
 						int x = stack.stackTagCompound.getInteger("x");
 						int y = stack.stackTagCompound.getInteger("y");
 						int z = stack.stackTagCompound.getInteger("z");
+
 						if(!player.worldObj.isRemote && player.worldObj.getBlock(x, y, z) instanceof IBomb) {
+
 							((IBomb) player.worldObj.getBlock(x, y, z)).explode(player.worldObj, x, y, z);
+
 							if(GeneralConfig.enableExtendedLogging)
 								MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by dead man's switch from " + player.getDisplayName() + "!");
 						}
+
 						player.inventory.setInventorySlotContents(i, null);
 					}
 				}
@@ -459,7 +480,7 @@ public class ModEventHandler {
 
 		ItemStack[] prevArmor = event.entityLiving.previousEquipment;
 
-		if(event.entityLiving instanceof EntityPlayer && prevArmor != null && event.entityLiving.getHeldItem() != null
+		if(event.entityLiving instanceof EntityPlayerMP && prevArmor != null && event.entityLiving.getHeldItem() != null
 				&& (prevArmor[0] == null || prevArmor[0].getItem() != event.entityLiving.getHeldItem().getItem())
 				&& event.entityLiving.getHeldItem().getItem() instanceof IEquipReceiver) {
 
@@ -491,11 +512,15 @@ public class ModEventHandler {
 			}
 
 			if(armor != null && ArmorModHandler.hasMods(armor)) {
+
 				for(ItemStack mod : ArmorModHandler.pryMods(armor)) {
+
 					if(mod != null && mod.getItem() instanceof ItemArmorMod) {
 						((ItemArmorMod)mod.getItem()).modUpdate(event.entityLiving, armor);
 						HazardSystem.applyHazards(mod, event.entityLiving);
+
 						if(reapply) {
+
 							Multimap map = ((ItemArmorMod)mod.getItem()).getModifiers(armor);
 
 							if(map != null)
@@ -926,8 +951,6 @@ public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onItemPickup(PlayerEvent.ItemPickupEvent event) {
-		if(event.pickedUp.getEntityItem().getItem() == ModItems.canned_conserve && EnumUtil.grabEnumSafely(EnumFoodType.class, event.pickedUp.getEntityItem().getItemDamage()) == EnumFoodType.JIZZ)
-			event.player.triggerAchievement(MainRegistry.achC20_5);
 		if(event.pickedUp.getEntityItem().getItem() == Items.slime_ball)
 			event.player.triggerAchievement(MainRegistry.achSlimeball);
 	}
