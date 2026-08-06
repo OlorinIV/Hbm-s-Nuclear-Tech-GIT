@@ -7,8 +7,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
@@ -20,16 +20,16 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.VersatileConfig;
-import com.hbm.entity.grenade.EntityGrenadeASchrab;
-import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
-import com.hbm.entity.projectile.EntityExplosiveBeam;
+import com.hbm.entity.grenade.EntityGrenadeUniversal;
+import com.hbm.entity.projectile.EntityB92Beam;
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.interfaces.Spaghetti;
-import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.util.ArmorUtil;
 import com.hbm.util.Compat;
+import com.hbm.util.EntityDamageUtil;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import cofh.api.energy.IEnergyProvider;
@@ -59,63 +59,71 @@ public class ExplosionNukeGeneric {
 			}
 		}
 	}
-
+	
 	public static void dealDamage(World world, double x, double y, double z, double radius) {
 		dealDamage(world, x, y, z, radius, 250F);
 	}
-
+	
 	public static void dealDamage(World world, double x, double y, double z, double radius, float maxDamage) {
 
 		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(radius, radius, radius));
-
+		
 		for(Entity e : list) {
-
+			
 			double dist = e.getDistance(x, y, z);
-
+			
 			if(dist <= radius) {
-
+				
 				double entX = e.posX;
 				double entY = e.posY + e.getEyeHeight();
 				double entZ = e.posZ;
-
+				
 				if(!isExplosionExempt(e) && !Library.isObstructed(world, x, y, z, entX, entY, entZ)) {
-
+					
+					boolean doKnockback = true;
 					double damage = maxDamage * (radius - dist) / radius;
-					e.attackEntityFrom(ModDamageSource.nuclearBlast, (float)damage);
+					if(e instanceof EntityLivingBase && e.isEntityAlive()) {
+						EntityLivingBase living = (EntityLivingBase) e;
+						doKnockback = EntityDamageUtil.attackEntityFromNT(living, ModDamageSource.nuclearBlast, (float) damage, true, true, 0, 100F, 0);
+						if(!e.isEntityAlive()) ConfettiUtil.decideConfetti(living, ModDamageSource.nuclearBlast);
+					} else {
+						e.attackEntityFrom(ModDamageSource.nuclearBlast, (float) damage);
+					}
+					
 					e.setFire(5);
-
-					double knockX = e.posX - x;
-					double knockY = e.posY + e.getEyeHeight() - y;
-					double knockZ = e.posZ - z;
-
-					Vec3 knock = Vec3.createVectorHelper(knockX, knockY, knockZ);
-					knock = knock.normalize();
-
-					e.motionX += knock.xCoord * 0.2D;
-					e.motionY += knock.yCoord * 0.2D;
-					e.motionZ += knock.zCoord * 0.2D;
+					
+					if(doKnockback) {
+						double knockX = e.posX - x;
+						double knockY = e.posY + e.getEyeHeight() - y;
+						double knockZ = e.posZ - z;
+						
+						Vec3 knock = Vec3.createVectorHelper(knockX, knockY, knockZ);
+						knock = knock.normalize();
+						
+						e.motionX += knock.xCoord * 0.2D;
+						e.motionY += knock.yCoord * 0.2D;
+						e.motionZ += knock.zCoord * 0.2D;
+					}
 				}
 			}
 		}
 	}
-
+	
 	@Spaghetti("just look at it")
 	private static boolean isExplosionExempt(Entity e) {
-
+		
 		if (e instanceof EntityOcelot ||
-				e instanceof EntityGrenadeASchrab ||
-				e instanceof EntityGrenadeNuclear ||
-				e instanceof EntityExplosiveBeam ||
+				e instanceof EntityB92Beam ||
 				e instanceof EntityBulletBaseNT ||
-				e instanceof EntityPlayer &&
-				ArmorUtil.checkArmor((EntityPlayer) e, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
+				e instanceof EntityBulletBaseMK4 ||
+				e instanceof EntityGrenadeUniversal) {
 			return true;
 		}
-
+		
 		if (e instanceof EntityPlayerMP && ((EntityPlayerMP)e).theItemInWorldManager.getGameType() == GameType.CREATIVE) {
 			return true;
 		}
-
+		
 		return false;
 	}
 
@@ -195,7 +203,7 @@ public class ExplosionNukeGeneric {
 					return 0;
 				}
 			}
-
+			
 			if (b.isFlammable(world, x, y, z, ForgeDirection.UP)
 					&& world.getBlock(x, y + 1, z) == Blocks.air) {
 				world.setBlock(x, y + 1, z, Blocks.fire,0,2);
@@ -231,10 +239,6 @@ public class ExplosionNukeGeneric {
 		if (!world.isRemote) {
 			int rand;
 			Block b = world.getBlock(x,y,z);
-
-			Block certus = Compat.tryLoadBlock(Compat.MOD_AE, "tile.OreQuartz");
-			Block certus_charged = Compat.tryLoadBlock(Compat.MOD_AE, "tile.OreQuartzCharged");
-
 			if (b == Blocks.wooden_door || b == Blocks.iron_door) {
 				world.setBlock(x, y, z, Blocks.air,0,2);
 			}
@@ -294,7 +298,7 @@ public class ExplosionNukeGeneric {
 					world.setBlock(x, y, z, Blocks.air,0,2);
 				}
 			}
-
+			
 			else if (b.getMaterial() == Material.wood && b.isOpaqueCube() && b != ModBlocks.waste_log) {
 				world.setBlock(x, y, z, ModBlocks.waste_planks);
 			}
@@ -323,15 +327,6 @@ public class ExplosionNukeGeneric {
 					world.setBlock(x, y, z, ModBlocks.ore_gneiss_schrabidium);
 				} else {
 					world.setBlock(x, y, z, ModBlocks.ore_gneiss_uranium_scorched);
-				}
-			}
-
-			else if (b == Blocks.quartz_ore && certus != null && certus_charged != null) {
-				rand = random.nextInt(15);
-				if (rand == 1) {
-					world.setBlock(x, y, z, certus_charged);
-				} else {
-					world.setBlock(x, y, z, certus);
 				}
 			}
 
@@ -434,14 +429,15 @@ public class ExplosionNukeGeneric {
 
 	public static void emp(World world, int x, int y, int z) {
 		if (!world.isRemote) {
-
-			TileEntity te = world.getTileEntity(x, y, z);
-
-			if (te != null && te instanceof IEnergyHandlerMK2) {
+			
+			TileEntity te = Compat.getTileStandard(world, x, y, z);
+			if(te == null) return;
+			
+			if(te instanceof IEnergyHandlerMK2) {
 				((IEnergyHandlerMK2)te).setPower(0);
 				if(random.nextInt(5) < 1) world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
 			}
-			if (te != null && te instanceof IEnergyProvider) {
+			if(te instanceof IEnergyProvider) {
 
 				((IEnergyProvider)te).extractEnergy(ForgeDirection.UP, ((IEnergyProvider)te).getEnergyStored(ForgeDirection.UP), false);
 				((IEnergyProvider)te).extractEnergy(ForgeDirection.DOWN, ((IEnergyProvider)te).getEnergyStored(ForgeDirection.DOWN), false);
@@ -449,9 +445,8 @@ public class ExplosionNukeGeneric {
 				((IEnergyProvider)te).extractEnergy(ForgeDirection.SOUTH, ((IEnergyProvider)te).getEnergyStored(ForgeDirection.SOUTH), false);
 				((IEnergyProvider)te).extractEnergy(ForgeDirection.EAST, ((IEnergyProvider)te).getEnergyStored(ForgeDirection.EAST), false);
 				((IEnergyProvider)te).extractEnergy(ForgeDirection.WEST, ((IEnergyProvider)te).getEnergyStored(ForgeDirection.WEST), false);
-
-				if(random.nextInt(5) <= 1)
-					world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
+				
+				if(random.nextInt(5) <= 1) world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
 			}
 		}
 	}
@@ -460,17 +455,12 @@ public class ExplosionNukeGeneric {
 		if (!world.isRemote) {
 			Block b = world.getBlock(x,y,z);
 			Material m = b.getMaterial();
-
+			
 			if(b == Blocks.grass || b == Blocks.mycelium || b == ModBlocks.waste_earth || b == ModBlocks.waste_mycelium) {
 				world.setBlock(x, y, z, Blocks.dirt);
 				return;
 			}
-
-			if(b == ModBlocks.taint || b == ModBlocks.fallout || b == ModBlocks.balefire || b == ModBlocks.fire_digamma) {
-				world.setBlockToAir(x, y, z);
-				return;
-			}
-
+			
 			if(m == Material.cactus || m == Material.coral || m == Material.leaves || m == Material.plants || m == Material.sponge || m == Material.vine || m == Material.gourd || m == Material.wood) {
 				world.setBlockToAir(x, y, z);
 			}

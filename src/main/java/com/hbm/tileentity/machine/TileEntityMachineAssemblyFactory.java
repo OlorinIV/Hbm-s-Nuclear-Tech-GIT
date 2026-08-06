@@ -12,13 +12,13 @@ import com.hbm.inventory.container.ContainerMachineAssemblyFactory;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineAssemblyFactory;
-import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.module.machine.ModuleMachineAssembler;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConditionalInvAccess;
@@ -32,6 +32,7 @@ import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -46,7 +47,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 // TODO: make a base class because 90% of this is just copy pasted from the chemfac
 @NotableComments
-public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IProxyDelegateProvider, IConditionalInvAccess {
+public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IProxyDelegateProvider, IConditionalInvAccess, IRORValueProvider {
 
 	public FluidTank[] allTanks;
 	public FluidTank[] inputTanks;
@@ -160,7 +161,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			
 			long nextMaxPower = 0;
 			for(int i = 0; i < 4; i++) {
-				GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(assemblerModule[i].recipe);
+				GenericRecipe recipe = assemblerModule[i].getRecipe();
 				if(recipe != null) {
 					nextMaxPower += recipe.power * 2_500;
 				}
@@ -238,7 +239,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 	}
 
 	@Override public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.motor", xCoord, yCoord, zCoord, 0.5F, 15F, 0.75F, 20);
+		return MainRegistry.proxy.getLoopedSound(NTMSounds.ELECTRIC_MOTOR_LOOP, xCoord, yCoord, zCoord, 0.5F, 15F, 0.75F, 20);
 	}
 
 	@Override public void onChunkUnload() {
@@ -377,7 +378,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");
 			if(index >= 0 && index < 4) {
-				this.assemblerModule[index].recipe = selection;
+				this.assemblerModule[index].setRecipe(selection, false);
 				this.markChanged();
 			}
 		}
@@ -497,7 +498,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				if(striker.state == ArmState.WAIT && saw.state == ArmState.WAIT) { // only progress as soon as both arms are done moving
 					state = YuriState.SLIDING;
 					direction = !direction;
-					if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStart", getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
+					if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_START, getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
 				}
 			} break;
 			case SLIDING: {
@@ -594,11 +595,11 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 						if(saw) {
 							state = ArmState.CUT;
 							targetAngles[2] = -targetAngles[2];
-							if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerCut", getVolume(0.5F), 1F + rand.nextFloat() * 0.25F);
+							if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_CUT, getVolume(0.5F), 1F + rand.nextFloat() * 0.25F);
 						} else {
 							state = ArmState.RETRACT;
 							targetAngles[3] = 0D;
-							if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStrike", getVolume(0.5F), 1F);
+							if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_STRIKE, getVolume(0.5F), 1F);
 						}
 					}
 					break;
@@ -724,5 +725,35 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 		RETRACT,
 		RETIRE, // return to null position for carriage transit
 		WAIT // either waiting for or in the middle of carriage transit
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "progress1",
+				PREFIX_VALUE + "progress2",
+				PREFIX_VALUE + "progress3",
+				PREFIX_VALUE + "progress4",
+				PREFIX_VALUE + "recipe1",
+				PREFIX_VALUE + "recipe2",
+				PREFIX_VALUE + "recipe3",
+				PREFIX_VALUE + "recipe4",
+				PREFIX_VALUE + "anyactive",
+				PREFIX_VALUE + "active1",
+				PREFIX_VALUE + "active2",
+				PREFIX_VALUE + "active3",
+				PREFIX_VALUE + "active4",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "anyactive").equals(name))			return "" + ((this.didProcess[0] || this.didProcess[1] || this.didProcess[2] || this.didProcess[3]) ? 1 : 0);
+		for(int i = 0; i < 4; i++) {
+			if((PREFIX_VALUE + "progress" + i).equals(name))	return "" + (int) Math.round(this.assemblerModule[i].progress * 100);
+			if((PREFIX_VALUE + "recipe" + i).equals(name))		return this.assemblerModule[i].getRecipeName();
+			if((PREFIX_VALUE + "active" + i).equals(name))		return "" + (this.didProcess[i] ? 1 : 0);
+		}
+		return null;
 	}
 }

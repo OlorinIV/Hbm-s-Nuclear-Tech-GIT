@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.lwjgl.input.Keyboard;
+
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager;
@@ -19,6 +21,8 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -77,17 +81,20 @@ public class GenericRecipe {
 	public GenericRecipe setPools528(String... pools) { if(GeneralConfig.enable528) { this.blueprintPools = pools; for(String pool : pools) GenericRecipes.addToPool(pool, this); } return this; }
 	public GenericRecipe setGroup(String autoSwitch, GenericRecipes set) { this.autoSwitchGroup = autoSwitch; set.addToGroup(autoSwitch, this); return this; }
 
-	public GenericRecipe inputItems(AStack... input) { this.inputItem = input; for(AStack stack : this.inputItem) if(exceedsStackLimit(stack)) throw new IllegalArgumentException("AStack in " + this.name + " exceeds stack limit!"); return this; }
-	public GenericRecipe inputItemsEx(AStack... input) { if(!GeneralConfig.enableExpensiveMode) return this; this.inputItem = input; for(AStack stack : this.inputItem) if(exceedsStackLimit(stack)) throw new IllegalArgumentException("AStack in " + this.name + " exceeds stack limit!"); return this; }
+	public GenericRecipe inputItems(AStack... input) { this.inputItem = input; for(AStack stack : this.inputItem) checkStackLimit(stack); return this; }
+	public GenericRecipe inputItemsEx(AStack... input) { if(!GeneralConfig.enableExpensiveMode) return this; this.inputItem = input; for(AStack stack : this.inputItem) checkStackLimit(stack); return this; }
 	public GenericRecipe inputFluids(FluidStack... input) { this.inputFluid = input; return this; }
 	public GenericRecipe inputFluidsEx(FluidStack... input) { if(!GeneralConfig.enableExpensiveMode) return this; this.inputFluid = input; return this; }
 	public GenericRecipe outputItems(IOutput... output) { this.outputItem = output; return this; }
 	public GenericRecipe outputFluids(FluidStack... output) { this.outputFluid = output; return this; }
 	
-	private boolean exceedsStackLimit(AStack stack) {
-		if(stack instanceof ComparableStack && stack.stacksize > ((ComparableStack) stack).item.getItemStackLimit(((ComparableStack) stack).toStack())) return true;
-		if(stack.stacksize > 64) return true;
-		return false;
+	private void checkStackLimit(AStack stack) {
+		int max = 64;
+		if(stack instanceof ComparableStack) {
+			ComparableStack comp = (ComparableStack) stack;
+			max = comp.item.getItemStackLimit(comp.toStack());
+		}
+		if(stack.stacksize > max) throw new IllegalArgumentException("AStack " + stack + " in " + this.name + " exceeds stack limit of " + max + "!");
 	}
 
 	public GenericRecipe outputItems(ItemStack... output) {
@@ -132,11 +139,22 @@ public class GenericRecipe {
 		if(this.nameWrapper != null) name = I18nUtil.resolveKey(this.nameWrapper, name);
 		return name;
 	}
+	
+	public void printNEIExtras() {
+
+		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+		String duration = BobMathUtil.getShortNumber(this.duration) + " ticks";
+		String consumption = BobMathUtil.getShortNumber(this.power) + "HE/t";
+		
+		int side = 164;
+		fontRenderer.drawString(duration, side - fontRenderer.getStringWidth(duration), 45, 0x404040);
+		fontRenderer.drawString(consumption, side - fontRenderer.getStringWidth(consumption), 57, 0x404040);
+	}
 
 	public List<String> print() {
 		List<String> list = new ArrayList();
-		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
 
+		header(list);
 		autoSwitch(list);
 		duration(list);
 		power(list);
@@ -144,6 +162,11 @@ public class GenericRecipe {
 		output(list);
 
 		return list;
+	}
+	
+	protected void header(List<String> list) {
+		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) list.add(EnumChatFormatting.DARK_GRAY + "Internal: " + this.getInternalName());
 	}
 	
 	protected void autoSwitch(List<String> list) {
@@ -185,7 +208,6 @@ public class GenericRecipe {
 			list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + pressurePart);
 		}
 	}
-
 
 	/** Default impl only matches localized name substring, can be extended to include ingredients as well */
 	public boolean matchesSearch(String substring) {

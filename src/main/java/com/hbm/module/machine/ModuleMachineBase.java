@@ -25,11 +25,12 @@ public abstract class ModuleMachineBase {
 	public FluidTank[] inputTanks;
 	public FluidTank[] outputTanks;
 	// running vars
-	public String recipe = "null";
+	protected String recipe = "null";
 	public double progress;
 	// return signals
 	public boolean didProcess = false;
 	public boolean markDirty = false;
+	public boolean restrictedMode = false;
 
 	public ModuleMachineBase(int index, IEnergyHandlerMK2 battery, ItemStack[] slots) {
 		this.index = index;
@@ -68,10 +69,10 @@ public abstract class ModuleMachineBase {
         int multi = findMultiplier(recipe); // for calculating the times that the current recipe can be done
 		
 		if(multi == 0) return 0;
-		
+
 		return fitOutput(recipe, multi);
 	}
-	
+
 	protected int findMultiplier(GenericRecipe recipe) {
 		int count = 50; // the fallback value of 50
         if(recipe.inputItem != null) {
@@ -127,12 +128,13 @@ public abstract class ModuleMachineBase {
 	}
 	
 	public void process(GenericRecipe recipe, double speed, double power, int count) {
+		if(this.restrictedMode) speed *= 0.25; // RoR controlled machines have a speed penalty
 		
 		this.battery.setPower(this.battery.getPower() - (power == 1 ? recipe.power : (long) (recipe.power * power)));
 		double step = speed / recipe.duration; // now this should be able to do multiple times of recipe in one tick
 		this.progress += step;
         int multi = Math.min((int)this.progress, count);
-		
+
 		if(multi > 0) {
 			consumeInput(recipe, multi);
 			produceItem(recipe, multi);
@@ -183,10 +185,19 @@ public abstract class ModuleMachineBase {
 		this.markDirty = true;
 	}
 
+	public String getRecipeName() {
+		return this.recipe;
+	}
+
 	public GenericRecipe getRecipe() {
 		return (GenericRecipe) getRecipeSet().recipeNameMap.get(this.recipe);
 	}
 	
+	public void setRecipe(String name, boolean ror) {
+		this.recipe = name;
+		this.restrictedMode = ror;
+	}
+
 	public abstract GenericRecipes getRecipeSet();
 	
 	public void update(double speed, double power, boolean extraCondition, ItemStack blueprint) {
@@ -248,21 +259,25 @@ public abstract class ModuleMachineBase {
 	
 	public void serialize(ByteBuf buf) {
 		buf.writeDouble(progress);
+		buf.writeBoolean(restrictedMode);
 		ByteBufUtils.writeUTF8String(buf, recipe);
 	}
 	
 	public void deserialize(ByteBuf buf) {
 		this.progress = buf.readDouble();
+		this.restrictedMode = buf.readBoolean();
 		this.recipe = ByteBufUtils.readUTF8String(buf);
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.progress = nbt.getDouble("progress" + index);
 		this.recipe = nbt.getString("recipe" + index);
+		this.restrictedMode = nbt.getBoolean("restrictedMode");
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setDouble("progress" + index, progress);
 		nbt.setString("recipe" + index, recipe);
+		nbt.setBoolean("restrictedMode", restrictedMode);
 	}
 }

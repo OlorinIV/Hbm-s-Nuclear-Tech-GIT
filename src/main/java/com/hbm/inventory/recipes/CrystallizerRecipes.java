@@ -117,7 +117,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(new ComparableStack(ModItems.powder_desh_ready),	new CrystallizerRecipe(ModItems.ingot_desh, baseTime).prod(0.05F));
 		registerRecipe(new ComparableStack(ModItems.powder_desh_ready),	new CrystallizerRecipe(ItemScraps.create(new MaterialStack(Mats.MAT_DESH, MaterialShapes.INGOT.q(1))), utilityTime).prod(0.05F), sulfur);
 		registerRecipe(new ComparableStack(ModItems.powder_meteorite),	new CrystallizerRecipe(ModItems.fragment_meteorite, utilityTime).prod(0.3F));
-		registerRecipe(new OreDictStack(CD.dust()),						new CrystallizerRecipe(ModItems.ingot_rubber, utilityTime).prod(0.05F), new FluidStack(Fluids.FISHOIL, 250));
+		registerRecipe(new OreDictStack(CD.dust()),						new CrystallizerRecipe(new ItemStack(ModItems.ingot_rubber, 16), utilityTime).prod(0.05F), new FluidStack(Fluids.FISHOIL, 4_000));
 		registerRecipe(new OreDictStack(LATEX.ingot()),					new CrystallizerRecipe(ModItems.ingot_rubber, mixingTime).prod(0.15F), new FluidStack(Fluids.SOURGAS, 25));
 		registerRecipe(new ComparableStack(ModItems.powder_sawdust),	new CrystallizerRecipe(ModItems.cordite, mixingTime).prod(0.25F), new FluidStack(Fluids.NITROGLYCERIN, 250));
 		registerRecipe(new ComparableStack(ModBlocks.rebar),			new CrystallizerRecipe(ModBlocks.concrete_rebar, 10), new FluidStack(Fluids.CONCRETE, 1_000));

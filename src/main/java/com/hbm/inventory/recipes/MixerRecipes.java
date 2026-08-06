@@ -104,7 +104,9 @@ public class MixerRecipes extends SerializableRecipe {
 
 		register(Fluids.PERFLUOROMETHYL, new MixerRecipe(1000, 20).setStack1(new FluidStack(Fluids.PETROLEUM, 1000)).setStack2(new FluidStack(Fluids.UNSATURATEDS, 500)).setSolid(new OreDictStack(F.dust())));
 
-		//NTMC Speacial
+		register(Fluids.BITUMEN, new MixerRecipe(50, 20).setSolid(new OreDictStack(ANY_TAR.any())));
+
+        //NTMC Special
 		register(Fluids.CRYOGEL_MOD, new MixerRecipe(20000, 40).setStack1(new FluidStack(Fluids.CRYOGEL, 16000)).setStack2(new FluidStack(Fluids.HELIUM4, 2000)).setSolid(new ComparableStack(ModItems.powder_magic)));
 		//register(Fluids.LYE, new MixerRecipe(50, 50).setStack1(new FluidStack(Fluids.WATER, 100)).setSolid(new OreDictStack(NA.dust())));
 	}

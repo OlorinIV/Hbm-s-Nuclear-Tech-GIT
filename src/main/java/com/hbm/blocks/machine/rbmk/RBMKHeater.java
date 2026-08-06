@@ -13,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class RBMKHeater extends RBMKBase {
+public class RBMKHeater extends RBMKPipedBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
@@ -59,10 +59,5 @@ public class RBMKHeater extends RBMKBase {
             }
         }
         return true;
-	}
-	
-	@Override
-	public int getRenderType(){
-		return this.renderIDControl;
 	}
 }

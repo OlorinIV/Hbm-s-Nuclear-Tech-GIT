@@ -1,0 +1,7 @@
+<factorypath>
+    <factorypathentry kind="EXTJAR" id="/home/CrpBnrz/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.9/dfb8707031008535048bad2b69735f46d0b6c5e5/byte-buddy-agent-1.14.9.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="/home/CrpBnrz/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.18.1/b27ba04287cc4abe769642fe8318d39fc89bf937/jna-5.18.1.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="/home/CrpBnrz/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna-platform/5.18.1/dd817f391efc492041c9ae91127527c13750a789/jna-platform-5.18.1.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="/home/CrpBnrz/.gradle/caches/modules-2/files-2.1/com.github.GTNewHorizons/jabel-javac-plugin/1.0.2-GTNH/7d3b0e7b577d483997b909ed0af109e511ef6ff2/jabel-javac-plugin-1.0.2-GTNH.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="/home/CrpBnrz/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy/1.14.9/b69e7fff6c473d3ed2b489cdfd673a091fd94226/byte-buddy-1.14.9.jar" enabled="true" runInBatchMode="false"/>
+</factorypath>

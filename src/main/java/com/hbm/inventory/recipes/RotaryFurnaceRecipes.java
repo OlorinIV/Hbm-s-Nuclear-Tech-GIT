@@ -53,7 +53,7 @@ public class RotaryFurnaceRecipes extends SerializableRecipe {
 
 		//NTMC Addon
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_MINGRADE, INGOT.q(2)), 100, 50, new OreDictStack(CU.ingot()), new OreDictStack(REDSTONE.dust())));
-		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALLOY, INGOT.q(2)), 100, 50, new OreDictStack(MINGRADE.ingot()), new OreDictStack(STEEL.ingot())));
+
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_DURA, INGOT.q(9)), 200, 50, new OreDictStack(STEEL.ingot(), 5), new OreDictStack(W.ingot(), 3), new OreDictStack(CO.ingot())));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_FERRO, INGOT.q(3)), 250, 50, new OreDictStack(STEEL.ingot(), 2), new OreDictStack(U238.ingot(), 1)));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_BBRONZE, INGOT.q(9)), 400, 100, new OreDictStack(CU.ingot(), 8), new OreDictStack(BI.ingot(), 1), new ComparableStack(ModItems.powder_flux, 3)));

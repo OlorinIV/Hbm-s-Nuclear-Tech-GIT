@@ -20,6 +20,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
+@Deprecated
 public class MachineLargeTurbine extends BlockDummyable implements ITooltipProvider {
 
 	public MachineLargeTurbine(Material mat) {

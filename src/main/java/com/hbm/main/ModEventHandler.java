@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import com.hbm.blocks.IStepTickReceiver;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
+import com.hbm.blocks.generic.BlockPedestal;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
@@ -32,7 +33,6 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.*;
-import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.factory.XFactory12ga;
@@ -153,7 +153,7 @@ public class ModEventHandler {
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
 
 
-			if(GeneralConfig.enableGuideBook) {
+			/*if(GeneralConfig.enableGuideBook) {
 				HbmPlayerProps props = HbmPlayerProps.getData(event.player);
 
 				if(!props.hasReceivedBook) {
@@ -161,7 +161,7 @@ public class ModEventHandler {
 					event.player.inventoryContainer.detectAndSendChanges();
 					props.hasReceivedBook = true;
 				}
-			}
+			}*/
 
 			if(GeneralConfig.enableServerRecipeSync && FMLCommonHandler.instance().getSide() == Side.SERVER && event.player instanceof EntityPlayerMP) {
 				File recDir = new File(MainRegistry.configDir.getAbsolutePath() + File.separatorChar + "hbmRecipes");
@@ -287,31 +287,39 @@ public class ModEventHandler {
 			}
 		}
 
-		if(!event.entityLiving.worldObj.isRemote) {
+		if(!event.entityLiving.worldObj.isRemote && event.entityLiving.worldObj.getGameRules().getGameRuleBooleanValue("doMobLoot")) {
 
 			if(event.source instanceof EntityDamageSource && ((EntityDamageSource)event.source).getEntity() instanceof EntityPlayer
 					 && !(((EntityDamageSource)event.source).getEntity() instanceof FakePlayer)) {
 
-				if(event.entityLiving instanceof EntitySpider && event.entityLiving.getRNG().nextInt(500) == 0) {
+				Random rng = event.entityLiving.getRNG();
+
+				if(event.entityLiving instanceof EntitySpider && rng.nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.spider_milk, 1);
 				}
 
-				if(event.entityLiving instanceof EntityCaveSpider && event.entityLiving.getRNG().nextInt(100) == 0) {
+				if(event.entityLiving instanceof EntityCaveSpider && rng.nextInt(100) == 0) {
 					event.entityLiving.dropItem(ModItems.serum, 1);
 				}
 
-				if(event.entityLiving instanceof EntityAnimal && event.entityLiving.getRNG().nextInt(500) == 0) {
+				if(event.entityLiving instanceof EntityAnimal && rng.nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.bandaid, 1);
 				}
 
 				if(event.entityLiving instanceof IMob) {
-					if(event.entityLiving.getRNG().nextInt(1000) == 0) event.entityLiving.dropItem(ModItems.heart_piece, 1);
-					if(event.entityLiving.getRNG().nextInt(250) == 0) event.entityLiving.dropItem(ModItems.key_red_cracked, 1);
-					if(event.entityLiving.getRNG().nextInt(250) == 0) event.entityLiving.dropItem(ModItems.launch_code_piece, 1);
+					if(rng.nextInt(1000) == 0) event.entityLiving.dropItem(ModItems.heart_piece, 1);
+					if(rng.nextInt(250) == 0) event.entityLiving.dropItem(ModItems.key_red_cracked, 1);
+					if(rng.nextInt(250) == 0) event.entityLiving.dropItem(ModItems.launch_code_piece, 1);
 				}
 
-				if(event.entityLiving instanceof EntityCyberCrab && event.entityLiving.getRNG().nextInt(500) == 0) {
+				if(event.entityLiving instanceof EntityCyberCrab && rng.nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.wd40, 1);
+				}
+
+				if(event.entityLiving instanceof EntityZombie) {
+					if(rng.nextInt(200) == 0) event.entityLiving.dropItem(ModItems.ingot_copper, 1);
+					if(rng.nextInt(200) == 0) event.entityLiving.dropItem(ModItems.ingot_aluminium, 1);
+					if(rng.nextInt(200) == 0) event.entityLiving.dropItem(ModItems.ingot_titanium, 1);
 				}
 			}
 		}
@@ -367,10 +375,10 @@ public class ModEventHandler {
 				MobUtil.equipFullSet(entity, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots);
 				return;
 			}
-			slotPools = MobUtil.slotPoolCommon;
+			slotPools = MobUtil.slotPoolCommonS;
 
 		} else if(entity instanceof EntitySkeleton) {
-			slotPools = MobUtil.slotPoolRanged;
+			slotPools = MobUtil.slotPoolRangedS;
 			ItemStack bowReplacement = getSkelegun(soot, world.rand);
 			slotPools.put(0, createSlotPool(50, bowReplacement != null ? new Object[][]{{bowReplacement, 1}} : new Object[][]{}));
 		}
@@ -395,8 +403,10 @@ public class ModEventHandler {
 	}
 
 	private static ItemStack getSkelegun(float soot, Random rand) {
-		if (!MobConfig.enableMobWeapons) return null;
-		if (rand.nextDouble() > Math.log(soot) * 0.25) return null;
+		if(!MobConfig.enableMobWeapons) return null;
+
+		soot -= MobConfig.mobWeaponSootReduction;
+		if(rand.nextDouble() > Math.log(soot) * 0.25) return null;
 
 		ArrayList<WeightedRandomObject> pool = new ArrayList<>();
 
@@ -405,9 +415,9 @@ public class ModEventHandler {
 			pool.add(new WeightedRandomObject(null, 20));
 		} else if(soot > 0.3 && soot < 1) {
 			pool.addAll(MobUtil.slotPoolGuns.get(0.3));
-		} else if (soot < 3) {
+		} else if(soot < 3) {
 			pool.addAll(MobUtil.slotPoolGuns.get(1D));
-		} else if (soot < 5) {
+		} else if(soot < 5) {
 			pool.addAll(MobUtil.slotPoolGuns.get(3D));
 		} else {
 			pool.addAll(MobUtil.slotPoolGuns.get(5D));
@@ -475,7 +485,7 @@ public class ModEventHandler {
 	public void onLivingUpdate(LivingUpdateEvent event) {
 
 		if(event.entityLiving instanceof EntityCreeper && event.entityLiving.getEntityData().getBoolean("hfr_defused")) {
-			ItemModDefuser.defuse((EntityCreeper) event.entityLiving, null, false);
+			ItemModDefuser.castrateCreeper((EntityCreeper) event.entityLiving, null, false);
 		}
 
 		ItemStack[] prevArmor = event.entityLiving.previousEquipment;
@@ -554,11 +564,14 @@ public class ModEventHandler {
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
 
-		if(event.world != null && !event.world.isRemote) {
+		World world = event.world;
+		long time = world.getTotalWorldTime();
+
+		if(world != null && !world.isRemote) {
 
 			if(reference != null) {
-				for(Object player : event.world.playerEntities) {
-					if(((EntityPlayer) player).ridingEntity != null && event.world.getTotalWorldTime() % (1 * 60 * 20) == 0) {
+				for(Object player : world.playerEntities) {
+					if(((EntityPlayer) player).ridingEntity != null && time % (1 * 60 * 20) == 0) {
 						((EntityPlayer) player).mountEntity(null);
 						didSit = true;
 					}
@@ -572,7 +585,7 @@ public class ModEventHandler {
 
 				int tickrate = Math.max(1, ServerConfig.ITEM_HAZARD_DROP_TICKRATE.get());
 
-				if(event.world.getTotalWorldTime() % tickrate == 0) {
+				if(time % tickrate == 0) {
 					List loadedEntityList = new ArrayList();
 					loadedEntityList.addAll(event.world.loadedEntityList); // ConcurrentModificationException my balls
 
@@ -584,14 +597,18 @@ public class ModEventHandler {
 						}
 					}
 				}
+			}
 
-				EntityRailCarBase.updateMotion(event.world);
+			EntityRailCarBase.updateMotion(world);
+
+			if(time % 20 == 0) {
+				BlockPedestal.checkPedestalEntries(world.provider.dimensionId, time);
 			}
 		}
 
 		if(event.phase == Phase.START) {
-			BossSpawnHandler.rollTheDice(event.world);
-			TimedGenerator.automaton(event.world, 100);
+			BossSpawnHandler.rollTheDice(world);
+			TimedGenerator.automaton(world, 100);
 		}
 	}
 
@@ -897,21 +914,6 @@ public class ModEventHandler {
 				event.getChunk().func_150807_a(x, y, z, Blocks.air, 0);
 			}
 		}*/
-
-		for(int x = 0; x < 16; x++) for(int y = 0; y < 255; y++) for(int z = 0; z < 16; z++) {
-			if(event.getChunk().getBlock(x, y, z) == ModBlocks.absorber) {
-				event.getChunk().func_150807_a(x, y, z, ModBlocks.rad_absorber, 0);
-			}
-			else if(event.getChunk().getBlock(x, y, z) == ModBlocks.absorber_red) {
-				event.getChunk().func_150807_a(x, y, z, ModBlocks.rad_absorber, 1);
-			}
-			else if(event.getChunk().getBlock(x, y, z) == ModBlocks.absorber_green) {
-				event.getChunk().func_150807_a(x, y, z, ModBlocks.rad_absorber, 2);
-			}
-			else if(event.getChunk().getBlock(x, y, z) == ModBlocks.absorber_pink) {
-				event.getChunk().func_150807_a(x, y, z, ModBlocks.rad_absorber, 3);
-			}
-		}
 	}
 
 	@SubscribeEvent
@@ -1019,6 +1021,7 @@ public class ModEventHandler {
 		}
 	}
 
+
 	@SubscribeEvent
 	public void chatEvent(ServerChatEvent event) {
 
@@ -1101,9 +1104,12 @@ public class ModEventHandler {
 
 		if(stack != null && stack.getItem() instanceof ItemFood) {
 
-			if(stack.hasTagCompound() && stack.getTagCompound().getBoolean("ntmCyanide")) {
-				for(int i = 0; i < 10; i++) {
+			if(stack.hasTagCompound()) {
+				if(stack.getTagCompound().getBoolean("ntmCyanide")) for(int i = 0; i < 10; i++) {
 					event.entityPlayer.attackEntityFrom(rand.nextBoolean() ? ModDamageSource.euthanizedSelf : ModDamageSource.euthanizedSelf2, 1000);
+				}
+				if(stack.getTagCompound().getBoolean("ntmRedPill")) for(int i = 0; i < 10; i++) {
+					event.entityPlayer.addPotionEffect(new PotionEffect(HbmPotion.death.id, 60 * 60 * 20, 0));
 				}
 			}
 		}

@@ -78,9 +78,6 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side");
 		}
-		if(this == ModBlocks.crate_template) {
-			this.iconTop = this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":crate_template");
-		}
 	}
 
 	@Override
@@ -99,7 +96,6 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 		if(this == ModBlocks.crate_steel) return new TileEntityCrateSteel();
 		if(this == ModBlocks.crate_desh) return new TileEntityCrateDesh();
 		if(this == ModBlocks.crate_tungsten) return new TileEntityCrateTungsten();
-		if(this == ModBlocks.crate_template) return new TileEntityCrateTemplate();
 		if(this == ModBlocks.safe) return new TileEntitySafe();
 		return null;
 	}
@@ -108,7 +104,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
-
+		
 		if(!world.isRemote && !ServerConfig.CRATE_KEEP_CONTENTS.get()) {
 			dropInv = true;
 			if(!player.capabilities.isCreativeMode) {
@@ -155,6 +151,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 			}
 
 			if(!nbt.hasNoTags()) {
+				nbt.setLong("stacklock", world.rand.nextLong());
 				drop.stackTagCompound = nbt;
 			}
 
@@ -165,7 +162,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 				}
 			}
 
-			if (drop.hasTagCompound()) {
+			if(drop.hasTagCompound()) {
 				try {
 					byte[] abyte = CompressedStreamTools.compress(drop.stackTagCompound);
 

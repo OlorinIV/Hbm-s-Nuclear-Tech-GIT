@@ -28,6 +28,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
+
 public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IItemControlReceiver, IGUIProvider {
 
 	IIcon overlayIcon;
@@ -178,7 +181,10 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
     
     // R-click change type message
     public static void chatOnChangeType(EntityPlayer player, String keyMachineName, FluidType type) {
-        String name = EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey(keyMachineName) + "] ";
-        player.addChatComponentMessage(new ChatComponentText( name + EnumChatFormatting.YELLOW + I18nUtil.resolveKey("chat.machine.fluid.changetype", type.getLocalizedName())));
+        player.addChatComponentMessage(
+            new ChatComponentText("[").appendSibling(new ChatComponentTranslation(keyMachineName).appendSibling(new ChatComponentText("]"))) //name of the machine
+            .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentText(" ")) // just a space
+            .appendSibling(new ChatComponentTranslation("chat.machine.fluid.changetype", new ChatComponentTranslation(type.getConditionalName()))) //"Changed type to FLUID!"
+        );
     }
 }

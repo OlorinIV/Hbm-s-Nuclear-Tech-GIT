@@ -282,6 +282,11 @@ public class RecipesCommon {
 		public List<ItemStack> extractForNEI() {
 			return Arrays.asList(new ItemStack[] {this.toStack()});
 		}
+		
+		@Override
+		public String toString() {
+			return this.stacksize + "x" + (this.item != null ? this.item.getUnlocalizedName() : "null") + "@" + this.meta;
+		}
 	}
 	
 	public static class NBTStack extends ComparableStack {
@@ -404,6 +409,11 @@ public class RecipesCommon {
 			if(stack instanceof OreDictStack) return 1;
 			
 			return 0;
+		}
+		
+		@Override
+		public String toString() {
+			return this.stacksize + "x" + (this.item != null ? this.item.getUnlocalizedName() : "null") + "@" + this.meta + "?" + this.nbt;
 		}
 	}
 	
@@ -542,6 +552,11 @@ public class RecipesCommon {
 			if(this.stacksize != other.stacksize)
 				return false;
 			return true;
+		}
+		
+		@Override
+		public String toString() {
+			return this.stacksize + "x" + this.name;
 		}
 	}
 	
